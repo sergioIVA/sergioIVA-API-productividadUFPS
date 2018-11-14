@@ -22,17 +22,35 @@ public class ProgramaDao {
 	public Programa crearPrograma(int id_unidad, int id_facultad, String nombre) throws SQLException {
 		
 		Connection reg = null;
+		int id = -1;
 		reg = con.conectar("");
 		
-		String sql = "INSERT INTO programa(id_unidad, nombre, id_facultad) VALUES (?,?,?)";
+		String sql = "INSERT INTO unidad_academica(id, codigo, id_tipo_unidad) VALUES (?,?,?)";
 		PreparedStatement pst;
 		String generatedColumns[] = { "id" };
 		pst = reg.prepareStatement(sql, generatedColumns);
-		pst.setInt(1, id_unidad);
-		pst.setString(2, nombre);
-		pst.setInt(3, id_facultad);
+		pst.setInt(1, 0);
+		pst.setInt(2, id_unidad);
+		pst.setInt(3, 1);
 		pst.executeUpdate();
 		
+		ResultSet generatedKeys = pst.getGeneratedKeys();
+		if(generatedKeys.next()) {
+			id = generatedKeys.getInt(1);
+		}
+		
+		sql = "insert into programa(id_unidad, id_facultad, nombre) values (?,?,?)";
+		pst = reg.prepareStatement(sql, generatedColumns);
+		pst.setInt(1, id);
+		pst.setInt(2, id_facultad);
+		pst.setString(3, nombre);
+		
+		pst.executeUpdate();
+		
+		generatedKeys = pst.getGeneratedKeys();
+		if(generatedKeys.next()) {
+			id = generatedKeys.getInt(1);
+		}
 		
 		con.cerrarConexion();
 		

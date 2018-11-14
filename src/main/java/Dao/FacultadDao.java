@@ -83,7 +83,7 @@ public class FacultadDao {
 		
 		Facultad facultad = null;
 		
-		String sql = "select * from facultad f inner join unidad_academica on f.id_unidad=u.id where f.id_unidad= ?";
+		String sql = "select * from facultad f inner join unidad_academica u on f.id_unidad=u.id where f.id_unidad= ?";
 		PreparedStatement stmt =  reg.prepareStatement(sql);
 		stmt.setInt(1, id);
 		
