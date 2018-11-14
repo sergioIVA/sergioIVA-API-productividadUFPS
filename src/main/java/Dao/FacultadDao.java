@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 
 import conexion.Conexion;
 import model.Facultad;
+import model.Programa;
 import model.User;
 import services.FacultadService;
 
@@ -79,50 +80,70 @@ public class FacultadDao {
 	public Facultad getFacultad(int id)throws SQLException  {
 		
 		Connection reg = con.conectar("");
-		Statement stmt = reg.createStatement();
-		Facultad f=null;
 		
-		ResultSet rs = stmt.executeQuery("select * from facultad f,unidad_academica u where f.id_unidad=u.id and id_unidad='"+id+"'");
-	
-		    if(rs.next()) {
-		    	f=new Facultad(id,rs.getInt("codigo"),rs.getString("nombre"));
-		    }
-		    
+		Facultad facultad = null;
+		
+		String sql = "select * from facultad f inner join unidad_academica on f.id_unidad=u.id where f.id_unidad= ?";
+		PreparedStatement stmt =  reg.prepareStatement(sql);
+		stmt.setInt(1, id);
+		
+		ResultSet rs = stmt.executeQuery();
+		
+		if(rs.next()) {
+			facultad = new Facultad(rs.getInt("id_unidad"), rs.getInt("codigo"),rs.getString("nombre"));
+		}
+		
 		con.cerrarConexion();
-		return f;
 		
+		return facultad;
 	}
 	
 	public Facultad updateFacultad(Facultad f,String nombre,int codigo)throws SQLException {
  
         Connection reg = con.conectar("");
-        Statement pst = reg.createStatement();
-        String sql ="update facultad set nombre='"+f.getNombre()+"' where id_unidad='"+f.getId()+"'"; 
-        pst.executeUpdate(sql);
+        String sql ="update facultad set nombre= ? where id_unidad= ?"; 
+        PreparedStatement stmt = reg.prepareStatement(sql);
+        stmt.setString(1, nombre);
+        stmt.setInt(2, f.getId());
+
+        if(stmt.executeUpdate() > 0) {
+        	f.setNombre(nombre);
+        }
         
-        sql="update unidad_academica set codigo='"+codigo+"' where id='"+f.getId()+"'";
-        pst.executeUpdate(sql);
+        sql="update unidad_academica set codigo=? where id=?";
+        stmt = reg.prepareStatement(sql);
+        stmt.setInt(1, codigo);
+        stmt.setInt(2, f.getId());
+        
+        if(stmt.executeUpdate() > 0) {
+        	f.setNombre(nombre);
+            f.setCodigo(codigo);
+        }
+        
         con.cerrarConexion();
-        
-          f.setNombre(nombre);
-          f.setCodigo(codigo);
-        
+ 
          return f;
                             
 	}
 	
 	public boolean deleteFacultad(int id)throws SQLException {
+		
 		Connection reg = con.conectar("");
-        Statement pst = reg.createStatement();
-        String sql ="delete from facultad where id_unidad='"+id+"'"; 
-        int n=pst.executeUpdate(sql);
-        sql="delete from unidad_academica where id='"+id+"'"; 
-        n=pst.executeUpdate(sql);
-        con.cerrarConexion();
-                         if(n>0){
-                         return true;
-                         }
-                         return false;    
+		int value = -1;
+		
+		String sql = "delete from facultad where id_unidad = ?";
+		PreparedStatement stmt = reg.prepareStatement(sql);
+		stmt.setInt(1, id);
+		
+		if(stmt.executeUpdate() > 0) {
+			sql = "delete from unidad_academica where id = ?";
+			stmt = reg.prepareStatement(sql);
+			stmt.setInt(1, id);
+			
+			value = stmt.executeUpdate();
+		}
+		
+		return value > 0;  
 	}
 
 }
