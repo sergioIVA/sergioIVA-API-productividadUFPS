@@ -103,6 +103,7 @@ public class TipologiaDao {
 		
 		value = stmt.executeUpdate();
 		
+		con.cerrarConexion();
 		return value > 0;
 	}
 }
