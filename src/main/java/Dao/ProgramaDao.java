@@ -19,7 +19,7 @@ public class ProgramaDao {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Programa crearPrograma(int id_unidad, int id_facultad, String nombre) throws SQLException {
+	public Programa crearPrograma(int codigo, int id_facultad, String nombre) throws SQLException {
 		
 		Connection reg = null;
 		int id = -1;
@@ -30,8 +30,8 @@ public class ProgramaDao {
 		String generatedColumns[] = { "id" };
 		pst = reg.prepareStatement(sql, generatedColumns);
 		pst.setInt(1, 0);
-		pst.setInt(2, id_unidad);
-		pst.setInt(3, 1);
+		pst.setInt(2,codigo);
+		pst.setInt(3, 3);
 		pst.executeUpdate();
 		
 		ResultSet generatedKeys = pst.getGeneratedKeys();
@@ -47,14 +47,10 @@ public class ProgramaDao {
 		
 		pst.executeUpdate();
 		
-		generatedKeys = pst.getGeneratedKeys();
-		if(generatedKeys.next()) {
-			id = generatedKeys.getInt(1);
-		}
-		
+	
 		con.cerrarConexion();
 		
-		return new Programa(id_unidad, id_facultad, nombre);
+		return new Programa(id,nombre,codigo,id_facultad);
 	}
 	
 	public List<Programa> getProgramas() throws SQLException {
@@ -66,7 +62,7 @@ public class ProgramaDao {
 		
 		while(rs.next()) {
 			//System.out.println(rs.getInt("id_unidad");
-			resp.add(new Programa(rs.getInt("id_unidad"), rs.getInt("id_facultad"), rs.getString("nombre")));
+			resp.add(new Programa(rs.getInt("id_unidad"), rs.getString("nombre"),rs.getInt("codigo"),rs.getInt("id_facultad")));
 		}
 		con.cerrarConexion();
 		
@@ -79,14 +75,14 @@ public class ProgramaDao {
 		
 		Programa programa = null;
 		
-		String sql = "select * from programa p inner join unidad_academica u on u.id = p.id_unidad where p.id_programa = ?";
+		String sql = "select * from programa p inner join unidad_academica u on u.id = p.id_unidad where p.id_unidad = ?";
 		PreparedStatement stmt =  reg.prepareStatement(sql);
 		stmt.setInt(1, id_programa);
 		
 		ResultSet rs = stmt.executeQuery();
 		
 		if(rs.next()) {
-			programa = new Programa(rs.getInt("id_unidad"), rs.getInt("id_facultad"), rs.getString("nombre"));
+			programa = new Programa(rs.getInt("id_unidad"),rs.getString("nombre"),rs.getInt("codigo"),rs.getInt("id_facultad"));
 		}
 		
 		con.cerrarConexion();
@@ -94,18 +90,28 @@ public class ProgramaDao {
 		return programa;
 	}
 	
-	public Programa updatePrograma(Programa programa, String nombre) throws SQLException {
+	public Programa updatePrograma(Programa programa, String nombre,int codigo) throws SQLException {
 		
 		Connection reg = con.conectar("");
 		
 		String sql = "update programa set nombre = ? where id_unidad = ?";
 		PreparedStatement stmt = reg.prepareStatement(sql);
 		stmt.setString(1, nombre);
-		stmt.setInt(2, programa.getId_unidad());
+		stmt.setInt(2, programa.getId());
 		
 		if(stmt.executeUpdate() > 0) {
 			programa.setNombre(nombre);
 		}
+		
+		sql="update unidad_academica set codigo=? where id=?";
+        stmt = reg.prepareStatement(sql);
+        stmt.setInt(1, codigo);
+        stmt.setInt(2, programa.getId());
+        
+        if(stmt.executeUpdate() > 0) {
+        	programa.setNombre(nombre);
+            programa.setCodigo(codigo);
+        }
 		
 		con.cerrarConexion();
 		

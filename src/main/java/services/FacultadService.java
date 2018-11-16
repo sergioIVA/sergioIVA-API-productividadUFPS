@@ -34,13 +34,8 @@ public class FacultadService {
 	}
 	
 	
-	public Object createFacultad(int codigo,String nombre) throws SQLException{
-		
-		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("response-date",new Date());
-	    map.put("msg","peticion correcta");
-		map.put("facultad",this.facultadDao.createFacultad(codigo,nombre));
-		  return map; 
+	public Facultad createFacultad(int codigo,String nombre) throws SQLException{
+		 return this.facultadDao.createFacultad(codigo,nombre);
 	}
 	
 	public Object getFacultades()throws SQLException{

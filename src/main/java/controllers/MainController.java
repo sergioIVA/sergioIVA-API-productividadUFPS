@@ -33,6 +33,7 @@ public class MainController {
 	//final FacultadService facultadService = new FacultadService();
 	final AuthService aut = new AuthService();
 	final FacultadController facultadController=new FacultadController();
+	final ProgramaController programaController=new ProgramaController();
 
 	public MainController() {
 
@@ -49,7 +50,7 @@ public class MainController {
 		path("/api/v1", () -> {
 
 			//1.login
-			//post("/login",(req,res)->{return "acceso a ruta /login";});
+			//o post("/login",(req,res)->{return "acceso a ruta /login";});
 			
 			// registro de actores
 			post("/actores",(req,res)->{return "acceso a ruta /login";});
@@ -74,11 +75,11 @@ public class MainController {
 			
 			
 			//4.Programa
-			get("/programa",(req,res)->{return "acceso /programa get";});
-			get("/programa/:id",(req,res)->{return "acceso /programa get con id "+req.queryParams(":id");});
-			post("/programa",(req,res)->{return "acceso /programa post ";});
-			put("/programa/:id", (req, res) -> {return "acceso /programa put con id "+req.queryParams(":id");});
-			delete("/programa/:id", (req, res) -> {return "acceso /programa delete con id "+req.queryParams(":id");});
+			get("/programa",(req,res)->{return this.programaController.getProgramas(req, res);},new JsonTransformer());
+			get("/programa/:id",(req,res)->{return this.programaController.getPrograma(req, res);},new JsonTransformer());
+			post("/programa",(req,res)->{return programaController.createPrograma(req, res);},new JsonTransformer());
+			put("/programa/:id", (req, res) -> {return this.programaController.updatePrograma(req, res);},new JsonTransformer());
+			delete("/programa/:id", (req, res) -> {return this.programaController.deletePrograma(req, res);},new JsonTransformer());
 			
 			
 			//5.Grupo

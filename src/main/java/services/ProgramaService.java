@@ -28,7 +28,6 @@ public class ProgramaService {
 	}
 	
 	public Object getProgramas() throws SQLException{
-		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("programa", this.programaDao.getProgramas());
 			return map;
@@ -38,12 +37,8 @@ public class ProgramaService {
 		return this.programaDao.getPrograma(id);
 	}
 	
-	public Object updatePrograma(Programa programa, String nombre) throws SQLException {
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("response-date", new Date());
-		map.put("msg", "peticion correcta");
-		map.put("programa", this.programaDao.updatePrograma(programa, nombre));
-			return map;
+	public Programa updatePrograma(Programa programa, String nombre,int codigo) throws SQLException {
+		return this.programaDao.updatePrograma(programa, nombre,codigo);	
 	}
 	
 	public boolean deletePrograma(int id) throws SQLException{

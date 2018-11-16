@@ -50,11 +50,7 @@ public class FacultadDao {
 		pst.setString(2, nombre);
 		pst.executeUpdate();
 
-		ResultSet generatedKeys2 = pst.getGeneratedKeys();
-		if (generatedKeys.next()) {
-			id = generatedKeys.getInt(1);
-		}
-
+	
 		con.cerrarConexion();
 
 		return new Facultad(id,codigo,nombre);
