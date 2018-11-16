@@ -1,6 +1,6 @@
 package services;
 
-import java.sql.Date;
+import java.util.Date;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,7 +21,7 @@ public class ProgramaService {
 	
 	public Object createPrograma(int id_unidad, int id_facultad, String nombre) throws SQLException{
 		Map<String, Object>  map = new HashMap<String, Object>();
-		map.put("response-date", "");
+		map.put("response-date", new Date());
 		map.put("msg", "peticion correcta");
 		map.put("programa", this.programaDao.crearPrograma(id_unidad, id_facultad, nombre));
 			return map;
@@ -36,6 +36,14 @@ public class ProgramaService {
 	
 	public Programa getPrograma(int id) throws SQLException{
 		return this.programaDao.getPrograma(id);
+	}
+	
+	public Object updatePrograma(Programa programa, String nombre) throws SQLException {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("response-date", new Date());
+		map.put("msg", "peticion correcta");
+		map.put("programa", this.programaDao.updatePrograma(programa, nombre));
+			return map;
 	}
 	
 	public boolean deletePrograma(int id) throws SQLException{
