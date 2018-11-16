@@ -1,6 +1,6 @@
 package services;
 
-import java.sql.Date;
+import java.util.Date;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +22,7 @@ public class TipologiaService {
 	public Object createTipologia(int id, String nombre) throws SQLException {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("response-date", "");
+		map.put("response-date", new Date());
 		map.put("msg", "peticion correcta");
 		map.put("tipologia-producto", this.tipologiaDao.createTipologia(nombre));
 			return map;
@@ -45,7 +45,7 @@ public class TipologiaService {
 	public Object updateTipologia(Tipologia tipologia, String nombre) throws SQLException {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("response-date", "");
+		map.put("response-date", new Date());
 		map.put("msg", "peticion correcta");
 		map.put("tipologia-producto", this.tipologiaDao.updateTipologia(tipologia, nombre));
 			return map;
