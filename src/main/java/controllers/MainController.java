@@ -49,15 +49,21 @@ public class MainController {
 		path("/api/v1", () -> {
 
 			//1.login
-			post("/login",(req,res)->{return "acceso a ruta /login";});
+			//post("/login",(req,res)->{return "acceso a ruta /login";});
+			
+			// registro de actores
+			post("/actores",(req,res)->{return "acceso a ruta /login";});
+			
+		
+			
+			
 			
 			// 2.Facultad
 			get("/facultad",(req,res)->{return facultadController.getFacultades(req, res);},new JsonTransformer());
-			get("/facultad/:id",(req,res)->{return facultadController.getFacultad(req, res);},new JsonTransformer());
 			post("/facultad",(req,res)->{return facultadController.createFacultades(req, res);},new JsonTransformer());
-			put("/facultad/:id", (req, res) -> {return facultadController.updateFacultad(req, res);},new JsonTransformer());
 			delete("/facultad/:id", (req, res) -> {return facultadController.deleteFacultad(req, res);},new JsonTransformer());
-			
+			get("/facultad/:id",(req,res)->{return facultadController.getFacultad(req, res);},new JsonTransformer());
+			put("/facultad/:id", (req, res) -> {return facultadController.updateFacultad(req, res);},new JsonTransformer());
 			
 			//3.Departamento
 			get("/departamento",(req,res)->{return "acceso /departamento get";});
@@ -133,6 +139,10 @@ public class MainController {
 			put("/directorSemillero/:id", (req, res) -> {return "acceso /directorSemillero put con id "+req.queryParams(":id");});
 			delete("/directorSemillero/:id", (req, res) -> {return "acceso /directorSemillero delete con id "+req.queryParams(":id");});
 			
+			//categoria
+			
+			// 1.Resgitar
+			// 2.Eliminar
 			
 			
 			//14. Administrador
@@ -153,8 +163,17 @@ public class MainController {
 			
 			
 			//16.Registrar avance del proyecto
-			put("/avanceProyecto/:id", (req, res) -> {return "acceso /avanceProyecto put con id "+req.queryParams(":id");});
+			put("/avanceActividad/:id", (req, res) -> {return "acceso /avanceProyecto put con id "+req.queryParams(":id");});
 			  
+			//entrada
+			/*
+			 * idGrupo
+			 * año plan
+			 * semestre
+			 * id_actividad
+			 * 
+			 * */
+			
 			
 			//17.Productos
 			get("/producto",(req,res)->{return "acceso /producto get";});
