@@ -34,6 +34,7 @@ public class MainController {
 	final AuthService aut = new AuthService();
 	final FacultadController facultadController=new FacultadController();
 	final ProgramaController programaController=new ProgramaController();
+	final DepartamentoController departamentoController=new DepartamentoController();
 
 	public MainController() {
 
@@ -55,10 +56,6 @@ public class MainController {
 			// registro de actores
 			post("/actores",(req,res)->{return "acceso a ruta /login";});
 			
-		
-			
-			
-			
 			// 2.Facultad
 			get("/facultad",(req,res)->{return facultadController.getFacultades(req, res);},new JsonTransformer());
 			post("/facultad",(req,res)->{return facultadController.createFacultades(req, res);},new JsonTransformer());
@@ -67,11 +64,11 @@ public class MainController {
 			put("/facultad/:id", (req, res) -> {return facultadController.updateFacultad(req, res);},new JsonTransformer());
 			
 			//3.Departamento
-			get("/departamento",(req,res)->{return "acceso /departamento get";});
-			get("/departamento/:id",(req,res)->{return "acceso /departamento get con id "+req.queryParams(":id");});
-			post("/departamento",(req,res)->{return "acceso /departamento post ";});
-			put("/departamento/:id", (req, res) -> {return "acceso /departamento put con id "+req.queryParams(":id");});
-			delete("/departamento/:id", (req, res) -> {return "acceso /departamento delete con id "+req.queryParams(":id");});
+			get("/departamento",(req,res)->{return this.departamentoController.getDepartamentos(req, res);},new JsonTransformer());
+			get("/departamento/:id",(req,res)->{return this.departamentoController.getDepartamento(req, res);},new JsonTransformer());
+			post("/departamento",(req,res)->{return this.departamentoController.createDepartamento(req, res);},new JsonTransformer());
+			put("/departamento/:id", (req, res) -> {return this.departamentoController.updateDepartamento(req, res);},new JsonTransformer());
+			delete("/departamento/:id", (req, res) -> {return this.departamentoController.deleteDepartamento(req, res);},new JsonTransformer());
 			
 			
 			//4.Programa
