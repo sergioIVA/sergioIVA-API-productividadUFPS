@@ -20,7 +20,7 @@ public class ProgramaController {
 
 		String nombre = req.queryParams("nombre");
 		String codigo = req.queryParams("codigo");
-		String idFacultad=req.queryParams("id");
+		String idFacultad=req.queryParams("id_facultad");
 		
 		 System.out.println(req.body());
 		
@@ -44,7 +44,13 @@ public class ProgramaController {
 		try {
 			obj = programaService.createPrograma(cod,id, nombre);
 			res.status(201);// 201 CREATED
-		} catch (Exception e) {
+		} 
+		
+		catch(java.sql.SQLIntegrityConstraintViolationException e) {
+			  res.status(400);
+			  return "codigo "+cod+" ya se encuentra asociado";
+		}
+		catch (Exception e) {
 
 			// res.header("error", e.toString());
 			res.status(500);// 500 INTERNAL SERVER ERROR

@@ -22,7 +22,7 @@ public class DepartamentoController {
 
 		String nombre = req.queryParams("nombre");
 		String codigo = req.queryParams("codigo");
-		String idfacultad=req.queryParams("idFacultad");
+		String idfacultad=req.queryParams("id_facultad");
 		
 		
 		
@@ -46,8 +46,14 @@ public class DepartamentoController {
 		try {
 			obj = this.departamentoService.createDepartamento(cod, nombre, idFacul);
 			res.status(201);// 201 CREATED
-		} catch (Exception e) {
-
+		}
+		
+		catch(java.sql.SQLIntegrityConstraintViolationException e) {
+			  res.status(400);
+			  return "codigo "+cod+" ya se encuentra asociado";
+		}
+		catch (Exception e) {
+			
 			// res.header("error", e.toString());
 			res.status(500);// 500 INTERNAL SERVER ERROR
 			return e.toString();
@@ -56,23 +62,7 @@ public class DepartamentoController {
 	}
 	
 	public Object getDepartamento(Request req, Response res) {
-
-		res.type("application/json");
-
-		try {
-			res.status(200);// 200 OK
-			return this.departamentoService.getDepartamentos();
-			
-		} catch (Exception e) {
-
-			res.status(500);// 500 INTERNAL SERVER ERROR
-			return e.toString();
-
-		}
-	}
-	
-	public Object getDepartamentos(Request req, Response res) {
-
+		
 		res.type("application/json");
 		String cad = req.params(":id");
 
@@ -99,6 +89,24 @@ public class DepartamentoController {
 		} catch (Exception e) {
 			res.status(500);// 500 INTERNAL SERVER ERROR
 			return e.toString();
+		}
+
+		
+	}
+	
+	public Object getDepartamentos(Request req, Response res) {
+
+		res.type("application/json");
+
+		try {
+			res.status(200);// 200 OK
+			return this.departamentoService.getDepartamentos();
+			
+		} catch (Exception e) {
+
+			res.status(500);// 500 INTERNAL SERVER ERROR
+			return e.toString();
+
 		}
 
 	}

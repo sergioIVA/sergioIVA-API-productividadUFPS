@@ -18,7 +18,7 @@ import spark.Response;
 
 public class FacultadController {
 
-	static final Gson gson = new Gson();
+	//static final Gson gson = new Gson();
 	static final FacultadService facultadService = new FacultadService();
 
 	public FacultadController() {
@@ -52,7 +52,12 @@ public class FacultadController {
 		try {
 			obj = facultadService.createFacultad(cod,nombre);
 			res.status(201);// 201 CREATED
-		} catch (Exception e) {
+		} 
+		catch(java.sql.SQLIntegrityConstraintViolationException e) {
+			  res.status(400);
+			  return "codigo "+cod+" ya se encuentra asociado";
+		}
+		catch (Exception e) {
 
 			// res.header("error", e.toString());
 			res.status(500);// 500 INTERNAL SERVER ERROR

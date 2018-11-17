@@ -6,6 +6,7 @@ public class Departamento {
 	private int id;
 	private String nombre;
 	private int codigo;
+	private int id_facultad;
 	
 	
 	public Departamento() {
@@ -13,11 +14,12 @@ public class Departamento {
 	}
 
 
-	public Departamento(int id, String nombre, int codigo) {
+	public Departamento(int id, String nombre, int codigo,int id_facul) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
 		this.codigo = codigo;
+		this.id_facultad=id_facul;
 	}
 
 	public int getId() {
