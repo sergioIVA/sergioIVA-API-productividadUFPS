@@ -33,7 +33,6 @@ public class GrupoController {
 		try {
 			obj = grupoService.createGrupo(nombre,sigla,ubicacion,fecha_creacion,codigo_colciencias,clasificado,
 					correo,id_categoria,id_unidad,director_grupo);
-			
 			res.status(201);// 201 CREATED
 		} 
 		catch(java.sql.SQLIntegrityConstraintViolationException e) {
