@@ -34,11 +34,11 @@ public class FacultadService {
 	}
 	
 	
-	public Facultad createFacultad(int codigo,String nombre) throws SQLException{
+	public Facultad createFacultad(int codigo,String nombre) throws Exception{
 		 return this.facultadDao.createFacultad(codigo,nombre);
 	}
 	
-	public Object getFacultades()throws SQLException{
+	public Object getFacultades()throws Exception{
 		
         //ejemplos https://jarroba.com/gson-json-java-ejemplos/
 	    
@@ -49,16 +49,16 @@ public class FacultadService {
 		   return map;	   
 	} 
 	
-	public Facultad getFacultad(int id) throws SQLException{
+	public Facultad getFacultad(int id) throws Exception{
 		return this.facultadDao.getFacultad(id);
 	}
 	
 	
-	public Facultad updateFacultad(Facultad f,String nombre,int codigo)throws SQLException {
+	public Facultad updateFacultad(Facultad f,String nombre,int codigo)throws Exception {
 		 return this.facultadDao.updateFacultad(f,nombre,codigo);
 	}
 	
-	public boolean deleteFacultad(int id)throws SQLException {
+	public boolean deleteFacultad(int id)throws Exception {
 		   return this.facultadDao.deleteFacultad(id);
 		
 	}

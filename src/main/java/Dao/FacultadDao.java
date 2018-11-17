@@ -15,6 +15,7 @@ import model.Facultad;
 import model.Programa;
 import model.User;
 import services.FacultadService;
+import util.ExcepcionProductividad;
 
 public class FacultadDao {
 
@@ -24,10 +25,11 @@ public class FacultadDao {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Facultad createFacultad(int codigo,String nombre) throws SQLException {
+	public Facultad createFacultad(int codigo,String nombre) throws Exception {
 
 		Connection reg = null;
 		int id = -1;
+		try {
 		reg = con.conectar("");
 		
 		String sql = "INSERT INTO unidad_academica(id,codigo,id_tipo_unidad)values (?,?,?)";
@@ -50,16 +52,23 @@ public class FacultadDao {
 		pst.setString(2, nombre);
 		pst.executeUpdate();
 
-	
-		con.cerrarConexion();
-
+		} catch (java.sql.SQLIntegrityConstraintViolationException e) {
+			throw new ExcepcionProductividad("ya hay una facultad con ese nombre  asociado");
+		} catch (Exception e) {
+			throw new ExcepcionProductividad("error del servidor" +e);// mientras colocamos e por desarrollo para
+			// mirar las consultas
+		}
+		finally {
+			con.cerrarConexion();
+		}
 		return new Facultad(id,codigo,nombre);
 
 	}
 
-	public List<Facultad> getFacultades() throws SQLException {
+	public List<Facultad> getFacultades() throws Exception {
 
 		List<Facultad> resp = new LinkedList<Facultad>();
+		try {
 		Connection reg = con.conectar("");
 		Statement stmt = reg.createStatement();
 		ResultSet rs = stmt.executeQuery("select * from facultad f,unidad_academica u where f.id_unidad=u.id");
@@ -68,17 +77,24 @@ public class FacultadDao {
 			System.out.println(rs.getInt("codigo"));
 			resp.add(new Facultad(rs.getInt("id_unidad"),rs.getInt("codigo"), rs.getString("nombre")));
 		}
+		} catch (Exception e) {
+			throw new ExcepcionProductividad("error del servidor" +e);// mientras colocamos e por desarrollo para
+			// mirar las consultas
+		}
+		finally {
+			con.cerrarConexion();
+		}
 		con.cerrarConexion();
 		return resp;
 
 	}
 	
-	public Facultad getFacultad(int id)throws SQLException  {
-		
-		Connection reg = con.conectar("");
+	public Facultad getFacultad(int id)throws Exception  {
 		
 		Facultad facultad = null;
 		
+		try {
+		Connection reg = con.conectar("");
 		String sql = "select * from facultad f inner join unidad_academica u on f.id_unidad=u.id where f.id_unidad= ?";
 		PreparedStatement stmt =  reg.prepareStatement(sql);
 		stmt.setInt(1, id);
@@ -89,14 +105,22 @@ public class FacultadDao {
 			facultad = new Facultad(rs.getInt("id_unidad"), rs.getInt("codigo"),rs.getString("nombre"));
 		}
 		
-		con.cerrarConexion();
+		}catch (Exception e) {
+				throw new ExcepcionProductividad("error del servidor" +e);// mientras colocamos e por desarrollo para
+				// mirar las consultas
+			}
+			finally {
+				con.cerrarConexion();
+			}
 		
 		return facultad;
 	}
 	
-	public Facultad updateFacultad(Facultad f,String nombre,int codigo)throws SQLException {
+	public Facultad updateFacultad(Facultad f,String nombre,int codigo)throws Exception {
  
         Connection reg = con.conectar("");
+        
+        try {
         String sql ="update facultad set nombre= ? where id_unidad= ?"; 
         PreparedStatement stmt = reg.prepareStatement(sql);
         stmt.setString(1, nombre);
@@ -115,18 +139,27 @@ public class FacultadDao {
         	f.setNombre(nombre);
             f.setCodigo(codigo);
         }
-        
-        con.cerrarConexion();
- 
+        }
+        catch (java.sql.SQLIntegrityConstraintViolationException e) {
+			throw new ExcepcionProductividad("ya hay una facultad con ese nombre  asociado");
+        }
+        catch (Exception e) {
+			throw new ExcepcionProductividad("error del servidor" +e);// mientras colocamos e por desarrollo para
+			// mirar las consultas
+		}
+		finally {
+			con.cerrarConexion();
+		}
          return f;
-                            
+                   
 	}
 	
-	public boolean deleteFacultad(int id)throws SQLException {
+	public boolean deleteFacultad(int id)throws Exception {
 		
-		Connection reg = con.conectar("");
+		
 		int value = -1;
-		
+		try {
+		Connection reg = con.conectar("");
 		String sql = "delete from facultad where id_unidad = ?";
 		PreparedStatement stmt = reg.prepareStatement(sql);
 		stmt.setInt(1, id);
@@ -138,7 +171,13 @@ public class FacultadDao {
 			
 			value = stmt.executeUpdate();
 		}
-		
+		} catch (Exception e) {
+				throw new ExcepcionProductividad("error del servidor" +e);// mientras colocamos e por desarrollo para
+				// mirar las consultas
+			}
+			finally {
+				con.cerrarConexion();
+			}
 		return value > 0;  
 	}
 
