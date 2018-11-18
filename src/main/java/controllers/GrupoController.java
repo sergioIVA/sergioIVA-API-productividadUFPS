@@ -40,12 +40,12 @@ public class GrupoController {
 
 			// res.header("error", e.toString());
 			res.status(500);// 500 INTERNAL SERVER ERROR
-			return e.toString();
+			return e.getMessage();
 		}
 		return obj;
 	}
 
-	public Object getFacultades(Request req, Response res) {
+	public Object getGrupos(Request req, Response res) {
 
 		res.type("application/json");
 
@@ -56,7 +56,8 @@ public class GrupoController {
 		} catch (Exception e) {
 
 			res.status(500);// 500 INTERNAL SERVER ERROR
-			return e.toString();
+			//return e.toString();
+			return e.getMessage();
 
 		}
 	}

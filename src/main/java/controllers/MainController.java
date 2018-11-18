@@ -35,6 +35,7 @@ public class MainController {
 	final FacultadController facultadController=new FacultadController();
 	final ProgramaController programaController=new ProgramaController();
 	final DepartamentoController departamentoController=new DepartamentoController();
+	final GrupoController grupoController=new GrupoController();
 
 	public MainController() {
 
@@ -81,10 +82,10 @@ public class MainController {
 			
 			//5.Grupo
 			get("/grupo",(req,res)->{return "acceso /grupo get";});
-			get("/gruo/:id",(req,res)->{return "acceso /grupo get con id "+req.queryParams(":id");});
-			post("/programa",(req,res)->{return "acceso /grupo post ";});
-			put("/programa/:id", (req, res) -> {return "acceso /grupo put con id "+req.queryParams(":id");});
-			delete("/programa/:id", (req, res) -> {return "acceso /grupo delete con id "+req.queryParams(":id");});
+			get("/grupo/:id",(req,res)->{return "acceso /grupo get con id "+req.queryParams(":id");});
+			post("/grupo",(req,res)->{return grupoController.CreateGrupo(req, res);},new JsonTransformer());
+			put("/grupo/:id", (req, res) -> {return "acceso /grupo put con id "+req.queryParams(":id");});
+			delete("/grupo/:id", (req, res) -> {return "acceso /grupo delete con id "+req.queryParams(":id");});
 			
 			
 			// 6.apoyo del programa
