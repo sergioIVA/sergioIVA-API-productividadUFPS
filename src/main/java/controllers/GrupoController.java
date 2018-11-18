@@ -35,10 +35,7 @@ public class GrupoController {
 					correo,id_categoria,id_unidad,director_grupo);
 			res.status(201);// 201 CREATED
 		} 
-		catch(java.sql.SQLIntegrityConstraintViolationException e) {
-			  res.status(400);
-			  return "No se ha creado el grupo";
-		}
+		
 		catch (Exception e) {
 
 			// res.header("error", e.toString());

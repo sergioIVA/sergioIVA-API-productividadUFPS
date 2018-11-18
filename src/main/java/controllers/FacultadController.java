@@ -53,10 +53,7 @@ public class FacultadController {
 			obj = facultadService.createFacultad(cod,nombre);
 			res.status(201);// 201 CREATED
 		} 
-		catch(java.sql.SQLIntegrityConstraintViolationException e) {
-			  res.status(400);
-			  return "codigo "+cod+" ya se encuentra asociado";
-		}
+		
 		catch (Exception e) {
 
 			// res.header("error", e.toString());
