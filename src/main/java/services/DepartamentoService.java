@@ -16,26 +16,26 @@ public class DepartamentoService {
 	}
 	
 	
-	public Departamento createDepartamento(int codigo,String nombre,int idFacultad)throws SQLException{
+	public Departamento createDepartamento(int codigo,String nombre,int idFacultad)throws Exception{
 	        return this.departamentoDao.createDepartamento(codigo, nombre, idFacultad);
 	}
 	
-	public Object getDepartamentos()throws SQLException {
+	public Object getDepartamentos()throws Exception {
 		//crear estructura json
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("departamentos",this.departamentoDao.getDepartamentos());
 		   return map;	   
 	}
 	
-	public Departamento getDepartamento(int id)throws SQLException {
+	public Departamento getDepartamento(int id)throws Exception {
 		   return this.departamentoDao.getDepartamento(id);
 	}
 	
-	public Departamento updateDepartamento(Departamento departamento,String nombre,int codigo)throws SQLException{
+	public Departamento updateDepartamento(Departamento departamento,String nombre,int codigo)throws Exception{
 		  return this.departamentoDao.updateDepartamento(departamento, nombre, codigo);
 	}
 	
-	public boolean deleteDepartamento(int id)throws SQLException{
+	public boolean deleteDepartamento(int id)throws Exception{
 		 return this.departamentoDao.deleteDepartamento(id);
 	}
 

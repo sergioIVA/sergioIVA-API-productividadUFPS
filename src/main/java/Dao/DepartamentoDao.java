@@ -51,7 +51,7 @@ public class DepartamentoDao {
 			pst.executeUpdate();
 
 		} catch (java.sql.SQLIntegrityConstraintViolationException e) {
-			throw new ExcepcionProductividad("ya hay una departamento con ese codigo  asociado");
+			throw new ExcepcionProductividad("ya hay un departamento con ese codigo  asociado");
 		} catch (Exception e) {
 			throw new ExcepcionProductividad("error del servidor" + e);// mientras colocamos e por desarrollo para
 			// mirar las consultas

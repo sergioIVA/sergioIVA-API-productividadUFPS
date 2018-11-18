@@ -19,27 +19,27 @@ public class ProgramaService {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Object createPrograma(int id_unidad, int id_facultad, String nombre) throws SQLException{
+	public Object createPrograma(int id_unidad, int id_facultad, String nombre) throws Exception{
 		Map<String, Object>  map = new HashMap<String, Object>();
 		map.put("programa", this.programaDao.crearPrograma(id_unidad, id_facultad, nombre));
 			return map;
 	}
 	
-	public Object getProgramas() throws SQLException{
+	public Object getProgramas() throws Exception{
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("programa", this.programaDao.getProgramas());
 			return map;
 	}
 	
-	public Programa getPrograma(int id) throws SQLException{
+	public Programa getPrograma(int id) throws Exception{
 		return this.programaDao.getPrograma(id);
 	}
 	
-	public Programa updatePrograma(Programa programa, String nombre,int codigo) throws SQLException {
+	public Programa updatePrograma(Programa programa, String nombre,int codigo) throws Exception {
 		return this.programaDao.updatePrograma(programa, nombre,codigo);	
 	}
 	
-	public boolean deletePrograma(int id) throws SQLException{
+	public boolean deletePrograma(int id) throws Exception{
 		return this.programaDao.deletePrograma(id);
 	}
 }
