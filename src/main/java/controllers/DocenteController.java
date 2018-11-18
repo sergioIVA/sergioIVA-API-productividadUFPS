@@ -30,15 +30,12 @@ public class DocenteController {
 		int id_departamento = Integer.parseInt(req.queryParams("id_departamento"));
 		int id_modalidad = Integer.parseInt(req.queryParams("id_modalidad"));
 		int id_semillero_director  = Integer.parseInt(req.queryParams("id_semillero_director"));
-		int tipo_participante = Integer.parseInt(req.queryParams("tipo_participante"));
-		int estudio = Integer.parseInt(req.queryParams("estudio"));
 		
 		Object obj = null;
 		try {
 			obj = docenteService.createDocente(tipo_identificacion, nombre, fecha_nacimiento, direccion,
 					telefono, celular, sexo, correo, foto, nacionalidad,
-					identificacion, codigo, id_departamento,id_modalidad,  id_semillero_director, 
-					tipo_participante,  id_investigador, estudio);
+					identificacion, codigo, id_departamento,id_modalidad,  id_semillero_director, id_investigador);
 			res.status(201);// 201 CREATED
 		} 
 		catch (Exception e) {

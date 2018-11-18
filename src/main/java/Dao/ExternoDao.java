@@ -8,33 +8,33 @@ import java.util.List;
 
 import conexion.Conexion;
 import model.Persona;
-import model.Docente;
+import model.Externo;
 import util.ExcepcionProductividad;
 
-public class DocenteDao {
+public class ExternoDao {
 
 	final Conexion con = new Conexion();
 	
-	public DocenteDao() {
-		// TODO Auto-generated constructor stub
+	public ExternoDao() {
+		
 	}
 	
-	public Docente createDocente(int tipo_identificacion, String nombre, String fecha_nacimiento, String direccion,
+	public Externo createExterno(int tipo_identificacion, String nombre, String fecha_nacimiento, String direccion,
 			String telefono, String celular, String sexo, String correo_electronico, String foto, String nacionalidad,
-			String numero_identificacion, String codigo, int id_departamento, int id_modalidad, int id_semillero_director, 
-			int tipo_investigador) throws Exception {
+			String numero_identificacion, String institucion_empresa, String cargo, String profesion) throws Exception {
 		
-		Docente docente = null;
+		Externo externo = null;
 		Connection reg = null;
 		PreparedStatement stmt = null;
 		int id = -1;
+		
 		try {
-			reg  = con.conectar("");
+			reg = con.conectar("");
 			String sql = "insert into persona(id, nombre, fecha_nacimiento, direccion, telefono, celular, "
 					+ "sexo, correo_electronico, foto, nacionalidad, numero_identificacion, tipo_identificacion) "
 					+ "values(?,?,?,?,?,?,?,?,?,?,?,?)";
-			String generatedColumns[] = { "id" };
-			stmt = reg.prepareStatement(sql, generatedColumns);
+			String gc[] = {"id"};
+			stmt = reg.prepareStatement(sql, gc);
 			stmt.setInt(1, 0);
 			stmt.setString(2, nombre);
 			stmt.setString(3, fecha_nacimiento);
@@ -49,102 +49,85 @@ public class DocenteDao {
 			stmt.setInt(12, tipo_identificacion);
 			
 			if(stmt.executeUpdate() > 0) {
-				ResultSet generatedKeys = stmt.getGeneratedKeys();
-				if(generatedKeys.next()) 
-					id = generatedKeys.getInt(1);
+				ResultSet gk = stmt.getGeneratedKeys();
+				if(gk.next())
+					id = gk.getInt(1);
 				
-				sql = "insert into participante (id_participante, tipo_participante) values (?, ?)";
+				sql = "insert into investigador_externo(id_investigador, institucion_empresa, cargo, profesion) values (?, ?, ?, ?)";
 				stmt = reg.prepareStatement(sql);
 				stmt.setInt(1, id);
-				stmt.setInt(2, 1); //1 = investigador
-				stmt.executeUpdate();
-				
-				sql = "insert into investigador (id_investigador, id_tipo) values (?, ?)";
-				stmt = reg.prepareStatement(sql);
-				stmt.setInt(1, id);
-				stmt.setInt(2, tipo_investigador);
+				stmt.setString(2, institucion_empresa);
+				stmt.setString(3, cargo);
+				stmt.setString(4, profesion);
 				
 				Persona me = new Persona(id, tipo_identificacion, nombre, fecha_nacimiento, direccion, telefono, celular, sexo, correo_electronico, foto, nacionalidad, numero_identificacion);
-						
-				sql = "insert into docente_ufps(id_investigador, codigo, id_departamento, id_modalidad, id_semillero_director) values (?,?,?,?,?)";
-				stmt = reg.prepareStatement(sql);
-				stmt.setInt(1, id);
-				stmt.setString(2, codigo);
-				stmt.setInt(3, id_departamento);
-				stmt.setInt(4, id_modalidad);
-				stmt.setInt(5, id_semillero_director);
 				
-				if(stmt.executeUpdate() > 0) {
-					docente = new Docente(codigo, id, id_departamento, id_modalidad, id_semillero_director, me);
-				}
+				if(stmt.executeUpdate() > 0)
+					externo = new Externo(id, institucion_empresa, cargo, profesion, me);
 			}
-			
-		} catch(Exception e) {
+		} catch (Exception e) {
 			throw new ExcepcionProductividad("Error del servidor: " + e);
 		}
 		finally {
 			con.cerrarConexion();
 		}
 		
-		return docente;
+		return externo;
 	}
 	
-	public List<Docente> getDocentes() throws Exception{
+	public List<Externo> getExternos() throws Exception {
 		
-		List<Docente> docentes = new LinkedList<Docente>();
+		List<Externo> externos = new LinkedList<Externo>();
 		Connection reg = null;
 		PreparedStatement stmt = null;
 		
 		try {
 			reg = con.conectar("");
-			String sql = "select * from docente_ufps d inner join persona p on p.id = d.id_investigador";
+			String sql = "select * from investigador_externo e inner join persona p on p.id = e.id_investigador";
 			stmt = reg.prepareStatement(sql);
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
-				docentes.add(new Docente(rs.getString("codigo"), rs.getInt("id"), rs.getInt("id_departamento"), rs.getInt("id_modalidad"), 
-						rs.getInt("id_semillero_director"), new Persona(rs.getInt("id"), rs.getInt("tipo_identificacion"), rs.getString("nombre"), 
+				externos.add(new Externo(rs.getInt("id"), rs.getString("institucion_empresa"), rs.getString("cargo"), rs.getString("profesion"), 
+						new Persona(rs.getInt("id"), rs.getInt("tipo_identificacion"), rs.getString("nombre"), 
 						rs.getString("fecha_nacimiento"), rs.getString("direccion"), rs.getString("telefono"), rs.getString("celular"), 
 						rs.getString("sexo"), rs.getString("correo_electronico"), rs.getString("foto"), rs.getString("nacionalidad"), rs.getString("numero_identificacion"))));
 			}
 		} catch(Exception e) {
-			throw new ExcepcionProductividad("Error del servidor: " + e);
+			throw new ExcepcionProductividad("Error dels ervidor: " + e);
 		}
 		finally {
 			con.cerrarConexion();
 		}
-		
-		return docentes;
+		return externos;
 	}
 	
-	public Docente getDocente(int id) throws Exception{
+	public Externo getExterno(int id_investigador) throws Exception {
 		
-		Docente docente = null;
+		Externo externo = null;
 		Connection reg = null;
 		PreparedStatement stmt = null;
 		
 		try {
 			reg = con.conectar("");
-			String sql = "select * from docente_ufps d inner join persona p on p.id = d.id_investigador where d.id_investigador = ?";
+			String sql = "select * from investigador_externo e inner join persona p on p.id = e.id_investigador where e.id_investigador = ?";
 			stmt = reg.prepareStatement(sql);
-			stmt.setInt(1, id);
+			stmt.setInt(1, id_investigador);
 			ResultSet rs = stmt.executeQuery();
-			if(rs.next()) {
-				docente = new Docente(rs.getString("codigo"), rs.getInt("id"), rs.getInt("id_departamento"), rs.getInt("id_modalidad"), 
-						rs.getInt("id_semillero_director"), new Persona(rs.getInt("id"), rs.getInt("tipo_identificacion"), rs.getString("nombre"), 
+			if(rs.next())
+				externo = new Externo(rs.getInt("id"), rs.getString("institucion_empresa"), rs.getString("cargo"), rs.getString("profesion"), 
+						new Persona(rs.getInt("id"), rs.getInt("tipo_identificacion"), rs.getString("nombre"), 
 						rs.getString("fecha_nacimiento"), rs.getString("direccion"), rs.getString("telefono"), rs.getString("celular"), 
 						rs.getString("sexo"), rs.getString("correo_electronico"), rs.getString("foto"), rs.getString("nacionalidad"), rs.getString("numero_identificacion")));
-			}
-		} catch(Exception e) {
+		} catch (Exception e) {
 			throw new ExcepcionProductividad("Error del servidor: " + e);
 		}
 		finally {
 			con.cerrarConexion();
 		}
-		
-		return docente;
+		return externo;
 	}
 	
-	public boolean deleteDocente(int id) throws Exception{
+	public boolean deleteExterno(int id_investigador) throws Exception {
 		
 		Connection reg = null;
 		PreparedStatement stmt = null;
@@ -152,35 +135,23 @@ public class DocenteDao {
 		
 		try {
 			reg = con.conectar("");
-			String sql = "delete from docente_ufps where id_investigador = ?";
+			String sql = "delete from investigador_externo where id_investigador = ?";
 			stmt = reg.prepareStatement(sql);
-			stmt.setInt(1, id);
+			stmt.setInt(1, id_investigador);
 			
 			if(stmt.executeUpdate() > 0) {
-				sql = "delete from investigador where id_investigador = ?";
-				stmt = reg.prepareStatement(sql);
-				stmt.setInt(1, id);
-				stmt.executeUpdate();
-				
-				sql = "delete from participante where id_participante = ?";
-				stmt = reg.prepareStatement(sql);
-				stmt.setInt(1, id);
-				stmt.executeUpdate();
-				
 				sql = "delete from persona where id = ?";
 				stmt = reg.prepareStatement(sql);
-				stmt.setInt(1, id);
+				stmt.setInt(1, id_investigador);
 				
 				value = stmt.executeUpdate();
 			}
 		} catch(Exception e) {
 			throw new ExcepcionProductividad("Error del servidor: " + e);
 		}
-		
 		finally {
 			con.cerrarConexion();
 		}
-		
 		return value > 0;
 	}
 }

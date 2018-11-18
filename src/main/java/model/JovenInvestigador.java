@@ -8,18 +8,21 @@ public class JovenInvestigador {
 	private String modalidad;
 	private int tutor;
 	
+	private Persona me;
+	
 	public JovenInvestigador() {
 		super();
 	}
 
 	public JovenInvestigador(int id_investigador, String propuesta_desarrollada, String periodo_beca, String modalidad,
-			int tutor) {
+			int tutor, Persona me) {
 		super();
 		this.id_investigador = id_investigador;
 		this.propuesta_desarrollada = propuesta_desarrollada;
 		this.periodo_beca = periodo_beca;
 		this.modalidad = modalidad;
 		this.tutor = tutor;
+		this.me = me;
 	}
 
 	public int getId_investigador() {
@@ -60,6 +63,14 @@ public class JovenInvestigador {
 
 	public void setTutor(int tutor) {
 		this.tutor = tutor;
+	}
+	
+	public Persona getMe() {
+		return me;
+	}
+
+	public void setMe(Persona me) {
+		this.me = me;
 	}
 	
 	

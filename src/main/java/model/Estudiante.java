@@ -7,16 +7,19 @@ public class Estudiante {
 	private int semestre;
 	private int id_programa;
 	
+	private Persona me;
+	
 	public Estudiante() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Estudiante(int id_estudiante, String codigo, int semestre, int id_programa) {
+	public Estudiante(int id_estudiante, String codigo, int semestre, int id_programa, Persona me) {
 		super();
 		this.id_estudiante = id_estudiante;
 		this.codigo = codigo;
 		this.semestre = semestre;
 		this.id_programa = id_programa;
+		this.me = me;
 	}
 
 	public int getId_estudiante() {
@@ -51,5 +54,11 @@ public class Estudiante {
 		this.id_programa = id_programa;
 	}
 	
+	public Persona getMe() {
+		return me;
+	}
 	
+	public void setMe(Persona me) {
+		this.me = me;
+	}
 }

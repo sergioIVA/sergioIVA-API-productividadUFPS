@@ -7,16 +7,19 @@ public class Externo {
 	private String cargo;
 	private String profesion;
 	
+	private Persona me;
+	
 	public Externo() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Externo(int id_investigador, String institucion_empresa, String cargo, String profesion) {
+	public Externo(int id_investigador, String institucion_empresa, String cargo, String profesion, Persona me) {
 		super();
 		this.id_investigador = id_investigador;
 		this.institucion_empresa = institucion_empresa;
 		this.cargo = cargo;
 		this.profesion = profesion;
+		this.me = me;
 	}
 
 	public int getId_investigador() {
@@ -50,6 +53,13 @@ public class Externo {
 	public void setProfesion(String profesion) {
 		this.profesion = profesion;
 	}
-	
-	
+
+	public Persona getMe() {
+		return me;
+	}
+
+	public void setMe(Persona me) {
+		this.me = me;
+	}
+
 }
