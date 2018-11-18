@@ -17,7 +17,8 @@ public class CategoriaGrupoService {
 	
 	public Object getCategoriasGrupo()throws Exception {
 		Map<String, Object> map = new HashMap<String, Object>();
-	      return map.put("categoria_grupo",this.categoriaGrupoDao.getCategoriaGrupos());	
+	     map.put("categoria_grupo",this.categoriaGrupoDao.getCategoriaGrupos());	
+	     return map;
 	}
 	
 	public CategoriaGrupo getCategoriaGrupo(int id)throws Exception {

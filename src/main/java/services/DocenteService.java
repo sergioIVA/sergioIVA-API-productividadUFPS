@@ -33,8 +33,6 @@ public class DocenteService {
 	public Object getDocentes() throws Exception {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("response-date", new Date());
-		map.put("msg", "peticion correcta");
 		map.put("docente-ufps", this.dao.getDocentes());
 			return map;
 	}
