@@ -36,6 +36,8 @@ public class MainController {
 	final ProgramaController programaController=new ProgramaController();
 	final DepartamentoController departamentoController=new DepartamentoController();
 	final GrupoController grupoController=new GrupoController();
+	final CategoriaGrupoController categoriaGrupoController=new CategoriaGrupoController();
+	final DocenteController docenteController=new DocenteController();
 
 	public MainController() {
 
@@ -79,6 +81,9 @@ public class MainController {
 			put("/programa/:id", (req, res) -> {return this.programaController.updatePrograma(req, res);},new JsonTransformer());
 			delete("/programa/:id", (req, res) -> {return this.programaController.deletePrograma(req, res);},new JsonTransformer());
 			
+			//categoriaGrupo
+			get("/categoriaGrupo",(req,res)->{return this.categoriaGrupoController.getCategoriaGrupo(req, res);},new JsonTransformer());
+			
 			
 			//5.Grupo
 			get("/grupo",(req,res)->{return "acceso /grupo get";});
@@ -97,7 +102,7 @@ public class MainController {
 			
 			
 			//7.Docente
-			get("/docente",(req,res)->{return "acceso /docente get";});
+			get("/docente",(req,res)->{return this.docenteController.getDocentes(req, res);},new JsonTransformer());
 			get("/docente/:id",(req,res)->{return "acceso /docente get con id "+req.queryParams(":id");});
 			post("/docente",(req,res)->{return "acceso /docente post ";});
 			put("/doente/:id", (req, res) -> {return "acceso /docente put con id "+req.queryParams(":id");});
