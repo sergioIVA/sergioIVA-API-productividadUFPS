@@ -8,7 +8,7 @@ public class Docente {
 	private int id_modalidad;
 	private int id_semillero_director; //0
 	
-	private Persona me; //Persona
+	private Persona persona; //Persona
 	
 	public Docente() {
 		// TODO Auto-generated constructor stub
@@ -22,7 +22,7 @@ public class Docente {
 		this.id_departamento = id_departamento;
 		this.id_modalidad = id_modalidad;
 		this.id_semillero_director = id_semillero_director;
-		this.me = me;
+		this.persona = me;
 	}
 
 	public String getCodigo() {
@@ -64,13 +64,14 @@ public class Docente {
 	public void setId_semillero_director(int id_semillero_director) {
 		this.id_semillero_director = id_semillero_director;
 	}
-	
-	public Persona getMe() {
-		return me;
+
+	public Persona getPersona() {
+		return persona;
+	}
+
+	public void setPersona(Persona persona) {
+		this.persona = persona;
 	}
 	
-	public void setMe(Persona me) {
-		this.me = me;
-	}
 	
 }
