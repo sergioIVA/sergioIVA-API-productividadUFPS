@@ -19,7 +19,7 @@ import util.ExcepcionProductividad;
 
 public class FacultadDao {
 
-	static final Conexion con = new Conexion();
+	final Conexion con = new Conexion();
 
 	public FacultadDao() {
 		// TODO Auto-generated constructor stub
