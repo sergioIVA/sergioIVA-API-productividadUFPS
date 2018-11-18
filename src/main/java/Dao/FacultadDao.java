@@ -53,7 +53,7 @@ public class FacultadDao {
 		pst.executeUpdate();
 
 		} catch (java.sql.SQLIntegrityConstraintViolationException e) {
-			throw new ExcepcionProductividad("ya hay una facultad con ese nombre  asociado");
+			throw new ExcepcionProductividad("ya hay una facultad con ese codigo  asociado");
 		} catch (Exception e) {
 			throw new ExcepcionProductividad("error del servidor" +e);// mientras colocamos e por desarrollo para
 			// mirar las consultas
@@ -141,7 +141,7 @@ public class FacultadDao {
         }
         }
         catch (java.sql.SQLIntegrityConstraintViolationException e) {
-			throw new ExcepcionProductividad("ya hay una facultad con ese nombre  asociado");
+			throw new ExcepcionProductividad("ya hay una facultad con ese codigo  asociado");
         }
         catch (Exception e) {
 			throw new ExcepcionProductividad("error del servidor" +e);// mientras colocamos e por desarrollo para
