@@ -19,7 +19,7 @@ public class CategoriaProductoService {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Object createCategoria(int id_tipo_producto, int id_subtipo_producto, String nombre) throws SQLException{
+	public Object createCategoria(int id_tipo_producto, int id_subtipo_producto, String nombre) throws Exception{
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("response-date", new Date());
@@ -28,7 +28,7 @@ public class CategoriaProductoService {
 			return map;
 	}
 	
-	public Object getCategoriasXTipo(int id_tipo_producto) throws SQLException {
+	public Object getCategoriasXTipo(int id_tipo_producto) throws Exception {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("response-date", new Date());
@@ -37,7 +37,7 @@ public class CategoriaProductoService {
 			return map;
 	}
 	
-	public Object getCategoriasXSubTipo(int id_subtipo_producto) throws SQLException {
+	public Object getCategoriasXSubTipo(int id_subtipo_producto) throws Exception {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("response-date", new Date());
@@ -46,7 +46,7 @@ public class CategoriaProductoService {
 			return map;
 	}
 	
-	public CategoriaProducto getSpecificCategoria(int id) throws SQLException {
+	public CategoriaProducto getSpecificCategoria(int id) throws Exception {
 		return this.dao.getSpecificCategoria(id);
 	}
 	
