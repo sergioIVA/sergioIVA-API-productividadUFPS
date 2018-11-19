@@ -5,8 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import conexion.Conexion;
 import model.Facultad;
@@ -69,8 +72,8 @@ public class GrupoDao {
 
 	}
 
-	public List<Grupo> getGrupos() throws Exception {
-
+	public Object getGrupos() throws Exception {
+		
 		List<Grupo> resp = new LinkedList<Grupo>();
 
 		try {
@@ -91,11 +94,10 @@ public class GrupoDao {
 			con.cerrarConexion();
 		}
 		return resp;
-
 	}
 
 	public Grupo getGrupo(int id) throws Exception {
-
+     
 		Connection reg = con.conectar("");
 		Grupo grupo = null;
 
@@ -122,6 +124,7 @@ public class GrupoDao {
 			con.cerrarConexion();
 		}
 		return grupo;
+		
 	}
 
 	public Grupo updateGrupo(Grupo grupo, String nombre, String sigla, String ubicacion, String fecha_creacion,

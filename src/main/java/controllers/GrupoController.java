@@ -62,7 +62,7 @@ public class GrupoController {
 		}
 	}
 
-	public Object getFacultad(Request req, Response res) {
+	public Object getGrupo(Request req, Response res) {
 
 		res.type("application/json");
 		String cad = req.params(":id");
@@ -94,7 +94,8 @@ public class GrupoController {
 	}
 
 	public Object updateFacultad(Request req, Response res) {
-
+     
+		
 		res.type("application/json");
 		String cad = req.params(":id");
 
@@ -139,10 +140,12 @@ public class GrupoController {
 			res.status(500);// 500 INTERNAL SERVER ERROR
 			return e.toString();
 		}
-
+       
 	}
 	
 	public Object deleteFacultad(Request req, Response res) {
+		
+		
 		res.type("application/json");
 		String cad = req.params(":id");
 
@@ -176,7 +179,6 @@ public class GrupoController {
 			res.status(500);// 500 INTERNAL SERVER ERROR
 			return e.toString();
 		}
-
 		
 	}
 }
