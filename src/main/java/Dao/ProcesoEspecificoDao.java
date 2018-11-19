@@ -4,8 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 import conexion.Conexion;
+import model.Departamento;
 import util.ExcepcionProductividad;
 
 public class ProcesoEspecificoDao {
@@ -94,6 +97,47 @@ public class ProcesoEspecificoDao {
 			con.cerrarConexion();
 		}
 		return grupo;
+
+	}
+
+	public Object getGrupoCategoriaDirector() throws Exception {
+
+		LinkedHashMap<String, Object> grupo = new LinkedHashMap<String, Object>();
+		List<LinkedHashMap> array = new LinkedList<LinkedHashMap>();
+
+		try {
+			Connection reg = con.conectar("");
+			String sql = "select grupo.id,grupo.nombre,grupo.fecha_creacion,grupo.codigo_colciencias,persona.nombre "
+					+ "nombreDirector,categoria.nombre nombre_categoria from grupo_investigacion grupo,categoria_grupo"
+					+ " categoria,persona persona where grupo.id_categoria=categoria.id_categoria and persona.id=grupo.director_grupo";
+
+			PreparedStatement stmt = reg.prepareStatement(sql);
+
+			ResultSet rs = stmt.executeQuery();
+			// utilizar un linkedHashMap para preservar el orden de los datos ingresados
+			LinkedHashMap<String, Object> datosEspecificos =null; 
+			while (rs.next()) {
+
+				datosEspecificos= new LinkedHashMap<String, Object>();
+				datosEspecificos.put("id", rs.getInt("id"));
+				datosEspecificos.put("nombre", rs.getString("nombre"));
+				datosEspecificos.put("fecha_creacion", rs.getString("fecha_creacion"));
+				datosEspecificos.put("codigo_colciencias", rs.getString("codigo_colciencias"));
+				datosEspecificos.put("nombreDirector", rs.getString("nombreDirector"));
+				datosEspecificos.put("nombre_categoria", rs.getString("nombre_categoria"));
+				array.add(datosEspecificos);
+			}
+
+			grupo.put("grupos", array);
+
+			return grupo;
+		} catch (Exception e) {
+			throw new ExcepcionProductividad("error del servidor" + e);
+		}
+
+		finally {
+			con.cerrarConexion();
+		}
 
 	}
 

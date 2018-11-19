@@ -15,4 +15,9 @@ public class ProcesoEspecificoService {
 		 return this.procesoEspecificoDao.getPanelPrincipal(idGrupo);
 	}
 	
+	public Object getGrupoCategoriaDirector()throws Exception {
+		return this.procesoEspecificoDao.getGrupoCategoriaDirector();
+		
+	}
+	
 }
