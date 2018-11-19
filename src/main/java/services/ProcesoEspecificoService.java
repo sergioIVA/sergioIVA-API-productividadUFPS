@@ -20,4 +20,8 @@ public class ProcesoEspecificoService {
 		
 	}
 	
+	public Object getdatosCrearGrupo() {
+		return null;
+	}
+	
 }
