@@ -140,5 +140,39 @@ public class ProcesoEspecificoDao {
 		}
 
 	}
+	
+	public List<LinkedHashMap> getDocenteNombreId()throws Exception {
+		
+		List<LinkedHashMap> array = new LinkedList<LinkedHashMap>();
+
+		try {
+			Connection reg = con.conectar("");
+			String sql = "select docente.id_investigador id_docente,persona.nombre "
+					+ "from docente_ufps docente,persona persona "
+					+ "where docente.id_investigador=persona.id";
+			
+			PreparedStatement stmt = reg.prepareStatement(sql);
+
+			ResultSet rs = stmt.executeQuery();
+			
+			LinkedHashMap<String, Object> datosEspecificos= null;
+			while (rs.next()) {
+
+				datosEspecificos= new LinkedHashMap<String, Object>();
+				datosEspecificos.put("id", rs.getInt("id_docente"));
+				datosEspecificos.put("nombre", rs.getString("nombre"));
+				array.add(datosEspecificos);
+			}
+
+			return array;
+		} catch (Exception e) {
+			throw new ExcepcionProductividad("error del servidor" + e);
+		}
+
+		finally {
+			con.cerrarConexion();
+		}
+		
+	}
 
 }

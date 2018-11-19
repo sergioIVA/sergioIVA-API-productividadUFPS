@@ -1,10 +1,28 @@
 package services;
 
+
+
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+
+import Dao.CategoriaGrupoDao;
+import Dao.DepartamentoDao;
+import Dao.FacultadDao;
 import Dao.ProcesoEspecificoDao;
+import Dao.ProgramaDao;
+import model.CategoriaGrupo;
+import model.Departamento;
+import model.Facultad;
+import model.Programa;
 
 public class ProcesoEspecificoService {
 
 	final ProcesoEspecificoDao procesoEspecificoDao=new ProcesoEspecificoDao();
+	final FacultadDao facultadDao=new FacultadDao();
+	final CategoriaGrupoDao categoriaGrupoDao=new CategoriaGrupoDao();
+	final DepartamentoDao departamentoDao=new DepartamentoDao();
+	final ProgramaDao programaDao=new ProgramaDao();
 	
 	public ProcesoEspecificoService() {
 		// TODO Auto-generated constructor stub
@@ -20,8 +38,26 @@ public class ProcesoEspecificoService {
 		
 	}
 	
-	public Object getdatosCrearGrupo() {
-		return null;
+	public Object getdatosCrearGrupo()throws Exception {
+		
+		
+		LinkedHashMap<String, Object> datosEspecificos= new LinkedHashMap<>();
+		
+		List<CategoriaGrupo> categoria=categoriaGrupoDao.getCategoriaGrupos();
+		List<Facultad> facultad=facultadDao.getFacultades();
+		List<Departamento> departamento=departamentoDao.getDepartamentos();
+		List<Programa> programa=programaDao.getProgramas();
+		
+		List<LinkedHashMap> docentes=this.procesoEspecificoDao.getDocenteNombreId(); 
+		
+		
+	   datosEspecificos.put("categoria",categoria);
+	   datosEspecificos.put("facultad",facultad);
+	   datosEspecificos.put("departamento",departamento);
+	   datosEspecificos.put("programa",programa);
+	   datosEspecificos.put("docentes_ufps",docentes);
+		
+		return datosEspecificos;
 	}
 	
 }
