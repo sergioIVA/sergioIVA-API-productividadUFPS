@@ -177,13 +177,12 @@ public class ProcesoEspecificoDao {
 
 	public Object getSemilleroDirector() throws Exception {
 
-		List<LinkedHashMap> array = new LinkedList<LinkedHashMap>();
 
 		try {
 			Connection reg = con.conectar("");
 			String sql = "select semillero.id id_semillero,semillero.nombre,semillero.sigla,"
 					+ "semillero.fecha_creacion,persona.nombre nombre_tutor,semillero.ubicacion from semillero "
-					+ "semillero,docente_ufps docente,persona persona where"
+					+ "semillero,docente_ufps docente,persona persona where "
 					+ "docente.id_semillero_director=semillero.id and persona.id=docente.id_investigador";
 
 			PreparedStatement stmt = reg.prepareStatement(sql);
@@ -193,17 +192,20 @@ public class ProcesoEspecificoDao {
 			String nombreAnterior = "";
 			boolean primeraVez=true;
 
-			LinkedHashMap<String, Object> semilleros = null;
+			LinkedHashMap<String, Object> semilleros =new LinkedHashMap<String, Object>();
 			List<LinkedHashMap> arrays = new LinkedList<LinkedHashMap>();
-			LinkedHashMap<String, Object> datosEspecificos = null;
-			List<String> tutores = null;
+			LinkedHashMap<String, Object> datosEspecificos =new LinkedHashMap<String, Object>();
+			List<String> tutores = new LinkedList<String>();
+			
+			
 			
 			while (rs.next()) {
+				
 				
 				String nombreActual = rs.getString("nombre");
 				
 				      if(!nombreAnterior.equals(nombreActual)) {
-				        	  
+				    	  
 				        	   if(!primeraVez) {//cuando arrancar no puede agregar tutores ni los datos semillero
 				       datosEspecificos.put("tutores",tutores); 
 				       arrays.add(datosEspecificos);
@@ -216,14 +218,28 @@ public class ProcesoEspecificoDao {
 				datosEspecificos.put("fecha_creacion", rs.getString("fecha_creacion"));
 				
 				tutores=new LinkedList<String>();
-				nombreActual=nombreAnterior;
 				 primeraVez=false;
 				           }
+				    
 				       //todas las veces       	   
 				       tutores.add(rs.getString("nombre_tutor"));
+				       nombreAnterior=nombreActual;
+				       
+				       if(rs.isLast()) {
+					    	  
+					    	  datosEspecificos.put("id", rs.getInt("id_semillero"));
+							  datosEspecificos.put("nombre", rs.getString("nombre"));
+							  datosEspecificos.put("sigla", rs.getString("sigla"));
+							  datosEspecificos.put("fecha_creacion", rs.getString("fecha_creacion"));
+							  datosEspecificos.put("tutores",tutores); 
+						      arrays.add(datosEspecificos);
+					      }
 				        
 			}
-			  semilleros.put("semillero",array);
+			
+			      
+			
+			  semilleros.put("semillero",arrays);
 			return semilleros;
 		} catch (Exception e) {
 			throw new ExcepcionProductividad("error del servidor" + e);

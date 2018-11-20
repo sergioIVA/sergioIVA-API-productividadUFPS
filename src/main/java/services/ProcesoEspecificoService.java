@@ -61,7 +61,7 @@ public class ProcesoEspecificoService {
 	}
 	
 	public Object getSemilleroDirector()throws Exception {
-		return this.getGrupoCategoriaDirector();
+		return this.procesoEspecificoDao.getSemilleroDirector();
 	}
 	
 }
