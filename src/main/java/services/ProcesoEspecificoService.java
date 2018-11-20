@@ -64,4 +64,8 @@ public class ProcesoEspecificoService {
 		return this.procesoEspecificoDao.getSemilleroDirector();
 	}
 	
+	public Object getLineaGrupoDocenteGrupo(int idGrupo)throws Exception{
+		 return this.procesoEspecificoDao.getGrupoLineaSemilleroDocenteGrupo(idGrupo);
+	}
+	
 }

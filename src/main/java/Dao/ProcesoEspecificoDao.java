@@ -250,5 +250,68 @@ public class ProcesoEspecificoDao {
 		}
 
 	}
+	
+	public Object getGrupoLineaSemilleroDocenteGrupo(int idGrupo)throws Exception  {
+		
+		LinkedHashMap<String, Object> general = new LinkedHashMap<String, Object>();
+		
+		
+		List<LinkedHashMap> lineaGrupo = new LinkedList<LinkedHashMap>();
+		List<LinkedHashMap> docentes = new LinkedList<LinkedHashMap>();
+
+		
+		try {
+			Connection reg = con.conectar("");
+			String sql = "select persona.id id_docente,persona.nombre nombre_docente from grupo_investigacion grupo,"
+					+ "participante_grupo participante,persona"
+					+ " persona where"
+					+ " grupo.id=participante.id_grupo and persona.id=participante.id_participante and grupo.id=?";
+
+
+			PreparedStatement stmt = reg.prepareStatement(sql);
+			stmt.setInt(1, idGrupo);
+
+			ResultSet rs = stmt.executeQuery();
+			// utilizar un linkedHashMap para preservar el orden de los datos ingresados
+			LinkedHashMap<String, Object> datosDocente =null; 
+			while (rs.next()) {
+                
+				datosDocente=new LinkedHashMap<String, Object>();
+				datosDocente.put("id", rs.getInt("id_docente"));
+				datosDocente.put("nombre", rs.getString("nombre_docente"));
+				docentes.add(datosDocente);
+			}
+
+			sql = "select linea.id,linea.nombre from linea_investigacion linea,linea_grupo "
+					+ "lineaGrupo,grupo_investigacion grupo"
+					+ " where linea.id=lineaGrupo.id_linea and grupo.id=lineaGrupo.id_grupo where grupo.id=?";
+			stmt = reg.prepareStatement(sql);
+			stmt.setInt(1, idGrupo);
+			rs = stmt.executeQuery();
+         
+			LinkedHashMap<String, Object> datosLinea =null; 
+			while (rs.next()) {
+				
+				datosLinea=new LinkedHashMap<String, Object>();
+				
+				datosLinea.put("id",rs.getInt("id"));
+				datosLinea.put("nombre",rs.getInt("nombre"));
+
+			}
+
+
+			general.put("docente",docentes);
+			general.put("linea_grupo",lineaGrupo);
+			
+			return general;
+		} catch (Exception e) {
+			throw new ExcepcionProductividad("error del servidor" + e);
+		}
+
+		finally {
+			con.cerrarConexion();
+		}
+		
+	}
 
 }
