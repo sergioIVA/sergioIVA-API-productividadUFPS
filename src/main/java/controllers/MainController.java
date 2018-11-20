@@ -90,6 +90,7 @@ public class MainController {
 			get("/paginaPrincipal/:id",(req,res)->{return this.procesoEspecificoController.getPaginaPrincipal(req, res);},new JsonTransformer());
 			get("/grupoCategoriaDirector",(req,res)->{return this.procesoEspecificoController.getGrupoCategoriaDirector(req, res);},new JsonTransformer());
 			get("/datosCrearGrupo",(req,res)->{return this.procesoEspecificoController.getDatosCrearGrupo(req, res);},new JsonTransformer());
+			get("/datosSemilleroDirector",(req,res)->{return this.procesoEspecificoController.getSemilleroDirector(req, res);},new JsonTransformer());
 			
 			//5.Grupo
 			get("/grupo",(req,res)->{return "acceso /grupo get";});
