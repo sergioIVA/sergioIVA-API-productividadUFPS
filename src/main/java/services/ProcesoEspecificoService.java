@@ -60,4 +60,8 @@ public class ProcesoEspecificoService {
 		return datosEspecificos;
 	}
 	
+	public Object getSemilleroDirector()throws Exception {
+		return this.getGrupoCategoriaDirector();
+	}
+	
 }

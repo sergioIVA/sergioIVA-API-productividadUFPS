@@ -9,6 +9,7 @@ import java.util.List;
 
 import conexion.Conexion;
 import model.Departamento;
+import model.JovenInvestigador;
 import util.ExcepcionProductividad;
 
 public class ProcesoEspecificoDao {
@@ -115,10 +116,10 @@ public class ProcesoEspecificoDao {
 
 			ResultSet rs = stmt.executeQuery();
 			// utilizar un linkedHashMap para preservar el orden de los datos ingresados
-			LinkedHashMap<String, Object> datosEspecificos =null; 
+			LinkedHashMap<String, Object> datosEspecificos = null;
 			while (rs.next()) {
 
-				datosEspecificos= new LinkedHashMap<String, Object>();
+				datosEspecificos = new LinkedHashMap<String, Object>();
 				datosEspecificos.put("id", rs.getInt("id"));
 				datosEspecificos.put("nombre", rs.getString("nombre"));
 				datosEspecificos.put("fecha_creacion", rs.getString("fecha_creacion"));
@@ -140,25 +141,24 @@ public class ProcesoEspecificoDao {
 		}
 
 	}
-	
-	public List<LinkedHashMap> getDocenteNombreId()throws Exception {
-		
+
+	public List<LinkedHashMap> getDocenteNombreId() throws Exception {
+
 		List<LinkedHashMap> array = new LinkedList<LinkedHashMap>();
 
 		try {
 			Connection reg = con.conectar("");
 			String sql = "select docente.id_investigador id_docente,persona.nombre "
-					+ "from docente_ufps docente,persona persona "
-					+ "where docente.id_investigador=persona.id";
-			
+					+ "from docente_ufps docente,persona persona " + "where docente.id_investigador=persona.id";
+
 			PreparedStatement stmt = reg.prepareStatement(sql);
 
 			ResultSet rs = stmt.executeQuery();
-			
-			LinkedHashMap<String, Object> datosEspecificos= null;
+
+			LinkedHashMap<String, Object> datosEspecificos = null;
 			while (rs.next()) {
 
-				datosEspecificos= new LinkedHashMap<String, Object>();
+				datosEspecificos = new LinkedHashMap<String, Object>();
 				datosEspecificos.put("id", rs.getInt("id_docente"));
 				datosEspecificos.put("nombre", rs.getString("nombre"));
 				array.add(datosEspecificos);
@@ -172,7 +172,67 @@ public class ProcesoEspecificoDao {
 		finally {
 			con.cerrarConexion();
 		}
-		
+
+	}
+
+	public Object getSemilleroDirector() throws Exception {
+
+		List<LinkedHashMap> array = new LinkedList<LinkedHashMap>();
+
+		try {
+			Connection reg = con.conectar("");
+			String sql = "select semillero.id id_semillero,semillero.nombre,semillero.sigla,"
+					+ "semillero.fecha_creacion,persona.nombre nombre_tutor,semillero.ubicacion from semillero "
+					+ "semillero,docente_ufps docente,persona persona where"
+					+ "docente.id_semillero_director=semillero.id and persona.id=docente.id_investigador";
+
+			PreparedStatement stmt = reg.prepareStatement(sql);
+
+			ResultSet rs = stmt.executeQuery();
+
+			String nombreAnterior = "";
+			boolean primeraVez=true;
+
+			LinkedHashMap<String, Object> semilleros = null;
+			List<LinkedHashMap> arrays = new LinkedList<LinkedHashMap>();
+			LinkedHashMap<String, Object> datosEspecificos = null;
+			List<String> tutores = null;
+			
+			while (rs.next()) {
+				
+				String nombreActual = rs.getString("nombre");
+				
+				      if(!nombreAnterior.equals(nombreActual)) {
+				        	  
+				        	   if(!primeraVez) {//cuando arrancar no puede agregar tutores ni los datos semillero
+				       datosEspecificos.put("tutores",tutores); 
+				       arrays.add(datosEspecificos);
+				        	   }
+				//ingresando un nuevo grupo
+				datosEspecificos = new LinkedHashMap<String, Object>();
+				datosEspecificos.put("id", rs.getInt("id_semillero"));
+				datosEspecificos.put("nombre", rs.getString("nombre"));
+				datosEspecificos.put("sigla", rs.getString("sigla"));
+				datosEspecificos.put("fecha_creacion", rs.getString("fecha_creacion"));
+				
+				tutores=new LinkedList<String>();
+				nombreActual=nombreAnterior;
+				 primeraVez=false;
+				           }
+				       //todas las veces       	   
+				       tutores.add(rs.getString("nombre_tutor"));
+				        
+			}
+			  semilleros.put("semillero",array);
+			return semilleros;
+		} catch (Exception e) {
+			throw new ExcepcionProductividad("error del servidor" + e);
+		}
+
+		finally {
+			con.cerrarConexion();
+		}
+
 	}
 
 }
