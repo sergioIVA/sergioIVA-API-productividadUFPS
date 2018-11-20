@@ -93,6 +93,10 @@ public class MainController {
 			get("/datosSemilleroDirector",(req,res)->{return this.procesoEspecificoController.getSemilleroDirector(req, res);},new JsonTransformer());
 			get("/lineaGrupoDocenteGrupo/:idGrupo",(req,res)->{return this.procesoEspecificoController.getLineaGrupoDocenteGrupo(req, res);},new JsonTransformer());
 			
+			//semillero
+			post("/semillero",(req,res)->{return "";},new JsonTransformer());
+			
+			
 			//5.Grupo
 			get("/grupo",(req,res)->{return "acceso /grupo get";});
 			get("/grupo/:id",(req,res)->{return this.grupoController.getGrupo(req, res);},new JsonTransformer());
