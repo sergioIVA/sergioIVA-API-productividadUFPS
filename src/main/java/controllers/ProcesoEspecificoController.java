@@ -136,8 +136,9 @@ public class ProcesoEspecificoController {
 			return "parametro faltante";
 		}
 		int id = Integer.parseInt(cad);
+		int tipoSession = Integer.parseInt(req.params(":tipoSession"));
 		try {
-			Object obj = this.procesoEspecificoService.getLineasGrupoTipoProyectoGrupo(id);
+			Object obj = this.procesoEspecificoService.getLineasGrupoTipoProyectoGrupo(tipoSession,id);
 			if (obj == null) {
 				res.status(400);// 400 BAD REQUEST
 				return "No encontrado";

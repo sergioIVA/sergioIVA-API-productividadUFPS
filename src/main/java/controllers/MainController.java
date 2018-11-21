@@ -41,6 +41,7 @@ public class MainController {
 	final ProcesoEspecificoController procesoEspecificoController=new ProcesoEspecificoController();
 	final PlanAccionGrupoController planAccionGrupoController = new PlanAccionGrupoController();
 	final SemilleroController semilleroController = new SemilleroController();
+	final ObjetivoController objetivoController = new ObjetivoController();
 
 	public MainController() {
 
@@ -95,7 +96,7 @@ public class MainController {
 			get("/datosSemilleroDirector",(req,res)->{return this.procesoEspecificoController.getSemilleroDirector(req, res);},new JsonTransformer());
 			get("/lineaGrupoDocenteGrupo/:idGrupo",(req,res)->{return this.procesoEspecificoController.getLineaGrupoDocenteGrupo(req, res);},new JsonTransformer());
 			get("/proyectoResponsable",(req,res)->{return this.procesoEspecificoController.getProyectoResponsable(req, res);},new JsonTransformer());
-			get("/lineasGrupoTipoProyectoGrupo/idGrupo",(req,res)->{return this.procesoEspecificoController.getLineasGrupoTipoProyectoGrupo(req, res);},new JsonTransformer());
+			get("/lineasGrupoTipoProyectoGrupo/tipoSession&idGrupoSemillero",(req,res)->{return this.procesoEspecificoController.getLineasGrupoTipoProyectoGrupo(req, res);},new JsonTransformer());
 			
 			//semillero
 			post("/semillero",(req,res)->{return this.semilleroController.createSemillero(req, res);},new JsonTransformer());
@@ -273,7 +274,8 @@ public class MainController {
 			get("/productividadDepartamento",(req,res)->{return "acceso /prductividadDepartamento get";});
 			
 			
-			
+			//30. Objetivo
+			post("/objetivoEspecifico/:idProyecto",(req,res)->{return this.objetivoController.createObjetivoEspecifico(req, res);}, new JsonTransformer());
 			
 			
 			//lo de aca son ejemplos no mas!
