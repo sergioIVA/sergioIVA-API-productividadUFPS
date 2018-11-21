@@ -4,8 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
+
 
 import conexion.Conexion;
 import model.Semillero;
