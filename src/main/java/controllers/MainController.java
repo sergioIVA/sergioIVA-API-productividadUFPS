@@ -40,6 +40,7 @@ public class MainController {
 	final DocenteController docenteController=new DocenteController();
 	final ProcesoEspecificoController procesoEspecificoController=new ProcesoEspecificoController();
 	final PlanAccionGrupoController planAccionGrupoController = new PlanAccionGrupoController();
+	final SemilleroController semilleroController = new SemilleroController();
 
 	public MainController() {
 
@@ -93,9 +94,10 @@ public class MainController {
 			get("/datosCrearGrupo",(req,res)->{return this.procesoEspecificoController.getDatosCrearGrupo(req, res);},new JsonTransformer());
 			get("/datosSemilleroDirector",(req,res)->{return this.procesoEspecificoController.getSemilleroDirector(req, res);},new JsonTransformer());
 			get("/lineaGrupoDocenteGrupo/:idGrupo",(req,res)->{return this.procesoEspecificoController.getLineaGrupoDocenteGrupo(req, res);},new JsonTransformer());
+			get("/proyectoResponsable",(req,res)->{return this.procesoEspecificoController.getProyectoResponsable(req, res);},new JsonTransformer());
 			
 			//semillero
-			post("/semillero",(req,res)->{return "";},new JsonTransformer());
+			post("/semillero",(req,res)->{return this.semilleroController.createSemillero(req, res);},new JsonTransformer());
 			
 			
 			//5.Grupo

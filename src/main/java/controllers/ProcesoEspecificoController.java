@@ -109,4 +109,19 @@ public class ProcesoEspecificoController {
 		}
 
 	}
+	
+	public Object getProyectoResponsable(Request req, Response res) {
+		res.type("application/json");
+
+		try {
+			res.status(200);// 200 OK
+			return this.procesoEspecificoService.getProyectoResponsable();
+			
+		} catch (Exception e) {
+
+			res.status(500);// 500 INTERNAL SERVER ERROR
+			return e.toString();
+
+		}
+	}
 }
