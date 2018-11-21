@@ -16,7 +16,6 @@ public class SemilleroService {
 			String fecha_creacion, int id_grupo, int id_linea_grupo, int id_director, String correo) throws Exception {
 		
 		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
-		map.put("msg", "creacion exitosa");
 		map.put("semillero", this.dao.createSemillero(codigo, nombre, sigla, ubicacion, fecha_creacion, id_grupo, id_linea_grupo, id_director, correo));
 		return map;
 	}

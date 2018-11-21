@@ -177,69 +177,31 @@ public class ProcesoEspecificoDao {
 
 	public Object getSemilleroDirector() throws Exception {
 
-
 		try {
 			Connection reg = con.conectar("");
 			String sql = "select semillero.id id_semillero,semillero.nombre,semillero.sigla,"
 					+ "semillero.fecha_creacion,persona.nombre nombre_tutor,semillero.ubicacion from semillero "
 					+ "semillero,docente_ufps docente,persona persona where "
-					+ "docente.id_semillero_director=semillero.id and persona.id=docente.id_investigador";
+					+ "docente.id_investigador=semillero.id_director and persona.id=docente.id_investigador";
 
 			PreparedStatement stmt = reg.prepareStatement(sql);
-
 			ResultSet rs = stmt.executeQuery();
 
-			String nombreAnterior = "";
-			boolean primeraVez=true;
-
-			LinkedHashMap<String, Object> semilleros =new LinkedHashMap<String, Object>();
+			LinkedHashMap<String, Object> semilleros = new LinkedHashMap<String, Object>();
 			List<LinkedHashMap> arrays = new LinkedList<LinkedHashMap>();
-			LinkedHashMap<String, Object> datosEspecificos =new LinkedHashMap<String, Object>();
-			List<String> tutores = new LinkedList<String>();
-			
-			
-			
+			LinkedHashMap<String, Object> datosEspecificos = new LinkedHashMap<String, Object>();
+
 			while (rs.next()) {
-				
-				
-				String nombreActual = rs.getString("nombre");
-				
-				      if(!nombreAnterior.equals(nombreActual)) {
-				    	  
-				        	   if(!primeraVez) {//cuando arrancar no puede agregar tutores ni los datos semillero
-				       datosEspecificos.put("tutores",tutores); 
-				       arrays.add(datosEspecificos);
-				        	   }
-				//ingresando un nuevo grupo
+
 				datosEspecificos = new LinkedHashMap<String, Object>();
 				datosEspecificos.put("id", rs.getInt("id_semillero"));
 				datosEspecificos.put("nombre", rs.getString("nombre"));
 				datosEspecificos.put("sigla", rs.getString("sigla"));
 				datosEspecificos.put("fecha_creacion", rs.getString("fecha_creacion"));
-				
-				tutores=new LinkedList<String>();
-				 primeraVez=false;
-				           }
-				    
-				       //todas las veces       	   
-				       tutores.add(rs.getString("nombre_tutor"));
-				       nombreAnterior=nombreActual;
-				       
-				       if(rs.isLast()) {
-					    	  
-					    	  datosEspecificos.put("id", rs.getInt("id_semillero"));
-							  datosEspecificos.put("nombre", rs.getString("nombre"));
-							  datosEspecificos.put("sigla", rs.getString("sigla"));
-							  datosEspecificos.put("fecha_creacion", rs.getString("fecha_creacion"));
-							  datosEspecificos.put("tutores",tutores); 
-						      arrays.add(datosEspecificos);
-					      }
-				        
+				datosEspecificos.put("tutor", rs.getString("nombre_tutor"));
+				arrays.add(datosEspecificos);
 			}
-			
-			      
-			
-			  semilleros.put("semillero",arrays);
+			semilleros.put("semillero", arrays);
 			return semilleros;
 		} catch (Exception e) {
 			throw new ExcepcionProductividad("error del servidor" + e);
@@ -250,36 +212,31 @@ public class ProcesoEspecificoDao {
 		}
 
 	}
-	
-	public Object getGrupoLineaSemilleroDocenteGrupo(int idGrupo)throws Exception  {
-		
+
+	public Object getGrupoLineaSemilleroDocenteGrupo(int idGrupo) throws Exception {
+
 		System.out.println(idGrupo);
-		
-		
+
 		LinkedHashMap<String, Object> general = new LinkedHashMap<String, Object>();
-		
-		
+
 		List<LinkedHashMap> lineaGrupo = new LinkedList<LinkedHashMap>();
 		List<LinkedHashMap> docentes = new LinkedList<LinkedHashMap>();
 
-		
 		try {
 			Connection reg = con.conectar("");
 			String sql = "select persona.id id_docente,persona.nombre nombre_docente from grupo_investigacion grupo,"
-					+ "participante_grupo participante,persona"
-					+ " persona where"
+					+ "participante_grupo participante,persona" + " persona where"
 					+ " grupo.id=participante.id_grupo and persona.id=participante.id_participante and grupo.id=?";
-
 
 			PreparedStatement stmt = reg.prepareStatement(sql);
 			stmt.setInt(1, idGrupo);
 
 			ResultSet rs = stmt.executeQuery();
 			// utilizar un linkedHashMap para preservar el orden de los datos ingresados
-			LinkedHashMap<String, Object> datosDocente =null; 
+			LinkedHashMap<String, Object> datosDocente = null;
 			while (rs.next()) {
-                
-				datosDocente=new LinkedHashMap<String, Object>();
+
+				datosDocente = new LinkedHashMap<String, Object>();
 				datosDocente.put("id", rs.getInt("id_docente"));
 				datosDocente.put("nombre", rs.getString("nombre_docente"));
 				docentes.add(datosDocente);
@@ -291,22 +248,21 @@ public class ProcesoEspecificoDao {
 			stmt = reg.prepareStatement(sql);
 			stmt.setInt(1, idGrupo);
 			rs = stmt.executeQuery();
-         
-			LinkedHashMap<String, Object> datosLinea =null; 
+
+			LinkedHashMap<String, Object> datosLinea = null;
 			while (rs.next()) {
-				
-				datosLinea=new LinkedHashMap<String, Object>();
-				
-				datosLinea.put("id",rs.getInt("id"));
-				datosLinea.put("nombre",rs.getString("nombre"));
+
+				datosLinea = new LinkedHashMap<String, Object>();
+
+				datosLinea.put("id", rs.getInt("id"));
+				datosLinea.put("nombre", rs.getString("nombre"));
 				lineaGrupo.add(datosLinea);
 
 			}
 
+			general.put("docente", docentes);
+			general.put("linea_grupo", lineaGrupo);
 
-			general.put("docente",docentes);
-			general.put("linea_grupo",lineaGrupo);
-			
 			return general;
 		} catch (Exception e) {
 			throw new ExcepcionProductividad("error del servidor" + e);
@@ -315,7 +271,7 @@ public class ProcesoEspecificoDao {
 		finally {
 			con.cerrarConexion();
 		}
-		
+
 	}
 
 }

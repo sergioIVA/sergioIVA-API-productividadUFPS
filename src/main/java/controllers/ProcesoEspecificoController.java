@@ -115,7 +115,9 @@ public class ProcesoEspecificoController {
 
 		try {
 			res.status(200);// 200 OK
-			return this.procesoEspecificoService.getProyectoResponsable();
+			///return this.procesoEspecificoService.getProyectoResponsable();
+			
+			return null;
 			
 		} catch (Exception e) {
 

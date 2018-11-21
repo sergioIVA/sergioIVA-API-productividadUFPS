@@ -48,15 +48,11 @@ public class ProcesoEspecificoService {
 		List<Departamento> departamento=departamentoDao.getDepartamentos();
 		List<Programa> programa=programaDao.getProgramas();
 		
-		List<LinkedHashMap> docentes=this.procesoEspecificoDao.getDocenteNombreId(); 
-		
-		
 	   datosEspecificos.put("categoria",categoria);
 	   datosEspecificos.put("facultad",facultad);
 	   datosEspecificos.put("departamento",departamento);
 	   datosEspecificos.put("programa",programa);
-	   datosEspecificos.put("docentes_ufps",docentes);
-		
+	  
 		return datosEspecificos;
 	}
 	

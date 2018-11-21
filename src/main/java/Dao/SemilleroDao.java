@@ -26,35 +26,39 @@ public class SemilleroDao {
 		int id = -1;
 		try {
 			Connection reg = con.conectar("");
-			String sql = "insert into semillero(id, codigo, nombre, sigla, ubicacion, fecha_creacion, "
-					+ "id_grupo, id_linea_grupo, id_director, correo) values (?,?,?,?,?,?,?,?,?,?)";
+			String sql = "insert into semillero(id,codigo,nombre,sigla,ubicacion,fecha_creacion,"
+					+ "id_grupo,id_linea_grupo,id_director,correo) values (?,?,?,?,?,?,?,?,?,?)";
 			
-			PreparedStatement stmt = reg.prepareStatement(sql);
-			stmt.setInt(1, 0);
-			stmt.setString(2, codigo);
-			stmt.setString(3, nombre);
-			stmt.setString(4, sigla);
-			stmt.setString(5, ubicacion);
-			stmt.setString(6, fecha_creacion);
-			stmt.setInt(7, id_grupo);
-			stmt.setInt(8, id_linea_grupo);
-			stmt.setInt(9, id_director);
-			stmt.setString(10, correo);
-						
-			if(stmt.executeUpdate() > 0) {
-				ResultSet rs = stmt.getGeneratedKeys();
-				if(rs.next()) 
-					id = rs.getInt(1);
-				
-				semillero = new Semillero(id, codigo, nombre, sigla, ubicacion, fecha_creacion, id_grupo, correo, id_linea_grupo, id_director);
+			PreparedStatement pst;
+			String generatedColumns[] = { "id" };
+			pst = reg.prepareStatement(sql, generatedColumns);
+			
+			pst.setInt(1, 0);
+			pst.setString(2, codigo);
+			pst.setString(3, nombre);
+			pst.setString(4, sigla);
+			pst.setString(5, ubicacion);
+			pst.setString(6, fecha_creacion);
+			pst.setInt(7, id_grupo);
+			pst.setInt(8, id_linea_grupo);
+			pst.setInt(9, id_director);
+			pst.setString(10, correo);
+			pst.executeUpdate();
+			
+			ResultSet generatedKeys = pst.getGeneratedKeys();
+			if (generatedKeys.next()) {
+				id = generatedKeys.getInt(1);
 			}
+				
+				
+			
 		} catch(Exception e) {
 			throw new ExcepcionProductividad("Error del servidor: " + e);
 		}
 		finally {
 			con.cerrarConexion();
 		}
-		
+		semillero = new Semillero(id, codigo, nombre, sigla, ubicacion, fecha_creacion, id_grupo, correo, id_linea_grupo, id_director);
 		return semillero;
 	}
 	
