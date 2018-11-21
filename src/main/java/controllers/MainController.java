@@ -39,6 +39,7 @@ public class MainController {
 	final CategoriaGrupoController categoriaGrupoController=new CategoriaGrupoController();
 	final DocenteController docenteController=new DocenteController();
 	final ProcesoEspecificoController procesoEspecificoController=new ProcesoEspecificoController();
+	final PlanAccionGrupoController planAccionGrupoController = new PlanAccionGrupoController();
 
 	public MainController() {
 
@@ -200,10 +201,10 @@ public class MainController {
 			
 			
 			//18.Planes de accion grupo
-			get("/planGrupo",(req,res)->{return "acceso /planGrupo get";});
-			get("/planGrupo/:id",(req,res)->{return "acceso /planGrupo get con id "+req.queryParams(":id");});
+			get("/planGrupo",(req,res)->{return this.planAccionGrupoController.getPlanes(req, res);});
+			get("/planGrupo/:id",(req,res)->{return this.planAccionGrupoController.getPlan(req, res);}, new JsonTransformer());
 			put("/planGrupo/:id", (req, res) -> {return "acceso /planGrupo put con id "+req.queryParams(":id");});
-			post("/planGrupo",(req,res)->{return "acceso /planGrupo post ";});
+			post("/planGrupo",(req,res)->{return this.planAccionGrupoController.createPlan(req, res);}, new JsonTransformer());
 			delete("/planGrupo/:id", (req, res) -> {return "acceso /planGrupo delete";});
 			
 			
