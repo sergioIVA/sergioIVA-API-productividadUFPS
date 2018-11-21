@@ -21,10 +21,7 @@ public class ObjetivoController {
 		try {
 			obj = objetivoService.createObjetivoEspecifico(nombre, idProyecto);
 			res.status(201);// 201 CREATED
-		} 
-		
-		catch (Exception e) {
-
+		}catch (Exception e) {
 			// res.header("error", e.toString());
 			res.status(500);// 500 INTERNAL SERVER ERROR
 			return e.getMessage();
