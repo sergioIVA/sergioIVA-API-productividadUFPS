@@ -1,9 +1,13 @@
 package controllers;
 
+import services.ObjetivoService;
+import services.ProcesoEspecificoService;
 import spark.Request;
 import spark.Response;
 
 public class ObjetivoController {
+	
+	final ObjetivoService objetivoService =new ObjetivoService();
 	
 	public ObjetivoController() {}
 
@@ -15,8 +19,7 @@ public class ObjetivoController {
 	
 		Object obj;
 		try {
-			obj = grupoService.createGrupo(nombre,sigla,ubicacion,fecha_creacion,codigo_colciencias,clasificado,
-					correo,id_categoria,id_unidad,director_grupo);
+			obj = objetivoService.createObjetivoEspecifico(nombre, idProyecto);
 			res.status(201);// 201 CREATED
 		} 
 		

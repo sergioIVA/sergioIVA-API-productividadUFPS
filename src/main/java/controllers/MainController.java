@@ -41,11 +41,8 @@ public class MainController {
 	final ProcesoEspecificoController procesoEspecificoController=new ProcesoEspecificoController();
 	final PlanAccionGrupoController planAccionGrupoController = new PlanAccionGrupoController();
 	final SemilleroController semilleroController = new SemilleroController();
-<<<<<<< HEAD
 	final ObjetivoController objetivoController = new ObjetivoController();
-=======
 	final ProyectoController proyectoController = new ProyectoController();
->>>>>>> 71eb6b789da2089e981d6956a05338f880ee9b0f
 
 	public MainController() {
 
