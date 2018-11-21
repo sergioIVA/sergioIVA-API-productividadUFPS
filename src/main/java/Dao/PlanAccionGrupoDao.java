@@ -132,11 +132,10 @@ public class PlanAccionGrupoDao {
 				proyectos.put("titulo", rs.getString("tituloproyecto"));
 				proyectos.put("fecha-inicio", rs.getString("startproyecto"));
 				proyectos.put("fecha-fin", rs.getString("endproyecto"));
+				
+				planes.put("actividades", actividades);
+				planes.put("proyectos", proyectos);
 			}
-			
-			planes.put("actividades", actividades);
-			planes.put("proyectos", proyectos);
-			
 		} catch(Exception e) {
 			throw new ExcepcionProductividad("Error del servidor: " + e);
 		}
