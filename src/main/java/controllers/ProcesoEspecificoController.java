@@ -126,4 +126,28 @@ public class ProcesoEspecificoController {
 
 		}
 	}
+	
+	public Object getLineasGrupoTipoProyectoGrupo(Request req, Response res) {
+		res.type("application/json");
+		String cad = req.params(":idGrupo");
+
+		if (cad == null) {
+			res.status(400);// 400 BAD REQUEST
+			return "parametro faltante";
+		}
+		int id = Integer.parseInt(cad);
+		try {
+			Object obj = this.procesoEspecificoService.getLineasGrupoTipoProyectoGrupo(id);
+			if (obj == null) {
+				res.status(400);// 400 BAD REQUEST
+				return "No encontrado";
+			}
+			res.status(200);// 200 OK
+			return obj;
+		} catch (Exception e) {
+			res.status(500);// 500 INTERNAL SERVER ERROR
+			return e.toString();
+		}
+
+	}
 }
