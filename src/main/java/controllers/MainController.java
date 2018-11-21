@@ -41,6 +41,7 @@ public class MainController {
 	final ProcesoEspecificoController procesoEspecificoController=new ProcesoEspecificoController();
 	final PlanAccionGrupoController planAccionGrupoController = new PlanAccionGrupoController();
 	final SemilleroController semilleroController = new SemilleroController();
+	final ProyectoController proyectoController = new ProyectoController();
 
 	public MainController() {
 
@@ -175,11 +176,11 @@ public class MainController {
 			
             //15.Proyecto 
 			
-			get("/proyecto",(req,res)->{return "acceso /proyecto get";});
-			get("/proyecto/:id",(req,res)->{return "acceso /proyecto get con id "+req.queryParams(":id");});
-			put("/proyecto/:id", (req, res) -> {return "acceso /proyecto put con id "+req.queryParams(":id");});
-			post("/proyecto",(req,res)->{return "acceso /proyecto post ";});
-			delete("/proyecto/:id", (req, res) -> {return "acceso /proyecto delete";});
+			get("/proyecto",(req,res)->{return this.proyectoController.getProyectos(req, res);}, new JsonTransformer());
+			get("/proyecto/:id",(req,res)->{return this.proyectoController.getProyecto(req, res);}, new JsonTransformer());
+			get("/proyecto/:id_grupo", (req, res) -> {return this.proyectoController.getProyectosGrupo(req, res);}, new JsonTransformer());
+			post("/proyecto",(req,res)->{return this.proyectoController.createProyecto(req, res);}, new JsonTransformer());
+			delete("/proyecto/:id", (req, res) -> {return this.proyectoController.deleteProyecto(req, res);}, new JsonTransformer());
 			
 			
 			//16.Registrar avance del proyecto
