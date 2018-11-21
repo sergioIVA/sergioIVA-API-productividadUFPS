@@ -215,8 +215,6 @@ public class ProcesoEspecificoDao {
 
 	public Object getGrupoLineaSemilleroDocenteGrupo(int idGrupo) throws Exception {
 
-	
-
 		LinkedHashMap<String, Object> general = new LinkedHashMap<String, Object>();
 
 		List<LinkedHashMap> lineaGrupo = new LinkedList<LinkedHashMap>();
@@ -230,9 +228,8 @@ public class ProcesoEspecificoDao {
 					+ " tipoRol.id=? and roles.persona_id=persona.id and grupo.id=?";
 
 			PreparedStatement stmt = reg.prepareStatement(sql);
-			stmt.setInt(1,3);
+			stmt.setInt(1, 3);
 			stmt.setInt(2, idGrupo);
-
 
 			ResultSet rs = stmt.executeQuery();
 			// utilizar un linkedHashMap para preservar el orden de los datos ingresados
@@ -265,6 +262,69 @@ public class ProcesoEspecificoDao {
 
 			general.put("director", docentes);
 			general.put("linea_grupo", lineaGrupo);
+
+			return general;
+		} catch (Exception e) {
+			throw new ExcepcionProductividad("error del servidor" + e);
+		}
+
+		finally {
+			con.cerrarConexion();
+		}
+
+	}
+
+	public Object getLineasGrupoTipoProyectoGrupo(int tipoSession, int idGruSemillero) throws Exception {
+
+		LinkedHashMap<String, Object> general = new LinkedHashMap<String, Object>();
+
+		List<LinkedHashMap> lineaGrupoSemillero = new LinkedList<LinkedHashMap>();
+		List<LinkedHashMap> tipoProyecto = new LinkedList<LinkedHashMap>();
+
+		try {
+
+			Connection reg = con.conectar("");
+			String sql = "";
+
+			if (tipoSession == 1) {
+				sql = "select linea.id,linea.nombre from grupo_investigacion,linea_investigacion linea,linea_grupo"
+						+ " lineaGrupo where linea.id=lineaGrupo.id_linea and lineaGrupo.id_grupo=grupo.id and grupo.id=?";
+			} else {
+				sql = "select linea.id,linea.nombre from semillero semillero,linea_investigacion linea,linea_semillero"
+						+ " lineaSemillero where linea.id=lineaSemillero.id and lineaSemillero.id_semillero=semillero.id and semillero.id=?";
+			}
+
+			PreparedStatement stmt = reg.prepareStatement(sql);
+			stmt.setInt(1, idGruSemillero);
+
+			ResultSet rs = stmt.executeQuery();
+			// utilizar un linkedHashMap para preservar el orden de los datos ingresados
+			LinkedHashMap<String, Object> datosLinea = null;
+			while (rs.next()) {
+
+				datosLinea = new LinkedHashMap<String, Object>();
+				datosLinea.put("id", rs.getInt("id"));
+				datosLinea.put("nombre", rs.getString("nombre"));
+				lineaGrupoSemillero.add(datosLinea);
+			}
+
+			sql = "select * from tipo_proyecto";
+			stmt = reg.prepareStatement(sql);
+			rs = stmt.executeQuery();
+
+			LinkedHashMap<String, Object> datosTipoProyecto = null;
+			while (rs.next()) {
+
+				datosLinea = new LinkedHashMap<String, Object>();
+
+				datosTipoProyecto.put("id", rs.getInt("id"));
+				datosTipoProyecto.put("nombre", rs.getString("nombre"));
+				tipoProyecto.add(datosLinea);
+
+			}
+
+			general.put("lineasGrupoSemillero",lineaGrupoSemillero);
+			general.put("TipoProyecto",tipoProyecto);
 
 			return general;
 		} catch (Exception e) {

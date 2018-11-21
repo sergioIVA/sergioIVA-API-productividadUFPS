@@ -64,4 +64,8 @@ public class ProcesoEspecificoService {
 		 return this.procesoEspecificoDao.getGrupoLineaSemilleroDocenteGrupo(idGrupo);
 	}
 	
+	public Object getLineasGrupoTipoProyectoGrupo(int tipoSession,int idGruSemillero)throws Exception {
+		     return this.procesoEspecificoDao.getLineasGrupoTipoProyectoGrupo(tipoSession, idGruSemillero);
+	}
+	
 }
