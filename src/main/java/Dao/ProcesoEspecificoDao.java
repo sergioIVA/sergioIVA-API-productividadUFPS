@@ -215,7 +215,7 @@ public class ProcesoEspecificoDao {
 
 	public Object getGrupoLineaSemilleroDocenteGrupo(int idGrupo) throws Exception {
 
-		System.out.println(idGrupo);
+	
 
 		LinkedHashMap<String, Object> general = new LinkedHashMap<String, Object>();
 
@@ -225,11 +225,14 @@ public class ProcesoEspecificoDao {
 		try {
 			Connection reg = con.conectar("");
 			String sql = "select persona.id id_docente,persona.nombre nombre_docente from grupo_investigacion grupo,"
-					+ "participante_grupo participante,persona" + " persona where"
-					+ " grupo.id=participante.id_grupo and persona.id=participante.id_participante and grupo.id=?";
+					+ "participante_grupo participante,persona persona,roles_sistema roles,tipo_rol tipoRol where"
+					+ " grupo.id=participante.id_grupo and persona.id=participante.id_participante and"
+					+ " tipoRol.id=? and roles.persona_id=persona.id and grupo.id=?";
 
 			PreparedStatement stmt = reg.prepareStatement(sql);
-			stmt.setInt(1, idGrupo);
+			stmt.setInt(1,3);
+			stmt.setInt(2, idGrupo);
+
 
 			ResultSet rs = stmt.executeQuery();
 			// utilizar un linkedHashMap para preservar el orden de los datos ingresados
@@ -260,7 +263,7 @@ public class ProcesoEspecificoDao {
 
 			}
 
-			general.put("docente", docentes);
+			general.put("director", docentes);
 			general.put("linea_grupo", lineaGrupo);
 
 			return general;
