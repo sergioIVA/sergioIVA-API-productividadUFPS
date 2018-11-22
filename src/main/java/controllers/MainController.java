@@ -207,7 +207,7 @@ public class MainController {
 			
 			
 			//18.Planes de accion grupo
-			get("/planGrupo",(req,res)->{return this.planAccionGrupoController.getPlanes(req, res);});
+			get("/planGrupo",(req,res)->{return this.planAccionGrupoController.getPlanes(req, res);}, new JsonTransformer());
 			get("/planGrupo/:id",(req,res)->{return this.planAccionGrupoController.getPlan(req, res);}, new JsonTransformer());
 			put("/planGrupo/:id", (req, res) -> {return "acceso /planGrupo put con id "+req.queryParams(":id");});
 			post("/planGrupo",(req,res)->{return this.planAccionGrupoController.createPlan(req, res);}, new JsonTransformer());
