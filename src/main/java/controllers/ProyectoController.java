@@ -17,29 +17,24 @@ public class ProyectoController {
 	public Object createProyecto(Request req, Response res) {
 		res.type("application/json");
 		int costoTotal = Integer.parseInt(req.queryParams("costoTotal"));
-		int porcentaje_cumplimiento = Integer.parseInt(req.queryParams("porcentaje_cumplimiento"));
 		int id_tipo = Integer.parseInt(req.queryParams("id_tipo"));
 		int id_linea = Integer.parseInt(req.queryParams("id_linea"));
-		int duracion = Integer.parseInt(req.queryParams("duracion"));
-		int tiempo_total_ejecucion = Integer.parseInt(req.queryParams("tiempo_total_ejecucion"));
-		int id_facultad = Integer.parseInt(req.queryParams("id_facultad"));
-		int tipo_participacion_id = Integer.parseInt(req.queryParams("tipo_participacion_id"));
-		int estado = Integer.parseInt(req.queryParams("estado"));
+		String tiempo_total_ejecucion = req.queryParams("tiempo_ejecucion");
 		String titulo = req.queryParams("titulo");
 		String fecha_inicio = req.queryParams("fecha_inicio");
 		String fecha_final = req.queryParams("fecha_final");
-		String valor_financiado = req.queryParams("valor_financiado");
-		String institucion = req.queryParams("institucion");
 		String resultados_esperados = req.queryParams("resultados_esperados");
-		String representante_facultad = req.queryParams("representante_facultad");
-		String documento_proyecto = req.queryParams("documento_proyecto");
 		String n_contrato = req.queryParams("n_contrato");
+		String resumen = req.queryParams("resumen");
+		String objetivo_general = req.queryParams("objetivo_general");
+		int tipo_participacion_id = Integer.parseInt(req.queryParams("tipo_participacion_id"));
 		
 		System.out.println(req.body());
 		
 		Object obj = null;
 		try {
-			obj = service.createProyecto(costoTotal, porcentaje_cumplimiento, id_tipo, id_linea, duracion, tiempo_total_ejecucion, id_facultad, tipo_participacion_id, estado, titulo, fecha_inicio, fecha_final, valor_financiado, institucion, resultados_esperados, representante_facultad, documento_proyecto, n_contrato);
+			obj = service.createProyecto(costoTotal, id_tipo, id_linea, tiempo_total_ejecucion, tipo_participacion_id, 
+					titulo,fecha_inicio, fecha_final, resultados_esperados, n_contrato, resumen, objetivo_general);
 			res.status(201);
 		} catch(Exception e) {
 			res.status(500);
