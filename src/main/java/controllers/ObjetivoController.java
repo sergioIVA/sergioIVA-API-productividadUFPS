@@ -15,7 +15,7 @@ public class ObjetivoController {
 		
 		res.type("application/json");
 		String nombre = req.queryParams("nombre");
-		int idProyecto = Integer.parseInt(req.params(":idProyecto"));
+		int idProyecto = Integer.parseInt(req.queryParams("idProyecto"));
 	
 		Object obj;
 		try {

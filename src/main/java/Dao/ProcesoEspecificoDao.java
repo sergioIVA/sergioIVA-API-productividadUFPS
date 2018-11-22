@@ -222,6 +222,7 @@ public class ProcesoEspecificoDao {
 
 		try {
 			Connection reg = con.conectar("");
+			
 			String sql = "select persona.id id_docente,persona.nombre nombre_docente from grupo_investigacion grupo,"
 					+ "participante_grupo participante,persona persona,roles_sistema roles,tipo_rol tipoRol where"
 					+ " grupo.id=participante.id_grupo and persona.id=participante.id_participante and"
@@ -241,7 +242,7 @@ public class ProcesoEspecificoDao {
 				datosDocente.put("nombre", rs.getString("nombre_docente"));
 				docentes.add(datosDocente);
 			}
-
+        
 			sql = "select linea.id,linea.nombre from linea_investigacion linea,linea_grupo "
 					+ "lineaGrupo,grupo_investigacion grupo"
 					+ " where linea.id=lineaGrupo.id_linea and grupo.id=lineaGrupo.id_grupo and grupo.id=?";
@@ -284,10 +285,11 @@ public class ProcesoEspecificoDao {
 		try {
 
 			Connection reg = con.conectar("");
+			
 			String sql = "";
 
 			if (tipoSession == 1) {
-				sql = "select linea.id,linea.nombre from grupo_investigacion,linea_investigacion linea,linea_grupo"
+				sql = "select linea.id,linea.nombre from grupo_investigacion grupo,linea_investigacion linea,linea_grupo"
 						+ " lineaGrupo where linea.id=lineaGrupo.id_linea and lineaGrupo.id_grupo=grupo.id and grupo.id=?";
 			} else {
 				sql = "select linea.id,linea.nombre from semillero semillero,linea_investigacion linea,linea_semillero"
@@ -307,19 +309,20 @@ public class ProcesoEspecificoDao {
 				datosLinea.put("nombre", rs.getString("nombre"));
 				lineaGrupoSemillero.add(datosLinea);
 			}
-
-			sql = "select * from tipo_proyecto";
+      
+			sql="select tipo.id,tipo.nombre from tipoproyecto tipo";
 			stmt = reg.prepareStatement(sql);
 			rs = stmt.executeQuery();
-
+			
 			LinkedHashMap<String, Object> datosTipoProyecto = null;
+			
 			while (rs.next()) {
 
-				datosLinea = new LinkedHashMap<String, Object>();
+				datosTipoProyecto= new LinkedHashMap<String, Object>();
 
 				datosTipoProyecto.put("id", rs.getInt("id"));
 				datosTipoProyecto.put("nombre", rs.getString("nombre"));
-				tipoProyecto.add(datosLinea);
+				tipoProyecto.add(datosTipoProyecto);
 
 			}
 
@@ -336,5 +339,81 @@ public class ProcesoEspecificoDao {
 		}
 
 	}
+	
+	public Object getProyectoResponsable()throws Exception {
+		
+	
 
+		try {
+			Connection reg = con.conectar("");
+			String sql = "select proyecto.id,proyecto.titulo,persona.nombre,rol.nombre rol,linea.nombre nombreLinea,"
+					+ "proyecto.fecha_inicio,proyecto.fecha_final,proyecto.tiempo_ejecucion,proyecto.costoTotal"
+					+ " from proyecto proyecto,participante_proyecto participante,persona persona,"
+					+ "linea_investigacion linea,rol rol where proyecto.id=participante.id_proyecto and persona.id"
+					+ "=participante.id_participante and rol.id=participante.id_rol and linea.id=proyecto.id_linea";
+
+			PreparedStatement stmt = reg.prepareStatement(sql);
+
+			ResultSet rs = stmt.executeQuery();
+
+			String nombreAnterior = "";
+			boolean primeraVez=true;
+
+			LinkedHashMap<String, Object> proyectos = new LinkedHashMap<String, Object>();
+			List<LinkedHashMap> arrays = new LinkedList<LinkedHashMap>();
+			LinkedHashMap<String, Object> datosEspecificos =new LinkedHashMap<String, Object>();
+			List<String> roles = new LinkedList<String>();
+			
+			while (rs.next()) {
+				
+				String nombreActual = rs.getString("titulo");
+				
+				      if(!nombreAnterior.equals(nombreActual)) {
+				        	  
+				        	   if(!primeraVez) {
+				       datosEspecificos.put("responsable",roles); 
+				       arrays.add(datosEspecificos);
+				        	   }
+				//ingresando un nuevo grupo
+				datosEspecificos = new LinkedHashMap<String, Object>();
+				datosEspecificos.put("id", rs.getInt("id"));
+				datosEspecificos.put("titulo", rs.getString("titulo"));
+				datosEspecificos.put("linea", rs.getString("nombreLinea"));
+				datosEspecificos.put("fecha_inicio", rs.getString("fecha_inicio"));
+				datosEspecificos.put("fecha_final", rs.getString("fecha_final"));
+				datosEspecificos.put("tiempo_ejecucion", rs.getString("tiempo_ejecucion"));
+				datosEspecificos.put("costoTotal", rs.getString("costoTotal"));
+				
+				
+				roles=new LinkedList<String>();
+				 primeraVez=false;
+				           }
+				       //todas las veces       	   
+				       roles.add(rs.getString("nombre")+"("+rs.getString("rol")+")");
+				       nombreAnterior=nombreActual;
+				       
+				       if(rs.isLast()) {
+				    	
+							datosEspecificos.put("id", rs.getInt("id"));
+							datosEspecificos.put("titulo", rs.getString("titulo"));
+							datosEspecificos.put("linea", rs.getString("nombreLinea"));
+							datosEspecificos.put("fecha_inicio", rs.getString("fecha_inicio"));
+							datosEspecificos.put("fecha_final", rs.getString("fecha_final"));
+							datosEspecificos.put("tiempo_ejecucion", rs.getString("tiempo_ejecucion"));
+							datosEspecificos.put("costoTotal", rs.getString("costoTotal"));
+							datosEspecificos.put("responsable",roles); 
+							arrays.add(datosEspecificos);
+					      }
+				        
+			}
+			proyectos.put("proyecto",arrays);
+			return proyectos;
+		} catch (Exception e) {
+			throw new ExcepcionProductividad("error del servidor" + e);
+		}
+
+		finally {
+			con.cerrarConexion();
+		}
+	}
 }
