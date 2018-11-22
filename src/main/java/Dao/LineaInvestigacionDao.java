@@ -25,7 +25,8 @@ public class LineaInvestigacionDao {
 		try {
 			Connection reg = con.conectar("");
 			String sql = "insert into linea_investigacion (id, nombre, descripcion, id_tipo_linea, lider_linea) values (?,?,?,?,?)";
-			PreparedStatement stmt = reg.prepareStatement(sql);
+			String generatedColumns[] = { "id" };
+			PreparedStatement stmt = reg.prepareStatement(sql, generatedColumns);
 			
 			stmt.setInt(1, 0);
 			stmt.setString(2, nombre);
