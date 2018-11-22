@@ -19,7 +19,7 @@ public class ProyectoDao {
 	
 	public Proyecto createProyecto(int costoTotal, int id_tipo, int id_linea,String tiempo_ejecucion, int
 			tipo_participacion_id, String titulo,String fecha_inicio, String fecha_final,String 
-			resultados_esperados, String n_contrato,String resumen,String objetivoGeneral,int tipoSession) throws Exception {
+			resultados_esperados, String n_contrato,String resumen,String objetivoGeneral,int tipoSession,int idGrupoSemillero) throws Exception {
 		
 		Proyecto proyecto = null;
 		int id = -1;
