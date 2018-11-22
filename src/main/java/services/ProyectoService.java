@@ -11,13 +11,14 @@ public class ProyectoService {
 	
 	public ProyectoService() {}
 	
-	public Object createProyecto(int costoTotal, int porcentaje_cumplimiento, int id_tipo, int id_linea, int duracion,
-			int tiempo_total_ejecucion, int id_facultad, int tipo_participacion_id, int estado, String titulo,
-			String fecha_inicio, String fecha_final, String valor_financiado, String institucion,
-			String resultados_esperados, String representante_facultad, String documento_proyecto, String n_contrato) throws Exception {
+	public Object  createProyecto(int costoTotal, int id_tipo, int id_linea,String tiempo_ejecucion, int
+			tipo_participacion_id, String titulo,String fecha_inicio, String fecha_final,String 
+			resultados_esperados, String n_contrato,String resumen,String objetivoGeneral) throws Exception {
 		
 		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
-		map.put("proyecto", this.dao.createProyecto(costoTotal, porcentaje_cumplimiento, id_tipo, id_linea, duracion, tiempo_total_ejecucion, id_facultad, tipo_participacion_id, estado, titulo, fecha_inicio, fecha_final, valor_financiado, institucion, resultados_esperados, representante_facultad, documento_proyecto, n_contrato));
+		map.put("proyecto", this.dao.createProyecto(costoTotal, id_tipo, id_linea, tiempo_ejecucion,
+				tipo_participacion_id,titulo, fecha_inicio, fecha_final, resultados_esperados,
+				n_contrato, resumen, objetivoGeneral));
 		return map;
 	}
 	
