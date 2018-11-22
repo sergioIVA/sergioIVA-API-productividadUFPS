@@ -12,70 +12,81 @@ import util.ExcepcionProductividad;
 public class ProyectoDao {
 
 	final Conexion con = new Conexion();
-	
+
 	public ProyectoDao() {
-		
+
 	}
-	
-	public Proyecto createProyecto(int costoTotal, int id_tipo, int id_linea,String tiempo_ejecucion, int
-			tipo_participacion_id, String titulo,String fecha_inicio, String fecha_final,String 
-			resultados_esperados, String n_contrato,String resumen,String objetivoGeneral,int tipoSession,int idGrupoSemillero) throws Exception {
-		
+
+	public Proyecto createProyecto(int costoTotal, int id_tipo, int id_linea, String tiempo_ejecucion,String titulo, String fecha_inicio, String fecha_final,
+			String resultados_esperados, String n_contrato, String resumen, String objetivoGeneral, int tipoSession,
+			int idGrupoSemillero) throws Exception {
+
 		Proyecto proyecto = null;
 		int id = -1;
 		try {
 			Connection reg = con.conectar("");
 			String sql = "insert into proyecto(id, titulo, fecha_inicio, fecha_final,costoTotal,"
-					+ "id_tipo, id_linea,tiempo_ejecucion,resultados_esperados,tipo_participacion_id,n_contrato,resumen,"
-					+ "objetivo_general"
-					+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
-			PreparedStatement stmt = reg.prepareStatement(sql);
-			stmt.setInt(1, 0);
-			stmt.setString(2, titulo);
-			stmt.setString(3, fecha_inicio);
-			stmt.setString(4, fecha_final);
-			stmt.setInt(5, costoTotal);
-			stmt.setInt(6, id_tipo);
-			stmt.setInt(7, id_linea);
-			stmt.setString(8, tiempo_ejecucion);
-			stmt.setString(9, resultados_esperados);
-			stmt.setInt(10,tipo_participacion_id);
-			stmt.setString(11, n_contrato);
-			stmt.setString(12, resumen);
-			stmt.setString(13,objetivoGeneral);
+					+ "id_tipo,id_linea,tiempo_ejecucion,resultados_esperados,n_contrato,resumen,"
+					+ "objetivo_general)" + "values(?,?,?,?,?,?,?,?,?,?,?,?)";
 			
-			
-			if(stmt.executeUpdate() > 0) {
-				ResultSet keys = stmt.getGeneratedKeys();
-				if(keys.next())
-					id = keys.getInt(1);
-				
-				proyecto = new Proyecto(costoTotal,  id_tipo,  id_linea, tiempo_ejecucion, 
-						tipo_participacion_id,  titulo, fecha_inicio,  fecha_final, 
-						resultados_esperados,  n_contrato, resumen, objetivoGeneral,1); 
+			PreparedStatement pst;
+			String generatedColumns[] = { "id" };
+			pst= reg.prepareStatement(sql, generatedColumns);
+			pst.setInt(1, 0);
+			pst.setString(2, titulo);
+			pst.setString(3, fecha_inicio);
+			pst.setString(4, fecha_final);
+			pst.setInt(5, costoTotal);
+			pst.setInt(6, id_tipo);
+			pst.setInt(7, id_linea);
+			pst.setString(8, tiempo_ejecucion);
+			pst.setString(9, resultados_esperados);
+			pst.setString(10, n_contrato);
+			pst.setString(11, resumen);
+			pst.setString(12, objetivoGeneral);
+
+			pst.executeUpdate();
+
+
+			ResultSet generatedKeys = pst.getGeneratedKeys();
+			if (generatedKeys.next()) {
+				id = generatedKeys.getInt(1);
 			}
-		} catch(Exception e) {
+
+			
+			System.out.println(id);
+
+			if (tipoSession == 1) {
+				sql = "insert into proyecto_grupo(id_proyecto,id_grupo) values(?,?)";
+			} else {
+				sql = "insert into proyecto_semillero(id_proyecto,id_semillero) values(?,?)";
+			}
+			
+			System.out.println("valor id"+id);
+
+			pst = reg.prepareStatement(sql);
+			pst.setInt(1, id);
+			pst.setInt(2, idGrupoSemillero);
+			pst.executeUpdate();
+
+			proyecto = new Proyecto(id, costoTotal, id_tipo, id_linea, tiempo_ejecucion, titulo,
+					fecha_inicio, fecha_final, resultados_esperados, n_contrato, resumen, objetivoGeneral, 1);
+
+		} catch (Exception e) {
 			throw new ExcepcionProductividad("Error del servidor: " + e);
-		}
-		finally {
+		} finally {
 			con.cerrarConexion();
 		}
 		return proyecto;
-		
+
 	}
-	
+
 	public Proyecto updateProyecto(int id, Proyecto p) throws Exception {
-		
+
 		try {
 			Connection reg = con.conectar("");
-			String sql = "update proyecto set "
-					+ "titulo = ?, "
-					+ "costoTotal = ?, "
-					+ "porcentaje_cumplimiento = ?, "
-					+ "resultados_esperados = ?, "
-					+ "documneto_proyecto = ?, "
-					+ "estado = ? "
-					+ "where id = ?";
+			String sql = "update proyecto set " + "titulo = ?, " + "costoTotal = ?, " + "porcentaje_cumplimiento = ?, "
+					+ "resultados_esperados = ?, " + "documneto_proyecto = ?, " + "estado = ? " + "where id = ?";
 			PreparedStatement stmt = reg.prepareStatement(sql);
 			stmt.setString(1, p.getTitulo());
 			stmt.setInt(2, p.getCostoTotal());
@@ -84,45 +95,43 @@ public class ProyectoDao {
 			stmt.setString(5, p.getDocumento_proyecto());
 			stmt.setInt(6, p.getEstado());
 			stmt.setInt(7, id);
-			
-			if(stmt.executeUpdate() > 0)
+
+			if (stmt.executeUpdate() > 0)
 				return p;
-		} catch(Exception e) {
+		} catch (Exception e) {
 			throw new ExcepcionProductividad("Error del servidor: " + e);
-		}
-		finally {
+		} finally {
 			con.cerrarConexion();
 		}
-		
+
 		return null;
 	}
-	
+
 	public boolean deleteProyecto(int id) throws Exception {
-		
+
 		int value = -1;
 		try {
 			Connection reg = con.conectar("");
 			String sql = "delete from proyecto where id = ?";
 			PreparedStatement stmt = reg.prepareStatement(sql);
 			stmt.setInt(1, id);
-			
+
 			value = stmt.executeUpdate();
-		} catch(Exception e) {
+		} catch (Exception e) {
 			throw new ExcepcionProductividad("Error del servidor: " + e);
-		}
-		finally {
+		} finally {
 			con.cerrarConexion();
 		}
-		
+
 		return value > 0;
 	}
-	
+
 	public Object getProyectos() throws Exception {
-		
+
 		LinkedHashMap<String, Object> proyectos = new LinkedHashMap<String, Object>();
 		LinkedHashMap<String, Object> tipo = new LinkedHashMap<String, Object>();
 		LinkedHashMap<String, Object> linea = new LinkedHashMap<String, Object>();
-		
+
 		try {
 			Connection reg = con.conectar("");
 			String sql = "select p.*, tp.nombre tipoproyecto, li.nombre linea, li.lider_linea liderlinea from proyecto p "
@@ -130,7 +139,7 @@ public class ProyectoDao {
 					+ "inner join linea_investigacion li on p.id_linea = li.id";
 			PreparedStatement stmt = reg.prepareStatement(sql);
 			ResultSet rs = stmt.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 				proyectos.put("id", rs.getInt("id"));
 				proyectos.put("titulo", rs.getString("titulo"));
 				proyectos.put("fecha-inicio", rs.getString("fecha_inicio"));
@@ -138,18 +147,18 @@ public class ProyectoDao {
 				proyectos.put("costoTotal", rs.getInt("costoTotal"));
 				proyectos.put("porcentaje-cumplimiento", rs.getInt("porcentaje_cumplimiento"));
 				proyectos.put("valor-financiado", rs.getString("valor_financiado"));
-				
+
 				tipo.put("id", rs.getInt("id_tipo"));
 				tipo.put("nombre", rs.getString("tipoproyecto"));
-				
+
 				proyectos.put("tipo", tipo);
-				
+
 				linea.put("id", rs.getInt("id_linea"));
 				linea.put("nombre", rs.getString("linea"));
 				linea.put("lider", rs.getString("liderlinea"));
-				
+
 				proyectos.put("linea", linea);
-				
+
 				proyectos.put("duracion", rs.getInt("duracion"));
 				proyectos.put("tiempo-total-ejecucion", rs.getInt("tiempo_total_ejecucion"));
 				proyectos.put("resultados-esperados", rs.getString("resultados_esperados"));
@@ -160,33 +169,31 @@ public class ProyectoDao {
 				proyectos.put("estado", rs.getInt("estado"));
 				proyectos.put("n_contrato", rs.getString("n_contrato"));
 			}
-		} catch(Exception e) {
+		} catch (Exception e) {
 			throw new ExcepcionProductividad("Error del servidor: " + e);
-		}
-		finally {
+		} finally {
 			con.cerrarConexion();
 		}
-		
+
 		return proyectos;
 	}
-	
+
 	public Object getProyectosGrupo(int id_grupo) throws Exception {
-		
+
 		LinkedHashMap<String, Object> proyectos = new LinkedHashMap<String, Object>();
 		LinkedHashMap<String, Object> tipo = new LinkedHashMap<String, Object>();
 		LinkedHashMap<String, Object> linea = new LinkedHashMap<String, Object>();
-		
+
 		try {
 			Connection reg = con.conectar("");
 			String sql = "select p.*, tp.nombre tipoproyecto, li.nombre linea, li.lider_linea liderlinea "
 					+ "from proyecto_grupo pg inner join proyecto p on pg.id_proyecto = p.id "
 					+ "inner join tipo_proyecto tp on p.id_tipo = tp.id "
-					+ "inner join linea_investigacion li on p.id_linea = li.id "
-					+ "where pg.id_grupo = ?";
+					+ "inner join linea_investigacion li on p.id_linea = li.id " + "where pg.id_grupo = ?";
 			PreparedStatement stmt = reg.prepareStatement(sql);
 			stmt.setInt(1, id_grupo);
 			ResultSet rs = stmt.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 				proyectos.put("id", rs.getInt("id"));
 				proyectos.put("titulo", rs.getString("titulo"));
 				proyectos.put("fecha-inicio", rs.getString("fecha_inicio"));
@@ -194,18 +201,18 @@ public class ProyectoDao {
 				proyectos.put("costoTotal", rs.getInt("costoTotal"));
 				proyectos.put("porcentaje-cumplimiento", rs.getInt("porcentaje_cumplimiento"));
 				proyectos.put("valor-financiado", rs.getString("valor_financiado"));
-				
+
 				tipo.put("id", rs.getInt("id_tipo"));
 				tipo.put("nombre", rs.getString("tipoproyecto"));
-				
+
 				proyectos.put("tipo", tipo);
-				
+
 				linea.put("id", rs.getInt("id_linea"));
 				linea.put("nombre", rs.getString("linea"));
 				linea.put("lider", rs.getString("liderlinea"));
-				
+
 				proyectos.put("linea", linea);
-				
+
 				proyectos.put("duracion", rs.getInt("duracion"));
 				proyectos.put("tiempo-total-ejecucion", rs.getInt("tiempo_total_ejecucion"));
 				proyectos.put("resultados-esperados", rs.getString("resultados_esperados"));
@@ -216,32 +223,30 @@ public class ProyectoDao {
 				proyectos.put("estado", rs.getInt("estado"));
 				proyectos.put("n_contrato", rs.getString("n_contrato"));
 			}
-		} catch(Exception e) {
+		} catch (Exception e) {
 			throw new ExcepcionProductividad("Error del servidor: " + e);
-		}
-		finally {
+		} finally {
 			con.cerrarConexion();
 		}
-		
+
 		return proyectos;
 	}
-	
+
 	public Object getSpecificProyecto(int id) throws Exception {
-		
+
 		LinkedHashMap<String, Object> proyectos = new LinkedHashMap<String, Object>();
 		LinkedHashMap<String, Object> tipo = new LinkedHashMap<String, Object>();
 		LinkedHashMap<String, Object> linea = new LinkedHashMap<String, Object>();
-		
+
 		try {
 			Connection reg = con.conectar("");
 			String sql = "select p.*, tp.nombre tipoproyecto, li.nombre linea, li.lider_linea liderlinea from proyecto p "
 					+ "inner join tipo_proyecto tp on p.id_tipo = tp.id "
-					+ "inner join linea_investigacion li on p.id_linea = li.id "
-					+ "where p.id = ?";
+					+ "inner join linea_investigacion li on p.id_linea = li.id " + "where p.id = ?";
 			PreparedStatement stmt = reg.prepareStatement(sql);
 			stmt.setInt(1, id);
 			ResultSet rs = stmt.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 				proyectos.put("id", rs.getInt("id"));
 				proyectos.put("titulo", rs.getString("titulo"));
 				proyectos.put("fecha-inicio", rs.getString("fecha_inicio"));
@@ -249,18 +254,18 @@ public class ProyectoDao {
 				proyectos.put("costoTotal", rs.getInt("costoTotal"));
 				proyectos.put("porcentaje-cumplimiento", rs.getInt("porcentaje_cumplimiento"));
 				proyectos.put("valor-financiado", rs.getString("valor_financiado"));
-				
+
 				tipo.put("id", rs.getInt("id_tipo"));
 				tipo.put("nombre", rs.getString("tipoproyecto"));
-				
+
 				proyectos.put("tipo", tipo);
-				
+
 				linea.put("id", rs.getInt("id_linea"));
 				linea.put("nombre", rs.getString("linea"));
 				linea.put("lider", rs.getString("liderlinea"));
-				
+
 				proyectos.put("linea", linea);
-				
+
 				proyectos.put("duracion", rs.getInt("duracion"));
 				proyectos.put("tiempo-total-ejecucion", rs.getInt("tiempo_total_ejecucion"));
 				proyectos.put("resultados-esperados", rs.getString("resultados_esperados"));
@@ -271,13 +276,12 @@ public class ProyectoDao {
 				proyectos.put("estado", rs.getInt("estado"));
 				proyectos.put("n_contrato", rs.getString("n_contrato"));
 			}
-		} catch(Exception e) {
+		} catch (Exception e) {
 			throw new ExcepcionProductividad("Error del servidor: " + e);
-		}
-		finally {
+		} finally {
 			con.cerrarConexion();
 		}
-		
+
 		return proyectos;
 	}
 }

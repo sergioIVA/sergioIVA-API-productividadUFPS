@@ -11,13 +11,12 @@ public class ProyectoService {
 	
 	public ProyectoService() {}
 	
-	public Object  createProyecto(int costoTotal, int id_tipo, int id_linea,String tiempo_ejecucion, int
-			tipo_participacion_id, String titulo,String fecha_inicio, String fecha_final,String 
+	public Object  createProyecto(int costoTotal, int id_tipo, int id_linea,String tiempo_ejecucion,String titulo,String fecha_inicio, String fecha_final,String 
 			resultados_esperados, String n_contrato,String resumen,String objetivoGeneral,int tipoSession,int idGrupoSemillero) throws Exception {
 		
 		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
 		map.put("proyecto", this.dao.createProyecto(costoTotal, id_tipo, id_linea, tiempo_ejecucion,
-				tipo_participacion_id,titulo, fecha_inicio, fecha_final, resultados_esperados,
+				titulo, fecha_inicio, fecha_final, resultados_esperados,
 				n_contrato, resumen, objetivoGeneral,tipoSession,idGrupoSemillero));
 		return map;
 	}

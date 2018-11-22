@@ -26,10 +26,11 @@ public class Proyecto {
 	}
 
 	
-	public Proyecto(int costoTotal, int id_tipo, int id_linea,String tiempo_ejecucion, int
-	tipo_participacion_id, String titulo,String fecha_inicio, String fecha_final,String 
+	public Proyecto(int id,int costoTotal, int id_tipo, int id_linea,String tiempo_ejecucion,
+			String titulo,String fecha_inicio, String fecha_final,String 
 	resultados_esperados, String n_contrato,String resumen,String objetivoGeneral,int estado) {
 		
+		 this.id=id;
 		 this.n_contrato=n_contrato;
 		 this.titulo=titulo;
 		 this.fecha_inicio=fecha_inicio;
@@ -39,7 +40,6 @@ public class Proyecto {
 		 this.resumen=resumen;
 		 this.objetivo_general=objetivoGeneral;
 		 this.resultados_esperados=resultados_esperados;
-		 this.tipo_participacion=tipo_participacion_id;
 		 this.estado=estado;
 		 this.id_tipo=id_tipo;
 		 this.id_linea=id_linea;

@@ -10,13 +10,17 @@ import model.Proyecto;
 
 public class ProyectoController {
 
-	static final ProyectoService service = new ProyectoService();
+	 final ProyectoService service = new ProyectoService();
 	
 	public ProyectoController() {}
 	
 	public Object createProyecto(Request req, Response res) {
+		
+		
 		res.type("application/json");
-		int costoTotal = Integer.parseInt(req.queryParams("costoTotal"));
+		
+		
+		int costo = Integer.parseInt(req.queryParams("costo"));
 		int id_tipo = Integer.parseInt(req.queryParams("id_tipo"));
 		int id_linea = Integer.parseInt(req.queryParams("id_linea"));
 		String tiempo_total_ejecucion = req.queryParams("tiempo_ejecucion");
@@ -26,23 +30,27 @@ public class ProyectoController {
 		String resultados_esperados = req.queryParams("resultados_esperados");
 		String n_contrato = req.queryParams("n_contrato");
 		String resumen = req.queryParams("resumen");
-		String objetivo_general = req.queryParams("objetivo_general");
-		int tipo_participacion_id = Integer.parseInt(req.queryParams("tipo_participacion_id"));
+		String objetivo_general = req.queryParams("objetivo_general");		              
 		int tipo_sesion = Integer.parseInt(req.queryParams("tipoSession"));
 		int id_grupo = Integer.parseInt(req.queryParams("idGrupoSemillero"));
 		
-		System.out.println(req.body());
 		
+	
+		   
 		Object obj = null;
 		try {
-			obj = service.createProyecto(costoTotal, id_tipo, id_linea, tiempo_total_ejecucion, tipo_participacion_id, 
-					titulo,fecha_inicio, fecha_final, resultados_esperados, n_contrato, resumen, objetivo_general, tipo_sesion, id_grupo);
+			
+			obj = service.createProyecto(costo, id_tipo, id_linea, tiempo_total_ejecucion, 
+					titulo,fecha_inicio, fecha_final, resultados_esperados, n_contrato, resumen, 
+					objetivo_general, tipo_sesion, id_grupo);
+				
 			res.status(201);
 		} catch(Exception e) {
 			res.status(500);
 			return e.toString();
 		}
 		return obj;
+	
 	}
 	
 	public Object getProyectos(Request req, Response res) {
