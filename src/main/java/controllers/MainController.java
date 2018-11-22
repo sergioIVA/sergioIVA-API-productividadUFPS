@@ -43,6 +43,7 @@ public class MainController {
 	final SemilleroController semilleroController = new SemilleroController();
 	final ObjetivoController objetivoController = new ObjetivoController();
 	final ProyectoController proyectoController = new ProyectoController();
+	final LineaInvestigacionController lineaInvestigacionController = new LineaInvestigacionController();
 
 	public MainController() {
 
@@ -278,6 +279,14 @@ public class MainController {
 			//30. Objetivo
 			post("/objetivoEspecifico",(req,res)->{return this.objetivoController.createObjetivoEspecifico(req, res);}, new JsonTransformer());
 			
+			//Lineas de Investigacion
+			get("/lineas_investigacion",(req,res)->{return lineaInvestigacionController.getLineasInvestigacion(req, res);}, new JsonTransformer());
+			get("/lineas_investigacion/:id",(req,res)->{return lineaInvestigacionController.getLineaInvestigacion(req, res);}, new JsonTransformer());
+			get("/lineas_grupo/:id",(req,res)->{return lineaInvestigacionController.getLineasGrupo(req, res);}, new JsonTransformer());
+			get("/lineas_semillero/:id", (req,res)->{return lineaInvestigacionController.getLineasSemillero(req, res);}, new JsonTransformer());
+			post("/lineas_investigacion",(req,res)->{return lineaInvestigacionController.createLinea(req, res);}, new JsonTransformer());
+			post("/lineas_grupo",(req,res)->{return lineaInvestigacionController.asociarLineaGrupo(req, res);}, new JsonTransformer());
+			post("/lineas_semillero",(req,res)->{return lineaInvestigacionController.asociarLineaSemillero(req, res);}, new JsonTransformer());
 			
 			//lo de aca son ejemplos no mas!
 			
