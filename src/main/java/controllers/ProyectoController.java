@@ -28,13 +28,15 @@ public class ProyectoController {
 		String resumen = req.queryParams("resumen");
 		String objetivo_general = req.queryParams("objetivo_general");
 		int tipo_participacion_id = Integer.parseInt(req.queryParams("tipo_participacion_id"));
+		int tipo_sesion = Integer.parseInt(req.queryParams("tipoSession"));
+		int id_grupo = Integer.parseInt(req.queryParams("idGrupoSemillero"));
 		
 		System.out.println(req.body());
 		
 		Object obj = null;
 		try {
 			obj = service.createProyecto(costoTotal, id_tipo, id_linea, tiempo_total_ejecucion, tipo_participacion_id, 
-					titulo,fecha_inicio, fecha_final, resultados_esperados, n_contrato, resumen, objetivo_general);
+					titulo,fecha_inicio, fecha_final, resultados_esperados, n_contrato, resumen, objetivo_general, tipo_sesion, id_grupo);
 			res.status(201);
 		} catch(Exception e) {
 			res.status(500);
