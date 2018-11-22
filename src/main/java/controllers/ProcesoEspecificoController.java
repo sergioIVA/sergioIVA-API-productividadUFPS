@@ -115,9 +115,9 @@ public class ProcesoEspecificoController {
 
 		try {
 			res.status(200);// 200 OK
-			///return this.procesoEspecificoService.getProyectoResponsable();
 			
-			return null;
+			return this.procesoEspecificoService.getProyectoResponsable();
+
 			
 		} catch (Exception e) {
 
@@ -129,7 +129,7 @@ public class ProcesoEspecificoController {
 	
 	public Object getLineasGrupoTipoProyectoGrupo(Request req, Response res) {
 		res.type("application/json");
-		String cad = req.params(":idGrupo");
+		String cad = req.params(":idGrupoSemillero");
 
 		if (cad == null) {
 			res.status(400);// 400 BAD REQUEST

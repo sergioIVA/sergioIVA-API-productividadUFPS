@@ -68,4 +68,8 @@ public class ProcesoEspecificoService {
 		     return this.procesoEspecificoDao.getLineasGrupoTipoProyectoGrupo(tipoSession, idGruSemillero);
 	}
 	
+	public Object getProyectoResponsable()throws Exception {
+		     return this.procesoEspecificoDao.getProyectoResponsable();
+	}
+	
 }
