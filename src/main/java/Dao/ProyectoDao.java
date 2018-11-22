@@ -19,43 +19,40 @@ public class ProyectoDao {
 	
 	public Proyecto createProyecto(int costoTotal, int id_tipo, int id_linea,String tiempo_ejecucion, int
 			tipo_participacion_id, String titulo,String fecha_inicio, String fecha_final,String 
-			resultados_esperados, String n_contrato,String resumen,String objetivoGeneral) throws Exception {
-		/**
+			resultados_esperados, String n_contrato,String resumen,String objetivoGeneral,int tipoSession) throws Exception {
+		
 		Proyecto proyecto = null;
 		int id = -1;
 		try {
 			Connection reg = con.conectar("");
-			String sql = "insert into proyecto(id, titulo, fecha_inicio, fecha_final, costoTotal, porcentaje_cumplimiento, "
-					+ "valor_financiado, id_tipo, id_linea, duracion, institucion, tiempo_total_ejecucion, resultados_esperados, "
-					+ "id_facultad, representante_facultad, documneto_proyecto, tipo_participacion_id, estado, n_contrato "
-					+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			String sql = "insert into proyecto(id, titulo, fecha_inicio, fecha_final,costoTotal,"
+					+ "id_tipo, id_linea,tiempo_ejecucion,resultados_esperados,tipo_participacion_id,n_contrato,resumen,"
+					+ "objetivo_general"
+					+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			PreparedStatement stmt = reg.prepareStatement(sql);
 			stmt.setInt(1, 0);
 			stmt.setString(2, titulo);
 			stmt.setString(3, fecha_inicio);
 			stmt.setString(4, fecha_final);
 			stmt.setInt(5, costoTotal);
-			stmt.setInt(6, porcentaje_cumplimiento);
-			stmt.setString(7, valor_financiado);
-			stmt.setInt(8, id_tipo);
-			stmt.setInt(9, id_linea);
-			stmt.setInt(10, duracion);
-			stmt.setString(11, institucion);
-			stmt.setInt(12, tiempo_total_ejecucion);
-			stmt.setString(13, resultados_esperados);
-			stmt.setInt(14, id_facultad);
-			stmt.setString(15, representante_facultad);
-			stmt.setString(16, documento_proyecto);
-			stmt.setInt(17, tipo_participacion_id);
-			stmt.setInt(18, estado);
-			stmt.setString(19, n_contrato);
+			stmt.setInt(6, id_tipo);
+			stmt.setInt(7, id_linea);
+			stmt.setString(8, tiempo_ejecucion);
+			stmt.setString(9, resultados_esperados);
+			stmt.setInt(10,tipo_participacion_id);
+			stmt.setString(11, n_contrato);
+			stmt.setString(12, resumen);
+			stmt.setString(13,objetivoGeneral);
+			
 			
 			if(stmt.executeUpdate() > 0) {
 				ResultSet keys = stmt.getGeneratedKeys();
 				if(keys.next())
 					id = keys.getInt(1);
 				
-				proyecto = new Proyecto(id, costoTotal, porcentaje_cumplimiento, id_tipo, id_linea, duracion, tiempo_total_ejecucion, id_facultad, tipo_participacion_id, estado, titulo, fecha_inicio, fecha_final, valor_financiado, institucion, resultados_esperados, representante_facultad, documento_proyecto, n_contrato);
+				proyecto = new Proyecto(costoTotal,  id_tipo,  id_linea, tiempo_ejecucion, 
+						tipo_participacion_id,  titulo, fecha_inicio,  fecha_final, 
+						resultados_esperados,  n_contrato, resumen, objetivoGeneral,1); 
 			}
 		} catch(Exception e) {
 			throw new ExcepcionProductividad("Error del servidor: " + e);
@@ -64,6 +61,7 @@ public class ProyectoDao {
 			con.cerrarConexion();
 		}
 		return proyecto;
+		
 	}
 	
 	public Proyecto updateProyecto(int id, Proyecto p) throws Exception {
@@ -95,7 +93,7 @@ public class ProyectoDao {
 		finally {
 			con.cerrarConexion();
 		}
-		**/
+		
 		return null;
 	}
 	
