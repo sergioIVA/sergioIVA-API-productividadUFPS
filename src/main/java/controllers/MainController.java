@@ -44,7 +44,8 @@ public class MainController {
 	final ObjetivoController objetivoController = new ObjetivoController();
 	final ProyectoController proyectoController = new ProyectoController();
 	final LineaInvestigacionController lineaInvestigacionController = new LineaInvestigacionController();
-
+	final ProductoController productoController = new ProductoController();
+	
 	public MainController() {
 
 		// Definicion de los CORS
@@ -199,12 +200,12 @@ public class MainController {
 			
 			
 			//17.Productos
-			get("/producto",(req,res)->{return "acceso /producto get";});
-			get("/producto/:id",(req,res)->{return "acceso /producto get con id "+req.queryParams(":id");});
-			put("/producto/:id", (req, res) -> {return "acceso /producto put con id "+req.queryParams(":id");});
-			post("/producto",(req,res)->{return "acceso /producto post ";});
-			delete("/producto/:id", (req, res) -> {return "acceso /producto delete";});
-			
+			get("/productoEmp",(req,res)->{return this.productoController.getProductosEmp(req, res);}, new JsonTransformer());
+			get("/productoEmp/:id",(req,res)->{return this.productoController.getProductoEmp(req, res);}, new JsonTransformer());
+			get("/productoTec",(req,res)->{return this.productoController.getProductosTec(req, res);}, new JsonTransformer());
+			get("/productoTec/:id",(req,res)->{return this.productoController.getProductoTec(req, res);}, new JsonTransformer());
+			post("/productoEmp",(req,res)->{return this.productoController.createProductoEmpresarial(req, res);}, new JsonTransformer());
+			post("/productoTec",(req,res)->{return this.productoController.createProductoTecnologico(req, res);}, new JsonTransformer());
 			
 			//18.Planes de accion grupo
 			get("/planGrupo",(req,res)->{return this.planAccionGrupoController.getPlanes(req, res);}, new JsonTransformer());
