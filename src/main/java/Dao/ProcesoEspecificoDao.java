@@ -372,7 +372,7 @@ public class ProcesoEspecificoDao {
 			 
 			                                  }else {
 			sql ="select proyecto.id,proyecto.titulo,linea.nombre nombreLinea,proyecto.fecha_inicio,"+ 
-					"proyecto.fecha_final,proyecto.tiempo_ejecucion,proyecto.costoTotal from proyecto" + 
+					"proyecto.fecha_final,proyecto.tiempo_ejecucion,proyecto.costoTotal from proyecto " + 
 					"proyecto,proyecto_semillero proyectoSemillero,linea_investigacion linea where "
 					+ "proyectoSemillero.id_semillero=? and proyecto.id=proyectoSemillero.id_proyecto "
 					+ "and linea.id=proyecto.id_linea"; 
