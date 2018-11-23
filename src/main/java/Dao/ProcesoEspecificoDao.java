@@ -3,6 +3,7 @@ package Dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -340,74 +341,84 @@ public class ProcesoEspecificoDao {
 
 	}
 	
-	public Object getProyectoResponsable()throws Exception {
+	public Object getProyectoResponsable(int idGrupoSemillero,int tipoSession)throws Exception {
 		
 	
 
 		try {
 			Connection reg = con.conectar("");
-			String sql = "select proyecto.id,proyecto.titulo,persona.nombre,rol.nombre rol,linea.nombre nombreLinea,"
-					+ "proyecto.fecha_inicio,proyecto.fecha_final,proyecto.tiempo_ejecucion,proyecto.costoTotal"
-					+ " from proyecto proyecto,participante_proyecto participante,persona persona,"
-					+ "linea_investigacion linea,rol rol where proyecto.id=participante.id_proyecto and persona.id"
-					+ "=participante.id_participante and rol.id=participante.id_rol and linea.id=proyecto.id_linea";
-
-			PreparedStatement stmt = reg.prepareStatement(sql);
-
-			ResultSet rs = stmt.executeQuery();
-
-			String nombreAnterior = "";
-			boolean primeraVez=true;
-
-			LinkedHashMap<String, Object> proyectos = new LinkedHashMap<String, Object>();
-			List<LinkedHashMap> arrays = new LinkedList<LinkedHashMap>();
-			LinkedHashMap<String, Object> datosEspecificos =new LinkedHashMap<String, Object>();
-			List<String> roles = new LinkedList<String>();
 			
-			while (rs.next()) {
-				
-				String nombreActual = rs.getString("titulo");
-				
-				      if(!nombreAnterior.equals(nombreActual)) {
-				        	  
-				        	   if(!primeraVez) {
-				       datosEspecificos.put("responsable",roles); 
-				       arrays.add(datosEspecificos);
-				        	   }
-				//ingresando un nuevo grupo
-				datosEspecificos = new LinkedHashMap<String, Object>();
-				datosEspecificos.put("id", rs.getInt("id"));
-				datosEspecificos.put("titulo", rs.getString("titulo"));
-				datosEspecificos.put("linea", rs.getString("nombreLinea"));
-				datosEspecificos.put("fecha_inicio", rs.getString("fecha_inicio"));
-				datosEspecificos.put("fecha_final", rs.getString("fecha_final"));
-				datosEspecificos.put("tiempo_ejecucion", rs.getString("tiempo_ejecucion"));
-				datosEspecificos.put("costoTotal", rs.getString("costoTotal"));
-				
-				
-				roles=new LinkedList<String>();
-				 primeraVez=false;
-				           }
-				       //todas las veces       	   
-				       roles.add(rs.getString("nombre")+"("+rs.getString("rol")+")");
-				       nombreAnterior=nombreActual;
-				       
-				       if(rs.isLast()) {
-				    	
-							datosEspecificos.put("id", rs.getInt("id"));
-							datosEspecificos.put("titulo", rs.getString("titulo"));
-							datosEspecificos.put("linea", rs.getString("nombreLinea"));
-							datosEspecificos.put("fecha_inicio", rs.getString("fecha_inicio"));
-							datosEspecificos.put("fecha_final", rs.getString("fecha_final"));
-							datosEspecificos.put("tiempo_ejecucion", rs.getString("tiempo_ejecucion"));
-							datosEspecificos.put("costoTotal", rs.getString("costoTotal"));
-							datosEspecificos.put("responsable",roles); 
-							arrays.add(datosEspecificos);
-					      }
-				        
-			}
-			proyectos.put("proyecto",arrays);
-			return proyectos;
+			String sql="select persona.nombre,proyecto.id,rol.nombre rol from participante_proyecto "
+					+ "participantePro,persona persona,proyecto proyecto,rol rol where "
+					+ "persona.id=participantePro.id_participante and " + 
+					"proyecto.id=participantePro.id_proyecto and rol.id=participantePro.id_rol";
+			
+			PreparedStatement stmt = reg.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            
+            ArrayList<String> integranteProyecto=new ArrayList<String>(); 
+			
+                                  while(rs.next()) {
+                       integranteProyecto.add(rs.getString("id")+"-"+rs.getString("nombre")+" ("+rs.getString("rol")+")");                    	   
+                               }
+		
+			                                  if(tipoSession==1) {
+			                                	  
+			 sql ="select proyecto.id,proyecto.titulo,linea.nombre nombreLinea,proyecto.fecha_inicio,"
+						+"proyecto.fecha_final,proyecto.tiempo_ejecucion,proyecto.costoTotal from proyecto "+ 
+						"proyecto,proyecto_grupo proyecto_grupo,linea_investigacion linea"+
+						" where proyecto.id=proyecto_grupo.id_proyecto and "
+						+ "linea.id=proyecto.id_linea and proyecto_grupo.id_grupo=?"; 
+			 
+			                                  }else {
+			sql ="select proyecto.id,proyecto.titulo,linea.nombre nombreLinea,proyecto.fecha_inicio,"+ 
+					"proyecto.fecha_final,proyecto.tiempo_ejecucion,proyecto.costoTotal from proyecto" + 
+					"proyecto,proyecto_semillero proyectoSemillero,linea_investigacion linea where "
+					+ "proyectoSemillero.id_semillero=? and proyecto.id=proyectoSemillero.id_proyecto "
+					+ "and linea.id=proyecto.id_linea"; 
+					                           	  
+			                                  }
+			                                                         
+			   stmt = reg.prepareStatement(sql);
+			   stmt.setInt(1, idGrupoSemillero);
+               rs = stmt.executeQuery();
+               
+               LinkedHashMap<String, Object> general =new LinkedHashMap<String, Object>();
+               List<LinkedHashMap> arrays = new LinkedList<LinkedHashMap>();
+               LinkedHashMap<String, Object> datosEspecificos =new LinkedHashMap<String, Object>();
+               List<String> integrantes=new LinkedList<String>();
+               
+                                       while(rs.next()) {
+                                    	   
+                         datosEspecificos =new LinkedHashMap<String, Object>();           
+                         int id_proyecto=rs.getInt("id");          	   
+                         datosEspecificos.put("id", id_proyecto);
+                         datosEspecificos.put("titulo",rs.getString("titulo"));
+                         datosEspecificos.put("linea", rs.getString("nombreLinea"));
+                         datosEspecificos.put("fecha_inicio", rs.getString("fecha_inicio"));
+                         datosEspecificos.put("fecha_final", rs.getString("fecha_final"));
+                         datosEspecificos.put("tiempo_ejecucion", rs.getString("tiempo_ejecucion"));
+                         datosEspecificos.put("costoTotal", rs.getString("costoTotal"));
+                         
+                         
+                         int id=0;
+                         for(String integrante:integranteProyecto) {
+                        	 
+                        	 id=Integer.parseInt(integrante.split("-")[0]); 
+                        	      if(id==id_proyecto) { 	  
+                        	   integrantes.add(integrante.split("-")[1]);
+                        	      }
+                         }
+                         
+                        datosEspecificos.put("responsable",integrantes);
+                        arrays.add(datosEspecificos);
+                        integrantes=new LinkedList<String>();
+                                       }
+                                       
+                                       
+                    general.put("proyecto",arrays);                   
+              
+			return general;
 		} catch (Exception e) {
 			throw new ExcepcionProductividad("error del servidor" + e);
 		}

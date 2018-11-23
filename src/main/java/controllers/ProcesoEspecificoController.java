@@ -114,9 +114,13 @@ public class ProcesoEspecificoController {
 		res.type("application/json");
 
 		try {
+			
+		int idGrupoSemillero = Integer.parseInt(req.params(":idGrupoSemillero"));
+		int tipoSession=Integer.parseInt(req.params(":tipoSession"));
+			
 			res.status(200);// 200 OK
 			
-			return this.procesoEspecificoService.getProyectoResponsable();
+			return this.procesoEspecificoService.getProyectoResponsable(idGrupoSemillero,tipoSession);
 
 			
 		} catch (Exception e) {
