@@ -72,4 +72,9 @@ public class ProcesoEspecificoService {
 		     return this.procesoEspecificoDao.getProyectoResponsable(idGrupoSemillero,tipoSession);
 	}
 	
+	
+	
+	public Object getproyectosNuevosIntegrantes(int idGrupoSemillero,int tipoSession)throws Exception {
+		    return this.procesoEspecificoDao.getproyectosNuevosIntegrantes(idGrupoSemillero,tipoSession);
+	}
 }
