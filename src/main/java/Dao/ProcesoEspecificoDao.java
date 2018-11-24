@@ -592,7 +592,7 @@ public class ProcesoEspecificoDao {
 			} else {
 				sql = "SELECT distinct proyecto.id,proyecto.titulo,proyecto.estado FROM " + 
 						"proyecto_plan_semillero plan,proyecto proyecto " + 
-						"where plan.proyecto_id=proyecto.id and " + 
+						"where plan.id_proyecto=proyecto.id and " + 
 						"plan.id_semillero=? and proyecto.estado=0";
 			}
 			PreparedStatement stmt = reg.prepareStatement(sql);
