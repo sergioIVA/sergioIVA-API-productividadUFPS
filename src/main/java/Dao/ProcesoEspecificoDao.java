@@ -14,6 +14,8 @@ import model.JovenInvestigador;
 import model.LineaInvestigacion;
 import model.PlanAccionGrupo;
 import model.PlanAccionSemillero;
+import spark.Request;
+import spark.Response;
 import util.ExcepcionProductividad;
 
 public class ProcesoEspecificoDao {
@@ -536,6 +538,80 @@ public class ProcesoEspecificoDao {
 			con.cerrarConexion();
 		}
 
+	}
+	
+	public Object getProyectosActividadesNoterminadoPlanAccionGrupoSemillero(int idGrupoSemillero,int tipoSession)throws Exception {
+		
+
+		try {
+			Connection reg = con.conectar("");
+
+			// 1.consultar proyectos que no este terminado en los planes de accion de grupos y semilleros
+			LinkedHashMap<String, Object> general = new LinkedHashMap<String, Object>();
+
+			String sql = "";
+			if (tipoSession == 1) {
+				sql = "SELECT DISTINCT proyecto.id,proyecto.titulo,proyecto.estado FROM "+ 
+						"plan_accion_grupo_proyecto plan,proyecto proyecto where "
+						+ "plan.id_proyecto=proyecto.id and proyecto.estado=0 and plan.id_grupo=?";
+			} else {
+				sql = "SELECT distinct proyecto.id,proyecto.titulo,proyecto.estado FROM " + 
+						"proyecto_plan_semillero plan,proyecto proyecto " + 
+						"where plan.proyecto_id=proyecto.id and " + 
+						"plan.id_semillero=? and proyecto.estado=0";
+			}
+			PreparedStatement stmt = reg.prepareStatement(sql);
+			stmt.setInt(1, idGrupoSemillero);
+			ResultSet rs = stmt.executeQuery();
+
+			List<LinkedHashMap> arrays = new LinkedList<LinkedHashMap>();
+			LinkedHashMap<String, Object> datosEspecificos = new LinkedHashMap<String, Object>();
+			while (rs.next()) {
+				datosEspecificos.put("id", rs.getInt("id"));
+				datosEspecificos.put("titulo", rs.getString("titulo"));
+				datosEspecificos.put("estado", rs.getInt("estado"));
+				arrays.add(datosEspecificos);
+				datosEspecificos = new LinkedHashMap<String, Object>();
+			}
+
+			general.put("proyectosNoTerminado", arrays);
+
+			if (tipoSession == 1) {
+				sql = "SELECT distinct plan.id_actividad id,actividad.nombre,actividad.estado " + 
+						"FROM plan_accion_grupo_actividad plan,actividad_investigacion_grupo" + 
+						" actividad where plan.id_actividad=actividad.id and actividad.estado=0"
+						+ " and plan.id_grupo=?";
+			} else {
+				sql = "SELECT  distinct actividad.id,actividad.nombre,actividad.estado from " + 
+						"actividad_plan_semillero plan,actividad_investigacion_semillero "
+						+ "actividad where plan.id_actividad=actividad.id and plan.id_semillero=?"
+						+ " and actividad.estado=0;";
+			}
+
+			stmt = reg.prepareStatement(sql);
+			stmt.setInt(1, idGrupoSemillero);
+			rs = stmt.executeQuery();
+
+			List<LinkedHashMap> arrays2 = new LinkedList<LinkedHashMap>();
+			LinkedHashMap<String, Object> datosEspecificos2 = new LinkedHashMap<String, Object>();
+			while (rs.next()) {
+				datosEspecificos2.put("id",rs.getInt("id"));
+				datosEspecificos2.put("nombre", rs.getString("nombre"));
+				datosEspecificos2.put("estado",rs.getInt("estado"));
+				arrays2.add(datosEspecificos2);
+				datosEspecificos2 = new LinkedHashMap<String, Object>();
+			}
+
+			general.put("actividadesNoterminada", arrays2);
+
+			return general;
+		} catch (Exception e) {
+			throw new ExcepcionProductividad("error del servidor" + e);
+		}
+
+		finally {
+			con.cerrarConexion();
+		}
 	}
 
 }

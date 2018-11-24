@@ -205,4 +205,26 @@ public class ProcesoEspecificoController {
 		}
 
 	}
+	
+	public Object getProyectosActividadesNoterminadoPlanAccionGrupoSemillero(Request req, Response res) {
+		
+		res.type("application/json");
+		int idGrupoSemillero = Integer.parseInt(req.params(":idGrupoSemillero"));
+		int tipoSession = Integer.parseInt(req.params(":tipoSession"));
+		try {
+	  Object obj = this.procesoEspecificoService.getProyectosActividadesNoterminadoPlanAccionGrupoSemillero
+			  (idGrupoSemillero, tipoSession);
+			if (obj == null) {
+				res.status(400);// 400 BAD REQUEST
+				return "No encontrado";
+			}
+			res.status(200);// 200 OK
+			return obj;
+		} catch (Exception e) {
+			res.status(500);// 500 INTERNAL SERVER ERROR
+			return e.toString();
+		}
+
+		
+	}
 }

@@ -15,6 +15,8 @@ import model.CategoriaGrupo;
 import model.Departamento;
 import model.Facultad;
 import model.Programa;
+import spark.Request;
+import spark.Response;
 
 public class ProcesoEspecificoService {
 
@@ -83,4 +85,10 @@ public class ProcesoEspecificoService {
 		    return this.procesoEspecificoDao.getcreatePlanGrupoSemillero(idGrupoSemillero, tipoSession, year, semestre);
 		     
 	}
+	
+	public Object getProyectosActividadesNoterminadoPlanAccionGrupoSemillero(int idGrupoSemillero,int tipoSession)throws Exception {
+		 return this.procesoEspecificoDao.getProyectosActividadesNoterminadoPlanAccionGrupoSemillero(idGrupoSemillero, tipoSession);
+	}
 }
+
+
