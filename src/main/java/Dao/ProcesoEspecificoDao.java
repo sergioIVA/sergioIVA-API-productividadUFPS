@@ -11,6 +11,9 @@ import java.util.List;
 import conexion.Conexion;
 import model.Departamento;
 import model.JovenInvestigador;
+import model.LineaInvestigacion;
+import model.PlanAccionGrupo;
+import model.PlanAccionSemillero;
 import util.ExcepcionProductividad;
 
 public class ProcesoEspecificoDao {
@@ -427,7 +430,7 @@ public class ProcesoEspecificoDao {
 
 	/// proyectosNuevosIntegrantes/:idGrupoSemillero/session/:tipoSession
 
-	public Object getproyectosNuevosIntegrantes(int idGrupoSemillero, int tipoSession)throws Exception  {
+	public Object getproyectosNuevosIntegrantes(int idGrupoSemillero, int tipoSession) throws Exception {
 
 		try {
 			Connection reg = con.conectar("");
@@ -461,20 +464,17 @@ public class ProcesoEspecificoDao {
 			general.put("proyectoNuevo", arrays);
 
 			if (tipoSession == 1) {
-				sql = "select persona.nombre from participante_grupo participanteGrupo," + 
-						"persona persona where " + 
-						"participanteGrupo.id_grupo=? and " + 
-						"participanteGrupo.id_participante=persona.id";
+				sql = "select persona.nombre from participante_grupo participanteGrupo," + "persona persona where "
+						+ "participanteGrupo.id_grupo=? and " + "participanteGrupo.id_participante=persona.id";
 			} else {
-				sql = "select persona.nombre from participante_semillero participanteSe," +
-						"persona persona where " + 
-						"participanteSe.id_semillero=? and participanteSe.id_participante=persona.id;";
+				sql = "select persona.nombre from participante_semillero participanteSe," + "persona persona where "
+						+ "participanteSe.id_semillero=? and participanteSe.id_participante=persona.id;";
 			}
-			
+
 			stmt = reg.prepareStatement(sql);
 			stmt.setInt(1, idGrupoSemillero);
 			rs = stmt.executeQuery();
-			
+
 			List<LinkedHashMap> arrays2 = new LinkedList<LinkedHashMap>();
 			LinkedHashMap<String, Object> datosEspecificos2 = new LinkedHashMap<String, Object>();
 			while (rs.next()) {
@@ -484,7 +484,6 @@ public class ProcesoEspecificoDao {
 			}
 
 			general.put("integrante", arrays2);
-		
 
 			return general;
 		} catch (Exception e) {
@@ -494,6 +493,49 @@ public class ProcesoEspecificoDao {
 		finally {
 			con.cerrarConexion();
 		}
+	}
+
+	public Object getcreatePlanGrupoSemillero(int idGrupoSemillero, int tipoSession, String year, String semestre)
+			throws Exception {
+
+		try {
+			Connection reg = con.conectar("");
+
+
+			String sql = "";
+			if (tipoSession == 1) {
+				sql = "insert into plan_accion_grupo(year,semestre,id_grupo) values (?,?,?)";
+			} else {
+				sql = "insert into plan_semillero(year,semestre,id_semillero) values (?,?,?)";
+			}
+			PreparedStatement stmt = reg.prepareStatement(sql);
+			stmt.setString(1, year);
+			stmt.setString(2, semestre);
+			stmt.setInt(3, idGrupoSemillero);
+
+		
+			List<LinkedHashMap> arrays = new LinkedList<LinkedHashMap>();
+			LinkedHashMap<String, Object> datosEspecificos = new LinkedHashMap<String, Object>();
+			
+			if(stmt.executeUpdate() > 0) {
+				
+				if (tipoSession == 1) {
+	             return new PlanAccionGrupo(year,semestre,idGrupoSemillero);     
+				} else {
+					return new PlanAccionSemillero(year,semestre,idGrupoSemillero);   
+				}	
+			}
+			
+			
+			return null;
+		} catch (Exception e) {
+			throw new ExcepcionProductividad("error del servidor" + e);
+		}
+
+		finally {
+			con.cerrarConexion();
+		}
+
 	}
 
 }

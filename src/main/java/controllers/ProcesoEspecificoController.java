@@ -182,4 +182,27 @@ public class ProcesoEspecificoController {
 
 	}
 	
+	public Object getcreatePlanGrupoSemillero(Request req, Response res) {
+		
+		res.type("application/json");
+		String cad = req.queryParams("idGrupoSemillero");
+		String  year=req.queryParams("year");
+		String  semestre=req.queryParams("semestre");
+		
+		int idGrupoSemillero = Integer.parseInt(cad);
+		int tipoSession = Integer.parseInt(req.queryParams("tipoSession"));
+		try {
+	Object obj = this.procesoEspecificoService.getcreatePlanGrupoSemillero(idGrupoSemillero, tipoSession, year, semestre);
+			if (obj == null) {
+				res.status(400);// 400 BAD REQUEST
+				return "No encontrado";
+			}
+			res.status(200);// 200 OK
+			return obj;
+		} catch (Exception e) {
+			res.status(500);// 500 INTERNAL SERVER ERROR
+			return e.toString();
+		}
+
+	}
 }

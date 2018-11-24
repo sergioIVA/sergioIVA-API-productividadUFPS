@@ -20,7 +20,7 @@ public class PlanAccionGrupoDao {
 	}
 	
 	public PlanAccionGrupo createPlan(int year, int semestre, int id_grupo) throws Exception{
-		
+		/**
 		PlanAccionGrupo plan = null;
 		try {
 			Connection reg = con.conectar("");
@@ -39,6 +39,8 @@ public class PlanAccionGrupoDao {
 			con.cerrarConexion();
 		}
 		return plan;
+		**/
+		return null;
 	}
 	
 	public ActividadPlanAccionGrupo createActividadPlan(int id_actividad, int year, int semestre, int id_grupo) throws Exception {

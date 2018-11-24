@@ -77,4 +77,10 @@ public class ProcesoEspecificoService {
 	public Object getproyectosNuevosIntegrantes(int idGrupoSemillero,int tipoSession)throws Exception {
 		    return this.procesoEspecificoDao.getproyectosNuevosIntegrantes(idGrupoSemillero,tipoSession);
 	}
+	
+	public Object getcreatePlanGrupoSemillero(int idGrupoSemillero,int tipoSession,String year,String  semestre)throws Exception {
+		
+		    return this.procesoEspecificoDao.getcreatePlanGrupoSemillero(idGrupoSemillero, tipoSession, year, semestre);
+		     
+	}
 }

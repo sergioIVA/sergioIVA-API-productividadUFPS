@@ -92,6 +92,7 @@ public class MainController {
 			get("/categoriaGrupo",(req,res)->{return this.categoriaGrupoController.getCategoriaGrupo(req, res);},new JsonTransformer());
 			
 			
+			// rutas especificas para las vistas
 			//panelPrincipal
 			get("/paginaPrincipal/:id",(req,res)->{return this.procesoEspecificoController.getPaginaPrincipal(req, res);},new JsonTransformer());
 			get("/grupoCategoriaDirector",(req,res)->{return this.procesoEspecificoController.getGrupoCategoriaDirector(req, res);},new JsonTransformer());
@@ -103,6 +104,7 @@ public class MainController {
 			get("/proyectosNuevosIntegrantes/:idGrupoSemillero/session/:tipoSession",(req,res)->{return this.procesoEspecificoController.getProyectoNuevosIntegrantes(req, res);},new JsonTransformer());
 			//semillero
 			post("/semillero",(req,res)->{return this.semilleroController.createSemillero(req, res);},new JsonTransformer());
+			post("/createPlanGrupoSemillero",(req,res)->{return this.procesoEspecificoController.getcreatePlanGrupoSemillero(req, res);},new JsonTransformer());
 			
 			
 			//5.Grupo
