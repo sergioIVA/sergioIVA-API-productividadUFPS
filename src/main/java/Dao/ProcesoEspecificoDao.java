@@ -442,11 +442,11 @@ public class ProcesoEspecificoDao {
 
 			String sql = "";
 			if (tipoSession == 1) {
-				sql = "select proyecto.id,proyecto.titulo from proyecto_grupo proyectoGrupo,proyecto"
+				sql = "select DISTINCT proyecto.id,proyecto.titulo from proyecto_grupo proyectoGrupo,proyecto"
 						+ " proyecto,plan_accion_grupo_proyecto plan where proyectoGrupo.id_proyecto=proyecto.id "
 						+ "and proyectoGrupo.id_proyecto != plan.id_proyecto and proyectoGrupo.id_grupo=?";
 			} else {
-				sql = "select proyecto.id,proyecto.titulo FROM proyecto_semillero proyectoSe,proyecto "
+				sql = "select DISTINCT proyecto.id,proyecto.titulo FROM proyecto_semillero proyectoSe,proyecto "
 						+ "proyecto,proyecto_plan_semillero plan where proyectoSe.id_proyecto=proyecto.id"
 						+ " and proyectoSe.id_proyecto!=plan.proyecto_id and proyectoSe.id_semillero=?";
 			}
@@ -466,10 +466,10 @@ public class ProcesoEspecificoDao {
 			general.put("proyectoNuevo", arrays);
 
 			if (tipoSession == 1) {
-				sql = "select persona.nombre from participante_grupo participanteGrupo," + "persona persona where "
+				sql = "select DISTINCT persona.id,persona.nombre from participante_grupo participanteGrupo," + "persona persona where "
 						+ "participanteGrupo.id_grupo=? and " + "participanteGrupo.id_participante=persona.id";
 			} else {
-				sql = "select persona.nombre from participante_semillero participanteSe," + "persona persona where "
+				sql = "select DISTINCT persona.id,persona.nombre from participante_semillero participanteSe," + "persona persona where "
 						+ "participanteSe.id_semillero=? and participanteSe.id_participante=persona.id;";
 			}
 
