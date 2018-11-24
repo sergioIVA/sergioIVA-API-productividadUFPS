@@ -585,7 +585,7 @@ public class ProcesoEspecificoDao {
 				sql = "SELECT  distinct actividad.id,actividad.nombre,actividad.estado from " + 
 						"actividad_plan_semillero plan,actividad_investigacion_semillero "
 						+ "actividad where plan.id_actividad=actividad.id and plan.id_semillero=?"
-						+ " and actividad.estado=0;";
+						+ " and actividad.estado=0";
 			}
 
 			stmt = reg.prepareStatement(sql);
