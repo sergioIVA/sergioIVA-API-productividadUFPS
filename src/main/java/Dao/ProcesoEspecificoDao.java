@@ -442,13 +442,17 @@ public class ProcesoEspecificoDao {
 
 			String sql = "";
 			if (tipoSession == 1) {
-				sql = "select DISTINCT proyecto.id,proyecto.titulo from proyecto_grupo proyectoGrupo,proyecto"
-						+ " proyecto,plan_accion_grupo_proyecto plan where proyectoGrupo.id_proyecto=proyecto.id "
-						+ "and proyectoGrupo.id_proyecto != plan.id_proyecto and proyectoGrupo.id_grupo=?";
+				sql = "select DISTINCT proyecto.id,proyecto.titulo from proyecto_grupo " + 
+						"proyectoGrupo,proyecto proyecto,plan_accion_grupo_proyecto plan where " + 
+						"proyectoGrupo.id_proyecto=proyecto.id " + 
+						"and proyectoGrupo.id_grupo=? and proyectoGrupo.id_proyecto  "
+						+ "NOT IN (select DISTINCT id_proyecto from plan_accion_grupo_proyecto)";
 			} else {
-				sql = "select DISTINCT proyecto.id,proyecto.titulo FROM proyecto_semillero proyectoSe,proyecto "
-						+ "proyecto,proyecto_plan_semillero plan where proyectoSe.id_proyecto=proyecto.id"
-						+ " and proyectoSe.id_proyecto!=plan.proyecto_id and proyectoSe.id_semillero=?";
+				sql = "select DISTINCT proyecto.id,proyecto.titulo from proyecto_semillero " +
+						"proyectoSemillero,proyecto proyecto,proyecto_plan_semillero plan where" + 
+						" proyectoSemillero.id_proyecto=proyecto.id and proyectoSemillero.id_semillero=? and " + 
+						"proyectoSemillero.id_proyecto  NOT IN (select DISTINCT id_proyecto "
+						+ "from proyecto_plan_semillero)";
 			}
 			PreparedStatement stmt = reg.prepareStatement(sql);
 			stmt.setInt(1, idGrupoSemillero);
@@ -456,12 +460,43 @@ public class ProcesoEspecificoDao {
 
 			List<LinkedHashMap> arrays = new LinkedList<LinkedHashMap>();
 			LinkedHashMap<String, Object> datosEspecificos = new LinkedHashMap<String, Object>();
+			
+			boolean hayDatos=false;
 			while (rs.next()) {
+				
+				hayDatos=true; 
 				datosEspecificos.put("id", rs.getInt("id"));
 				datosEspecificos.put("titulo", rs.getString("titulo"));
 				arrays.add(datosEspecificos);
 				datosEspecificos = new LinkedHashMap<String, Object>();
 			}
+			
+			
+			 if(!hayDatos) {
+				 
+				 if (tipoSession == 1) {
+						sql = "select proyecto.id,proyecto.titulo from proyecto_grupo " + 
+								"proyectoGrupo,proyecto proyecto where proyectoGrupo.id_proyecto"
+								+ "=proyecto.id and proyectoGrupo.id_grupo=?;";
+					} else {
+						sql = "select proyecto.id,proyecto.titulo from proyecto_semillero proyectoSemillero"
+								+ ",proyecto proyecto where " + 
+								"proyectoSemillero.id_proyecto=proyecto.id and proyectoSemillero.id_semillero=?";
+					}
+				 
+				    stmt = reg.prepareStatement(sql);
+					stmt.setInt(1, idGrupoSemillero);
+					rs = stmt.executeQuery();
+					
+					while (rs.next()) {
+						datosEspecificos.put("id", rs.getInt("id"));
+						datosEspecificos.put("titulo", rs.getString("titulo"));
+						arrays.add(datosEspecificos);
+						datosEspecificos = new LinkedHashMap<String, Object>();
+					}
+				 
+			 }
+			
 
 			general.put("proyectoNuevo", arrays);
 
