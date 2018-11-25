@@ -107,6 +107,8 @@ public class MainController {
 			post("/createPlanGrupoSemillero",(req,res)->{return this.procesoEspecificoController.getcreatePlanGrupoSemillero(req, res);},new JsonTransformer());
 			get("/ProyectosActividadesNoterminadoPlanAccionGrupoSemillero/:idGrupoSemillero/session/:tipoSession",(req,res)->
 			{return this.procesoEspecificoController.getProyectosActividadesNoterminadoPlanAccionGrupoSemillero(req, res);},new JsonTransformer());
+			get("/eventoNoTerminadoPlanAccionGrupo/:idGrupo",(req,res)->{return this.procesoEspecificoController.eventoNoTerminadoPlanAccionGrupo(req, res);},new JsonTransformer());
+			get("/capacitacionNoTerminadoPlanAccionSemillero/:idSemillero",(req,res)->{ return this.procesoEspecificoController.getCapacitacionNoTerminadoPlanAccionSemillero(req, res);},new JsonTransformer());	
 			
 			//5.Grupo
 			get("/grupo",(req,res)->{return "acceso /grupo get";});

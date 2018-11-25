@@ -227,4 +227,49 @@ public class ProcesoEspecificoController {
 
 		
 	}
+	
+	public Object eventoNoTerminadoPlanAccionGrupo(Request req, Response res) {
+		
+		res.type("application/json");
+		int idGrupo= Integer.parseInt(req.params(":idGrupo"));
+		
+		try {
+	  Object obj = this.procesoEspecificoService.eventoNoTerminadoPlanAccionGrupo(idGrupo);
+			if (obj == null) {
+				res.status(400);// 400 BAD REQUEST
+				return "No encontrado";
+			}
+			res.status(200);// 200 OK
+			return obj;
+		} catch (Exception e) {
+			res.status(500);// 500 INTERNAL SERVER ERROR
+			return e.toString();
+		}
+
+		
+	}
+	
+public Object getCapacitacionNoTerminadoPlanAccionSemillero(Request req, Response res) {
+		
+		res.type("application/json");
+		int idSemillero= Integer.parseInt(req.params(":idSemillero"));
+		
+		try {
+	  Object obj = this.procesoEspecificoService.getCapacitacionNoTerminadoPlanAccionSemillero(idSemillero);
+			if (obj == null) {
+				res.status(400);// 400 BAD REQUEST
+				return "No encontrado";
+			}
+			res.status(200);// 200 OK
+			return obj;
+		} catch (Exception e) {
+			res.status(500);// 500 INTERNAL SERVER ERROR
+			return e.toString();
+		}
+
+		
+	}
+		
+			
 }
+

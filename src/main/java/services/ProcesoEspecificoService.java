@@ -89,6 +89,14 @@ public class ProcesoEspecificoService {
 	public Object getProyectosActividadesNoterminadoPlanAccionGrupoSemillero(int idGrupoSemillero,int tipoSession)throws Exception {
 		 return this.procesoEspecificoDao.getProyectosActividadesNoterminadoPlanAccionGrupoSemillero(idGrupoSemillero, tipoSession);
 	}
+	
+	public Object eventoNoTerminadoPlanAccionGrupo(int idGrupo)throws Exception {
+		return  this.procesoEspecificoDao.eventoNoTerminadoPlanAccionGrupo(idGrupo);
+	}
+	
+	public Object getCapacitacionNoTerminadoPlanAccionSemillero(int idSemillero)throws Exception {
+		return this.procesoEspecificoDao.getCapacitacionNoTerminadoPlanAccionSemillero(idSemillero);
+	}
 }
 
 

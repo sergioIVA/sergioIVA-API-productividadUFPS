@@ -595,6 +595,7 @@ public class ProcesoEspecificoDao {
 						"where plan.id_proyecto=proyecto.id and " + 
 						"plan.id_semillero=? and proyecto.estado=0";
 			}
+			
 			PreparedStatement stmt = reg.prepareStatement(sql);
 			stmt.setInt(1, idGrupoSemillero);
 			ResultSet rs = stmt.executeQuery();
@@ -647,6 +648,90 @@ public class ProcesoEspecificoDao {
 		finally {
 			con.cerrarConexion();
 		}
+	}
+	
+	public Object eventoNoTerminadoPlanAccionGrupo(int idGrupo)throws Exception {
+		
+
+		try {
+			Connection reg = con.conectar("");
+
+			// 1.consultar proyectos que no este terminado en los planes de accion de grupos y semilleros
+			LinkedHashMap<String, Object> general = new LinkedHashMap<String, Object>();
+
+			String sql = "";
+			
+				sql = "SELECT DISTINCT evento.id,evento.nombre,evento.estado FROM " + 
+						"evento_plan_accion_grupo plan,evento evento where " + 
+						"plan.id_evento=evento.id and evento.estado=0 and plan.id_grupo=?";
+			
+			PreparedStatement stmt = reg.prepareStatement(sql);
+			stmt.setInt(1, idGrupo);
+			ResultSet rs = stmt.executeQuery();
+
+			List<LinkedHashMap> arrays = new LinkedList<LinkedHashMap>();
+			LinkedHashMap<String, Object> datosEspecificos = new LinkedHashMap<String, Object>();
+			while (rs.next()) {
+				datosEspecificos.put("id", rs.getInt("id"));
+				datosEspecificos.put("nombre", rs.getString("nombre"));
+				datosEspecificos.put("estado", rs.getInt("estado"));
+				arrays.add(datosEspecificos);
+				datosEspecificos = new LinkedHashMap<String, Object>();
+			}
+
+			general.put("EventoNoTerminado", arrays);
+
+			return general;
+		} catch (Exception e) {
+			throw new ExcepcionProductividad("error del servidor" + e);
+		}
+
+		finally {
+			con.cerrarConexion();
+		}
+		
+	} 
+	
+	
+	public Object getCapacitacionNoTerminadoPlanAccionSemillero(int idSemillero)throws Exception {
+
+		try {
+			Connection reg = con.conectar("");
+
+	
+			LinkedHashMap<String, Object> general = new LinkedHashMap<String, Object>();
+
+			String sql = "";
+			
+				sql = "SELECT DISTINCT  capacita.id,capacita.nombre,capacita.estado FROM " + 
+						"plan_accion_capacitacion plan,capacitacion capacita where " + 
+						"plan.id_capacitacion=capacita.id and capacita.estado=0 and plan.id_semillero=?;";
+			
+			PreparedStatement stmt = reg.prepareStatement(sql);
+			stmt.setInt(1, idSemillero);
+			ResultSet rs = stmt.executeQuery();
+
+			List<LinkedHashMap> arrays = new LinkedList<LinkedHashMap>();
+			LinkedHashMap<String, Object> datosEspecificos = new LinkedHashMap<String, Object>();
+			while (rs.next()) {
+				datosEspecificos.put("id", rs.getInt("id"));
+				datosEspecificos.put("nombre", rs.getString("nombre"));
+				datosEspecificos.put("estado", rs.getInt("estado"));
+				arrays.add(datosEspecificos);
+				datosEspecificos = new LinkedHashMap<String, Object>();
+			}
+
+			general.put("EventoNoTerminado", arrays);
+
+			return general;
+		} catch (Exception e) {
+			throw new ExcepcionProductividad("error del servidor" + e);
+		}
+
+		finally {
+			con.cerrarConexion();
+		}
+		
 	}
 
 }
