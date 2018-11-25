@@ -267,7 +267,7 @@ public class ProcesoEspecificoController {
 	}
 
 	public Object CreateEventoGrupoAsignarPlanAccion(Request req, Response res) {
-		
+
 		res.type("application/json");
 
 		/// plan de accion
@@ -284,12 +284,9 @@ public class ProcesoEspecificoController {
 		String fecha_inicio = req.queryParams("fecha_inicio");
 		String fecha_final = req.queryParams("fecha_final");
 
-
-
 		try {
-			Object obj = this.procesoEspecificoService.CreateEventoGrupoAsignarPlanAccion(year,
-					semestre, idGrupo, nombre, caracterEvento, responsables, instituciones_promo, 
-					entidades, fecha_inicio, fecha_final);
+			Object obj = this.procesoEspecificoService.CreateEventoGrupoAsignarPlanAccion(year, semestre, idGrupo,
+					nombre, caracterEvento, responsables, instituciones_promo, entidades, fecha_inicio, fecha_final);
 			if (obj == null) {
 				res.status(400);
 				return "no se ha encontrado";
@@ -303,29 +300,26 @@ public class ProcesoEspecificoController {
 		}
 	}
 
-public Object createActividadGrupoSemilleroAsignarPlanAccion(Request req, Response res) {
-		
+	public Object createActividadGrupoSemilleroAsignarPlanAccion(Request req, Response res) {
+
 		res.type("application/json");
 
 		/// plan de accion
 		String year = req.queryParams("year");
 		String semestre = req.queryParams("semestre");
 		int idGrupoSemillero = Integer.parseInt(req.queryParams("idGrupoSemillero"));
-		int tipoSession=Integer.parseInt(req.queryParams("tipoSession"));
+		int tipoSession = Integer.parseInt(req.queryParams("tipoSession"));
 
-		/// 
+		///
 		String nombre = req.queryParams("nombre");
 		String responsables = req.queryParams("responsables");
 		String producto = req.queryParams("producto");
 		String fecha_inicio = req.queryParams("fecha_inicio");
 		String fecha_final = req.queryParams("fecha_final");
-	
-
 
 		try {
-			Object obj = this.procesoEspecificoService.createActividadGrupoSemilleroAsignarPlanAccion(
-					year, semestre, idGrupoSemillero, tipoSession, nombre, responsables, producto, 
-					fecha_inicio, fecha_final);
+			Object obj = this.procesoEspecificoService.createActividadGrupoSemilleroAsignarPlanAccion(year, semestre,
+					idGrupoSemillero, tipoSession, nombre, responsables, producto, fecha_inicio, fecha_final);
 			if (obj == null) {
 				res.status(400);
 				return "no se ha encontrado";
@@ -338,6 +332,41 @@ public Object createActividadGrupoSemilleroAsignarPlanAccion(Request req, Respon
 			return e.toString();
 		}
 	}
+
+	public Object capacitacionCrearSemilleroAsignarPlanAccion(Request req, Response res) {
+
+		res.type("application/json");
+
+		/// plan de accion
+		String year = req.queryParams("year");
+		String semestre = req.queryParams("semestre");
+		int idSemillero = Integer.parseInt(req.queryParams("idSemillero"));
 	
-	
+
+		///capacitacion
+		String nombre = req.queryParams("nombre");
+		String responsables = req.queryParams("responsables");
+		String objetivo = req.queryParams("objetivo");
+		int n_asistentes = Integer.parseInt(req.queryParams("n_asistentes"));
+		String fecha_ini = req.queryParams("fecha_ini");
+		String fecha_fin = req.queryParams("fecha_fin");
+		
+		
+
+		try {
+			Object obj = this.procesoEspecificoService.getCapacitacionCrearSemilleroAsignarPlanAccion(year, 
+					semestre, idSemillero, nombre, objetivo, responsables, n_asistentes, fecha_ini, fecha_fin);
+			if (obj == null) {
+				res.status(400);
+				return "no se ha encontrado";
+			}
+
+			res.status(200);
+			return obj;
+		} catch (Exception e) {
+			res.status(500);
+			return e.toString();
+		}
+	}
+
 }

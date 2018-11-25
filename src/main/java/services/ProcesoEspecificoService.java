@@ -112,6 +112,13 @@ public class ProcesoEspecificoService {
 				semestre, idGrupoSemillero, tipoSession, nombre, responsables, producto, fecha_inicio, fecha_final);
 	}
 	
+	public Object getCapacitacionCrearSemilleroAsignarPlanAccion(String year,String semestre,int idGrupo,
+			String nombre,String objetivo,String responsables,int n_asistentes,String fecha_ini,String fecha_fin)
+					throws Exception{
+		return this.procesoEspecificoDao.capacitacionCrearSemilleroAsignarPlanAccion(year, semestre,
+				idGrupo, nombre, objetivo, responsables, n_asistentes, fecha_ini, fecha_fin);
+	}
+	
 }
 
 

@@ -17,6 +17,7 @@ import model.LineaInvestigacion;
 import model.Objetivo;
 import model.PlanAccionGrupo;
 import model.PlanAccionSemillero;
+import model.Plan_accion_capacitacion;
 import model.Plan_accion_grupo_actividad;
 import spark.Request;
 import spark.Response;
@@ -236,7 +237,8 @@ public class ProcesoEspecificoDao {
 			String sql = "select persona.id id_docente,persona.nombre nombre_docente from grupo_investigacion grupo,"
 					+ "participante_grupo participante,persona persona,roles_sistema roles,tipo_rol tipoRol where"
 					+ " grupo.id=participante.id_grupo and persona.id=participante.id_participante and"
-					+ " tipoRol.id=? and roles.persona_id=persona.id and grupo.id=?";
+					+ " tipoRol.id=? and roles.persona_id=persona.id and grupo.id=? and persona.id "
+					+ "NOT IN  (select id_director from semillero)";
 
 			PreparedStatement stmt = reg.prepareStatement(sql);
 			stmt.setInt(1, 3);
@@ -863,6 +865,71 @@ public class ProcesoEspecificoDao {
 			con.cerrarConexion();
 		}
 
+	}
+	
+	public Object capacitacionCrearSemilleroAsignarPlanAccion(String year,String semestre,int idSemillero,
+			String nombre,String objetivo,String responsables,int n_asistentes,String fecha_ini,String fecha_fin)
+					throws Exception{
+		
+		Connection reg = null;
+		int id = -1;
+		try {
+
+			reg = con.conectar("");
+			String sql = "";
+
+			
+				sql = "INSERT INTO capacitacion(id,nombre,objetivo,responsables,n_asistentes,"
+						+ "fecha_ini,fecha_fin,estado) values (?,?,?,?,?,?,?,?)";
+		
+			
+			PreparedStatement pst;
+			String generatedColumns[] = { "id" };
+			pst = reg.prepareStatement(sql, generatedColumns);
+			pst.setInt(1, 0);
+			pst.setString(2, nombre);
+			pst.setString(3, objetivo);
+			pst.setString(4,responsables);
+			pst.setInt(5, n_asistentes);
+			pst.setString(6, fecha_ini);
+			pst.setString(7, fecha_fin);
+			pst.setInt(8,0);
+
+			pst.executeUpdate();
+
+			ResultSet generatedKeys = pst.getGeneratedKeys();
+			if (generatedKeys.next()) {
+				id = generatedKeys.getInt(1);
+			}
+
+			
+		   sql = "INSERT INTO plan_accion_capacitacion(id_capacitacion,year,semestre,id_semillero)" + 
+				 "values (?,?,?,?)";
+			
+
+
+			pst = reg.prepareStatement(sql);
+			pst.setInt(1, id);
+			pst.setString(2, year);
+			pst.setString(3, semestre);
+			pst.setInt(4,idSemillero);
+
+			pst.executeUpdate();
+
+			return new Plan_accion_capacitacion(id,year,semestre,idSemillero);
+			
+			
+		} catch (java.sql.SQLIntegrityConstraintViolationException e) {
+			throw new ExcepcionProductividad("ya hay grupo con ese nombre  asociado");
+		} catch (Exception e) {
+			throw new ExcepcionProductividad("error del servidor" + e);// mientras colocamos e por desarrollo para
+			// mirar las consultas
+		}
+
+		finally {
+			con.cerrarConexion();
+		}
+		
 	}
 
 }

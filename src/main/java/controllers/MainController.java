@@ -113,6 +113,8 @@ public class MainController {
 			post("/createEventoGrupoAsignarloPlanAccion",(req,res)->{return this.procesoEspecificoController.CreateEventoGrupoAsignarPlanAccion(req, res);},new JsonTransformer());
 			post("/createActividadGrupoSemilleroAsignarPlanAccion",(req,res)->{return this.procesoEspecificoController.createActividadGrupoSemilleroAsignarPlanAccion(req, res);},
 					new JsonTransformer());
+			post("/capacitacionCrearSemilleroAsignarPlanAccion",(req,res)->{return this.procesoEspecificoController.capacitacionCrearSemilleroAsignarPlanAccion(req, res);},
+					new JsonTransformer());
 			///falta create capacitacion y asignar
 			/// falta proyectos asigandos a ese plan de accion 
 			// asignar al plan  de accion actividades,capacitaciones,eventos al nuevo plan de accion 
