@@ -146,7 +146,7 @@ public class ProductoDao {
 				
 				sql = "insert into tecnologicos_certificados(id_producto, numero_registro, titulo, nombre_titular, anio_obtencion, pais_obtencion, gaceta_publicacion, "
 						+ "descripcion_analisis, descripcion_diseno, descripcion_implementacion, descripcion_validacion, nombre, lugar_elaboracion, institucion_financiadora, "
-						+ "copia_contratos, mes, fecha_elaboracion, tecnologicos_certificadoscol) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+						+ "copia_contratos, mes, fecha_elaboracion, tecnologicos_certificadoscol) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				stmt.setInt(1, id);
 				stmt.setString(2, numero_registro);
 				stmt.setString(3, nombre);
@@ -158,7 +158,7 @@ public class ProductoDao {
 				stmt.setString(9, descripcion_diseno);
 				stmt.setString(10, descripcion_implementacion);
 				stmt.setString(11, descripcion_validacion);
-				stmt.setString(12, nombre);
+				stmt.setString(12, "no");
 				stmt.setString(13, lugar_elaboracion);
 				stmt.setString(14, institucion_financiadora);
 				stmt.setString(15, copia_contratos);
@@ -167,7 +167,7 @@ public class ProductoDao {
 				stmt.setString(18, tecnologicos_certificadoscol);
 				
 				if(stmt.executeUpdate() > 0) {
-					producto = new Producto(id, id_proyecto, id_tipo_producto, nombre_titular, descripcion_validacion);
+					producto = new Producto(id, id_proyecto, id_tipo_producto, nombre, descripcion);
 				}	
 			}
 		} catch(Exception e) {

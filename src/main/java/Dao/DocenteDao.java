@@ -21,8 +21,8 @@ public class DocenteDao {
 	
 	public Docente createDocente(int tipo_identificacion, String nombre, String fecha_nacimiento, String direccion,
 			String telefono, String celular, String sexo, String correo_electronico, String foto, String nacionalidad,
-			String numero_identificacion, String codigo, int id_departamento, int id_modalidad, int id_semillero_director, 
-			int tipo_investigador) throws Exception {
+			String numero_identificacion, String codigo, int id_departamento, int id_modalidad 
+			) throws Exception {
 		
 		Docente docente = null;
 		Connection reg = null;
@@ -46,7 +46,7 @@ public class DocenteDao {
 			stmt.setString(9, foto);
 			stmt.setString(10, nacionalidad);
 			stmt.setString(11, numero_identificacion);
-			stmt.setInt(12, tipo_identificacion);
+			stmt.setInt(12, 1);
 			
 			if(stmt.executeUpdate() > 0) {
 				ResultSet generatedKeys = stmt.getGeneratedKeys();
@@ -62,20 +62,21 @@ public class DocenteDao {
 				sql = "insert into investigador (id_investigador, id_tipo) values (?, ?)";
 				stmt = reg.prepareStatement(sql);
 				stmt.setInt(1, id);
-				stmt.setInt(2, tipo_investigador);
+				stmt.setInt(2, 1);
+				
+				stmt.executeUpdate();
 				
 				Persona me = new Persona(id, tipo_identificacion, nombre, fecha_nacimiento, direccion, telefono, celular, sexo, correo_electronico, foto, nacionalidad, numero_identificacion);
 						
-				sql = "insert into docente_ufps(id_investigador, codigo, id_departamento, id_modalidad, id_semillero_director) values (?,?,?,?,?)";
+				sql = "insert into docente_ufps(id_investigador, codigo, id_departamento, id_modalidad) values (?,?,?,?)";
 				stmt = reg.prepareStatement(sql);
 				stmt.setInt(1, id);
 				stmt.setString(2, codigo);
 				stmt.setInt(3, id_departamento);
 				stmt.setInt(4, id_modalidad);
-				stmt.setInt(5, id_semillero_director);
 				
 				if(stmt.executeUpdate() > 0) {
-					docente = new Docente(codigo, id, id_departamento, id_modalidad, id_semillero_director, me);
+					docente = new Docente(codigo, id, id_departamento, id_modalidad, -1, me);
 				}
 			}
 			
