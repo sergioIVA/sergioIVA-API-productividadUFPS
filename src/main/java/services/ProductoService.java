@@ -25,6 +25,15 @@ public class ProductoService {
 		return map;
 	}
 	
+	public Object createProductoTecnologicoCertificado(String nombre, String descripcion, int id_proyecto, int id_tipo_producto, String numero_registro, String titulo, String nombre_titular, String anio_obtencion, String pais_obtencion, 
+			String gaceta_publicacion, String descripcion_analisis, String descripcion_diseno, String descripcion_implementacion, String descripcion_validacion, 
+			String lugar_elaboracion, String institucion_financiadora, String copia_contratos, String mes, String fecha_elaboracion, String tecnologicos_certificadoscol) throws Exception {
+		
+		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+		map.put("producto", this.dao.createProductoTecnologicoCertificado(nombre, descripcion, id_proyecto, id_tipo_producto, numero_registro, titulo, nombre_titular, anio_obtencion, pais_obtencion, gaceta_publicacion, descripcion_analisis, descripcion_diseno, descripcion_implementacion, descripcion_validacion, lugar_elaboracion, institucion_financiadora, copia_contratos, mes, fecha_elaboracion, tecnologicos_certificadoscol));
+		return map;
+	}
+	
 	public Object getProductosEmpresariales() throws Exception {
 		return this.dao.getProductosEmpresariales();
 	}
@@ -39,5 +48,13 @@ public class ProductoService {
 	
 	public Object getProductoTecnologico(int id) throws Exception {
 		return this.dao.getProductoTecnologico(id);
+	}
+	
+	public Object getProductosTecnologicosCertificados() throws Exception {
+		return this.dao.getProductosTecnologicosCertificados();
+	}
+	
+	public Object getProductoTecnologicoCertificado(int id) throws Exception {
+		return this.dao.getProductoTecnologicoCertificado(id);
 	}
 }

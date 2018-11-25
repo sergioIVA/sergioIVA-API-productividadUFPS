@@ -70,6 +70,41 @@ public class ProductoController {
 		return obj;
 	}
 	
+	public Object createProductoTecnologicoCertificado(Request req, Response res) {
+		res.type("application/json");
+		
+		String nombre = req.queryParams("nombre");
+		String descripcion = req.queryParams("descripcion");
+		int id_proyecto = Integer.parseInt(req.queryParams("id_proyecto"));
+		int id_tipo_producto = Integer.parseInt(req.queryParams("id_tipo_producto"));
+		String numero_registro = req.queryParams("numero_registro");
+		String titulo = req.queryParams("titulo");
+		String nombre_titular = req.queryParams("nombre_titular");
+		String anio_obtencion = req.queryParams("anio_obtencion");
+		String pais_obtencion = req.queryParams("pais_obtencion");
+		String gaceta_publicacion = req.queryParams("gaceta_publicacion");
+		String descripcion_analisis = req.queryParams("descripcion_analisis");
+		String descripcion_diseno = req.queryParams("descripcion_diseno");
+		String descripcion_implementacion = req.queryParams("descripcion_implementacion");
+		String descripcion_validacion = req.queryParams("descripcion_validacion");
+		String lugar_elaboracion = req.queryParams("lugar_elaboracion");
+		String institucion_financiadora = req.queryParams("institucion_financiadora");
+		String copia_contratos = req.queryParams("copia_contratos");
+		String mes = req.queryParams("mes");
+		String fecha_elaboracion = req.queryParams("fecha_elaboracion");
+		String tecnologicos_certificadoscol = req.queryParams("tecnologicos_certificadoscol");
+		
+		Object obj = null;
+		try {
+			obj = service.createProductoTecnologicoCertificado(nombre, descripcion, id_proyecto, id_tipo_producto, numero_registro, titulo, nombre_titular, anio_obtencion, pais_obtencion, gaceta_publicacion, descripcion_analisis, descripcion_diseno, descripcion_implementacion, descripcion_validacion, lugar_elaboracion, institucion_financiadora, copia_contratos, mes, fecha_elaboracion, tecnologicos_certificadoscol);
+			res.status(201);
+		} catch(Exception e) {
+			res.status(500);
+			e.toString();
+		}
+		return obj;
+	}
+	
 	public Object getProductosEmp(Request req, Response res) {
 		res.type("application/json");
 		
@@ -145,5 +180,42 @@ public class ProductoController {
 			return e.toString();
 		}
 	}
+	
+	public Object getProductosTecCert(Request req, Response res) {
+		res.type("application/json");
+		
+		try {
+			res.status(200);
+			return this.service.getProductosTecnologicosCertificados();
+		} catch(Exception e) {
+			res.status(500);
+			return e.toString();
+		}
+	}
 
+	public Object getProductoTecCert(Request req, Response res) {
+		res.type("application/json");
+		String cad = req.params(":id");
+		
+		if(cad == null) {
+			res.status(400);
+			return "parametro faltante";
+		}
+		
+		int id = Integer.parseInt(cad);
+		
+		try {
+			Object obj = this.service.getProductoTecnologicoCertificado(id);
+			if(obj == null) {
+				res.status(400);
+				return "no se ha encontrado";
+			}
+			
+			res.status(200);
+			return obj;
+		} catch(Exception e) {
+			res.status(500);
+			return e.toString();
+		}
+	}
 }

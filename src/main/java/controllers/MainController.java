@@ -140,7 +140,7 @@ public class MainController {
 			//7.Docente
 			get("/docente",(req,res)->{return this.docenteController.getDocentes(req, res);},new JsonTransformer());
 			get("/docente/:id",(req,res)->{return this.docenteController.getDocente(req, res);},new JsonTransformer());
-			post("/docente",(req,res)->{return "acceso /docente post ";});
+			post("/docente",(req,res)->{return this.docenteController.createDocente(req, res);}, new JsonTransformer());
 			put("/doente/:id", (req, res) -> {return "acceso /docente put con id "+req.queryParams(":id");});
 			delete("/docente/:id", (req, res) -> {return "acceso /docente delete con id "+req.queryParams(":id");});
 			
@@ -220,8 +220,11 @@ public class MainController {
 			get("/productoEmp/:id",(req,res)->{return this.productoController.getProductoEmp(req, res);}, new JsonTransformer());
 			get("/productoTec",(req,res)->{return this.productoController.getProductosTec(req, res);}, new JsonTransformer());
 			get("/productoTec/:id",(req,res)->{return this.productoController.getProductoTec(req, res);}, new JsonTransformer());
+			get("/productoCert",(req,res)->{return this.productoController.getProductosTecCert(req, res);}, new JsonTransformer());
+			get("/productoCert/:id",(req,res)->{return this.productoController.getProductoTecCert(req, res);}, new JsonTransformer());
 			post("/productoEmp",(req,res)->{return this.productoController.createProductoEmpresarial(req, res);}, new JsonTransformer());
 			post("/productoTec",(req,res)->{return this.productoController.createProductoTecnologico(req, res);}, new JsonTransformer());
+			post("/productoCert",(req,res)->{return this.productoController.createProductoTecnologicoCertificado(req, res);}, new JsonTransformer());
 			
 			//Articulos
 			get("/articulo",(req,res)->{return this.articuloController.getArticulos(req, res);}, new JsonTransformer());
