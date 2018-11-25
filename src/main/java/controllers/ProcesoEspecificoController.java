@@ -369,4 +369,36 @@ public class ProcesoEspecificoController {
 		}
 	}
 
+	
+	public Object getAsignarProyectoPlanAccionGrupoSemillero(Request req, Response res) {
+		
+		
+		res.type("application/json");
+
+		/// plan de accion
+		String year = req.queryParams("year");
+		String semestre = req.queryParams("semestre");
+		int idGrupoSemillero = Integer.parseInt(req.queryParams("idGrupoSemillero"));
+		int tipoSession=Integer.parseInt(req.queryParams("tipoSession"));
+		int id_proyecto=Integer.parseInt(req.queryParams("id_proyecto"));
+	
+
+	
+		try {
+			Object obj = this.procesoEspecificoService.asignarProyectoPlanAccion(
+					year, semestre, idGrupoSemillero, tipoSession, id_proyecto);
+			if (obj == null) {
+				res.status(400);
+				return "no se ha encontrado";
+			}
+
+			res.status(200);
+			return obj;
+		} catch (Exception e) {
+			res.status(500);
+			return e.toString();
+		}
+		
+	}
+	
 }

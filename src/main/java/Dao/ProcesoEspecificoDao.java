@@ -19,6 +19,8 @@ import model.PlanAccionGrupo;
 import model.PlanAccionSemillero;
 import model.Plan_accion_capacitacion;
 import model.Plan_accion_grupo_actividad;
+import model.Plan_accion_grupo_proyecto;
+import model.Proyecto_plan_semillero;
 import spark.Request;
 import spark.Response;
 import util.ExcepcionProductividad;
@@ -931,5 +933,52 @@ public class ProcesoEspecificoDao {
 		}
 		
 	}
+	
+	public Object asignarProyectoPlanAccion(String year,String semestre,int idGrupoSemillero, int tipoSession,
+			int id_proyecto)throws Exception {
+		
+		int id = -1;
+		try {
+			Connection reg = con.conectar("");
+
+			// 1.consultar proyectos que no este terminado en los planes de accion de grupos
+			// y semilleros
+			LinkedHashMap<String, Object> general = new LinkedHashMap<String, Object>();
+
+			String sql = "";
+			if (tipoSession == 1) {
+				sql = "INSERT INTO plan_accion_grupo_proyecto(id_proyecto,year,semestre,id_grupo) values (?,?,?,?)";
+			} else {
+				sql ="INSERT INTO proyecto_plan_semillero(id_proyecto,year,semestre,id_semillero)"
+						+ " values (?,?,?,?)";
+			}
+
+			PreparedStatement pst;
+			pst = reg.prepareStatement(sql);
+			pst.setInt(1,id_proyecto);
+			pst.setString(2,year);
+			pst.setString(3,semestre);
+			pst.setInt(4,idGrupoSemillero);
+	
+
+			pst.executeUpdate();
+			
+			if (tipoSession == 1) {
+				return new Plan_accion_grupo_proyecto(id_proyecto,year,semestre,idGrupoSemillero);
+			} else {
+				return new Proyecto_plan_semillero(id_proyecto,year,semestre,idGrupoSemillero);
+			}   
+
+		} catch (Exception e) {
+			throw new ExcepcionProductividad("error del servidor" + e);
+		}
+
+		finally {
+			con.cerrarConexion();
+		}
+
+		
+	}
+	
 
 }
