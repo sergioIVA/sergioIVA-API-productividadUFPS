@@ -25,20 +25,25 @@ public class ProductoDao {
 		try {
 			int id = -1;
 			Connection reg = con.conectar("");
-			String sql = "insert into producto (id, nombre, id_proyecto, descripcion, id_tipo_producto values (?,?,?,?,?)";
-			String generatedColumns[] = { "id" };
-			PreparedStatement stmt = reg.prepareStatement(sql, generatedColumns);
-			stmt.setInt(1, 0);
+			String sql = "select max(id) from producto";
+			PreparedStatement stmt = reg.prepareStatement(sql);
+			ResultSet value = stmt.executeQuery();
+			if(value.next()) {
+				id = value.getInt(1) + 1;
+			}else {
+				id = 1;
+			}
+			
+			sql = "insert into producto (id, nombre, id_proyecto, descripcion, id_tipo_producto) values (?,?,?,?,?)";
+			stmt = reg.prepareStatement(sql);
+			stmt.setInt(1, id);
 			stmt.setString(2, nombre);
 			stmt.setInt(3, id_proyecto);
 			stmt.setString(4, descripcion);
 			stmt.setInt(5, id_tipo_producto);
 			
 			if(stmt.executeUpdate() > 0) {
-				ResultSet keys = stmt.getGeneratedKeys();
-				if(keys.next())
-					id = keys.getInt("id");
-				
+						
 				sql = "insert into producto_empresarial(id_producto, nombre_producto, valor_contrato, numero_contrato, nit, certificado_camara, certificado_institucional, autores, certificacion_implementacion, "
 						+ "documento_ley, certificacion_producto, nombre_empresa, fecha, titulo, nombre_innovacion) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				stmt = reg.prepareStatement(sql);
@@ -79,20 +84,24 @@ public class ProductoDao {
 		try {
 			int id = -1;
 			Connection reg = con.conectar("");
-			String sql = "insert into producto (id, nombre, id_proyecto, descripcion, id_tipo_producto values (?,?,?,?,?)";
-			String generatedColumns[] = { "id" };
-			PreparedStatement stmt = reg.prepareStatement(sql, generatedColumns);
-			stmt.setInt(1, 0);
+			String sql = "select max(id) from producto";
+			PreparedStatement stmt = reg.prepareStatement(sql);
+			ResultSet value = stmt.executeQuery();
+			if(value.next()) {
+				id = value.getInt(1) + 1;
+			}else {
+				id = 1;
+			}
+			
+			sql = "insert into producto (id, nombre, id_proyecto, descripcion, id_tipo_producto) values (?,?,?,?,?)";
+			stmt = reg.prepareStatement(sql);
+			stmt.setInt(1, id);
 			stmt.setString(2, nombre);
 			stmt.setInt(3, id_proyecto);
 			stmt.setString(4, descripcion);
 			stmt.setInt(5, id_tipo_producto);
 			
-			if(stmt.executeUpdate() > 0) {
-				ResultSet keys = stmt.getGeneratedKeys();
-				if(keys.next())
-					id = keys.getInt("id");
-				
+			if(stmt.executeUpdate() > 0) {				
 				sql = "insert into producto_tecnologico_patentado(id_producto, numero, titulo, certificado, titular, anio_obtencion, paises_obtencion, gaceta_publica, contrato_explotacion_licen_id, "
 						+ "id_solicitud, estado_patente) values(?,?,?,?,?,?,?,?,?,?,?)";
 				stmt = reg.prepareStatement(sql);
@@ -202,7 +211,7 @@ public class ProductoDao {
 		LinkedList<Object> productos = new LinkedList<Object>();
 		try {
 			Connection reg = con.conectar("");
-			String sql = "select p.nombre, p.descripcion, pt* from producto p inner join producto_tecnologico_patentado pt on p.id = pt.id_producto";
+			String sql = "select p.nombre, p.descripcion, pt.* from producto p inner join producto_tecnologico_patentado pt on p.id = pt.id_producto";
 			PreparedStatement stmt = reg.prepareStatement(sql);
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {

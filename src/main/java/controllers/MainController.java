@@ -45,6 +45,7 @@ public class MainController {
 	final ProyectoController proyectoController = new ProyectoController();
 	final LineaInvestigacionController lineaInvestigacionController = new LineaInvestigacionController();
 	final ProductoController productoController = new ProductoController();
+	final ArticuloController articuloController = new ArticuloController();
 	
 	public MainController() {
 
@@ -221,6 +222,12 @@ public class MainController {
 			get("/productoTec/:id",(req,res)->{return this.productoController.getProductoTec(req, res);}, new JsonTransformer());
 			post("/productoEmp",(req,res)->{return this.productoController.createProductoEmpresarial(req, res);}, new JsonTransformer());
 			post("/productoTec",(req,res)->{return this.productoController.createProductoTecnologico(req, res);}, new JsonTransformer());
+			
+			//Articulos
+			get("/articulo",(req,res)->{return this.articuloController.getArticulos(req, res);}, new JsonTransformer());
+			get("/articulo/:id",(req,res)->{return this.articuloController.getArticuloProducto(req, res);}, new JsonTransformer());
+			post("/articulo",(req,res)->{return this.articuloController.createArticulo(req, res);}, new JsonTransformer());
+			delete("/articulo/:id",(req,res)->{return this.articuloController.deleteArticulo(req, res);}, new JsonTransformer());
 			
 			//18.Planes de accion grupo
 			get("/planGrupo",(req,res)->{return this.planAccionGrupoController.getPlanes(req, res);}, new JsonTransformer());
