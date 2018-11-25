@@ -19,14 +19,14 @@ public class DocenteService {
 	
 	public Object createDocente(int tipo_identificacion, String nombre, String fecha_nacimiento, String direccion,
 			String telefono, String celular, String sexo, String correo_electronico, String foto, String nacionalidad,
-			String numero_identificacion, String codigo, int id_departamento, int id_modalidad, int id_semillero_director, 
-			int tipo_investigador) throws Exception {
+			String numero_identificacion, String codigo, int id_departamento, int id_modalidad 
+			) throws Exception {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("response-date", new Date());
 		map.put("msg", "peticion correcta");
 		map.put("docente-ufps", this.dao.createDocente(tipo_identificacion, nombre, fecha_nacimiento, direccion, telefono, celular, sexo, correo_electronico, 
-				foto, nacionalidad, numero_identificacion, codigo, id_departamento, id_modalidad, id_semillero_director, tipo_investigador));
+				foto, nacionalidad, numero_identificacion, codigo, id_departamento, id_modalidad));
 			return map;
 	}
 	

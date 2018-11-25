@@ -25,17 +25,13 @@ public class DocenteController {
 		String nacionalidad = req.queryParams("nacionalidad");
 		String identificacion = req.queryParams("identificaicon");
 		int tipo_identificacion = Integer.parseInt(req.queryParams("tipo_identificacion"));
-		int id_investigador = Integer.parseInt(req.queryParams("id_investigador"));
 		String codigo = req.queryParams("codigo");
 		int id_departamento = Integer.parseInt(req.queryParams("id_departamento"));
 		int id_modalidad = Integer.parseInt(req.queryParams("id_modalidad"));
-		int id_semillero_director  = Integer.parseInt(req.queryParams("id_semillero_director"));
 		
 		Object obj = null;
 		try {
-			obj = docenteService.createDocente(tipo_identificacion, nombre, fecha_nacimiento, direccion,
-					telefono, celular, sexo, correo, foto, nacionalidad,
-					identificacion, codigo, id_departamento,id_modalidad,  id_semillero_director, id_investigador);
+			obj = this.docenteService.createDocente(tipo_identificacion, nombre, fecha_nacimiento, direccion, telefono, celular, sexo, correo, foto, nacionalidad, identificacion, codigo, id_departamento, id_modalidad);
 			res.status(201);// 201 CREATED
 		} 
 		catch (Exception e) {
