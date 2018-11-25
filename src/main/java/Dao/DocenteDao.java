@@ -102,7 +102,7 @@ public class DocenteDao {
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
 				docentes.add(new Docente(rs.getString("codigo"), rs.getInt("id"), rs.getInt("id_departamento"), rs.getInt("id_modalidad"), 
-						rs.getInt("id_semillero_director"), new Persona(rs.getInt("id"), rs.getInt("tipo_identificacion"), rs.getString("nombre"), 
+						0, new Persona(rs.getInt("id"), rs.getInt("tipo_identificacion"), rs.getString("nombre"), 
 						rs.getString("fecha_nacimiento"), rs.getString("direccion"), rs.getString("telefono"), rs.getString("celular"), 
 						rs.getString("sexo"), rs.getString("correo_electronico"), rs.getString("foto"), rs.getString("nacionalidad"), rs.getString("numero_identificacion"))));
 			}
@@ -130,7 +130,7 @@ public class DocenteDao {
 			ResultSet rs = stmt.executeQuery();
 			if(rs.next()) {
 				docente = new Docente(rs.getString("codigo"), rs.getInt("id"), rs.getInt("id_departamento"), rs.getInt("id_modalidad"), 
-						rs.getInt("id_semillero_director"), new Persona(rs.getInt("id"), rs.getInt("tipo_identificacion"), rs.getString("nombre"), 
+						0, new Persona(rs.getInt("id"), rs.getInt("tipo_identificacion"), rs.getString("nombre"), 
 						rs.getString("fecha_nacimiento"), rs.getString("direccion"), rs.getString("telefono"), rs.getString("celular"), 
 						rs.getString("sexo"), rs.getString("correo_electronico"), rs.getString("foto"), rs.getString("nacionalidad"), rs.getString("numero_identificacion")));
 			}

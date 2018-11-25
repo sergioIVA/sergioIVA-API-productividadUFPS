@@ -3,7 +3,7 @@ package model;
 public class ProyectoPlanAccionGrupo {
 
 	private int year;
-	private int semestre;
+	private String semestre;
 	private int id_grupo;
 	private int id_proyecto;
 	
@@ -11,7 +11,7 @@ public class ProyectoPlanAccionGrupo {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ProyectoPlanAccionGrupo(int year, int semestre, int id_grupo, int id_proyecto) {
+	public ProyectoPlanAccionGrupo(int year, String semestre, int id_grupo, int id_proyecto) {
 		super();
 		this.year = year;
 		this.semestre = semestre;
@@ -27,11 +27,11 @@ public class ProyectoPlanAccionGrupo {
 		this.year = year;
 	}
 
-	public int getSemestre() {
+	public String getSemestre() {
 		return semestre;
 	}
 
-	public void setSemestre(int semestre) {
+	public void setSemestre(String semestre) {
 		this.semestre = semestre;
 	}
 

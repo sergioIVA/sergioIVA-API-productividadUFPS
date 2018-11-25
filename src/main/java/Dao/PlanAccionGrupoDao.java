@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 
 import conexion.Conexion;
 import model.PlanAccionGrupo;
@@ -19,7 +20,7 @@ public class PlanAccionGrupoDao {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public PlanAccionGrupo createPlan(int year, int semestre, int id_grupo) throws Exception{
+	public PlanAccionGrupo createPlan(int year, String semestre, int id_grupo) throws Exception{
 		/**
 		PlanAccionGrupo plan = null;
 		try {
@@ -43,7 +44,7 @@ public class PlanAccionGrupoDao {
 		return null;
 	}
 	
-	public ActividadPlanAccionGrupo createActividadPlan(int id_actividad, int year, int semestre, int id_grupo) throws Exception {
+	public ActividadPlanAccionGrupo createActividadPlan(int id_actividad, int year, String semestre, int id_grupo) throws Exception {
 		
 		ActividadPlanAccionGrupo actividad = null;
 		try {
@@ -52,7 +53,7 @@ public class PlanAccionGrupoDao {
 			PreparedStatement stmt = reg.prepareStatement(sql);
 			stmt.setInt(1, id_actividad);
 			stmt.setInt(2, year);
-			stmt.setInt(3, semestre);
+			stmt.setString(3, semestre);
 			stmt.setInt(4, id_grupo);
 			
 			if(stmt.executeUpdate() > 0)
@@ -66,7 +67,7 @@ public class PlanAccionGrupoDao {
 		return actividad;
 	}
 	
-	public ProyectoPlanAccionGrupo createProyectoPlan(int year, int semestre, int id_grupo, int id_proyecto) throws Exception {
+	public ProyectoPlanAccionGrupo createProyectoPlan(int year, String semestre, int id_grupo, int id_proyecto) throws Exception {
 		
 		ProyectoPlanAccionGrupo proyecto = null;
 		try {
@@ -74,7 +75,7 @@ public class PlanAccionGrupoDao {
 			String sql = "insert into plan_accion_grupo_proyecto(year, semestre, id_grupo, id_proyecto) values (?,?,?,?)";
 			PreparedStatement stmt = reg.prepareStatement(sql);
 			stmt.setInt(1, year);
-			stmt.setInt(2, semestre);
+			stmt.setString(2, semestre);
 			stmt.setInt(3, id_grupo);
 			stmt.setInt(4, id_proyecto);
 			
@@ -96,6 +97,8 @@ public class PlanAccionGrupoDao {
 		LinkedHashMap<String, Object> actividades = new LinkedHashMap<String, Object>();
 		LinkedHashMap<String, Object> proyectos = new LinkedHashMap<String, Object>();
 		
+		LinkedList<Object> planlist = new LinkedList<Object>();
+		
 		try {
 			Connection reg = con.conectar("");
 			String sql = "select pag.year, pag.semestre, pag.id_grupo, g.nombre nombregrupo, g.sigla siglagrupo, paga.id_actividad, paga.year actividadyear, "
@@ -111,7 +114,7 @@ public class PlanAccionGrupoDao {
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
 				planes.put("year", rs.getInt("year"));
-				planes.put("semestre", rs.getInt("semestre"));
+				planes.put("semestre", rs.getString("semestre"));
 				planes.put("id-grupo", rs.getInt("id_grupo"));
 				
 				grupo.put("id", rs.getInt("id_grupo"));
@@ -122,7 +125,7 @@ public class PlanAccionGrupoDao {
 				
 				actividades.put("id", rs.getInt("id_actividad"));
 				actividades.put("year", rs.getInt("actividadyear"));
-				actividades.put("semestre", rs.getInt("actividadsemestre"));
+				actividades.put("semestre", rs.getString("actividadsemestre"));
 				actividades.put("nombre", rs.getString("actividad"));
 				actividades.put("responsables", rs.getString("responsables"));
 				actividades.put("producto", rs.getString("producto"));
@@ -130,13 +133,15 @@ public class PlanAccionGrupoDao {
 				
 				proyectos.put("id", rs.getInt("id_proyecto"));
 				proyectos.put("year", rs.getInt("proyectoyear"));
-				proyectos.put("semestre", rs.getInt("proyectosemestre"));
+				proyectos.put("semestre", rs.getString("proyectosemestre"));
 				proyectos.put("titulo", rs.getString("tituloproyecto"));
 				proyectos.put("fecha-inicio", rs.getString("startproyecto"));
 				proyectos.put("fecha-fin", rs.getString("endproyecto"));
 				
 				planes.put("actividades", actividades);
 				planes.put("proyectos", proyectos);
+				
+				planlist.add(planes);
 			}
 		} catch(Exception e) {
 			throw new ExcepcionProductividad("Error del servidor: " + e);
@@ -155,6 +160,8 @@ public class PlanAccionGrupoDao {
 		LinkedHashMap<String, Object> actividades = new LinkedHashMap<String, Object>();
 		LinkedHashMap<String, Object> proyectos = new LinkedHashMap<String, Object>();
 		
+		LinkedList<Object> planlist = new LinkedList<Object>();
+		
 		try {
 			Connection reg = con.conectar("");
 			String sql = "select pag.year, pag.semestre, pag.id_grupo, g.nombre nombregrupo, g.sigla siglagrupo, paga.id_actividad, paga.year actividadyear, "
@@ -172,7 +179,7 @@ public class PlanAccionGrupoDao {
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
 				planes.put("year", rs.getInt("year"));
-				planes.put("semestre", rs.getInt("semestre"));
+				planes.put("semestre", rs.getString("semestre"));
 				planes.put("id-grupo", rs.getInt("id_grupo"));
 				
 				grupo.put("id", rs.getInt("id_grupo"));
@@ -183,7 +190,7 @@ public class PlanAccionGrupoDao {
 				
 				actividades.put("id", rs.getInt("id_actividad"));
 				actividades.put("year", rs.getInt("actividadyear"));
-				actividades.put("semestre", rs.getInt("actividadsemestre"));
+				actividades.put("semestre", rs.getString("actividadsemestre"));
 				actividades.put("nombre", rs.getString("actividad"));
 				actividades.put("responsables", rs.getString("responsables"));
 				actividades.put("producto", rs.getString("producto"));
@@ -191,14 +198,16 @@ public class PlanAccionGrupoDao {
 				
 				proyectos.put("id", rs.getInt("id_proyecto"));
 				proyectos.put("year", rs.getInt("proyectoyear"));
-				proyectos.put("semestre", rs.getInt("proyectosemestre"));
+				proyectos.put("semestre", rs.getString("proyectosemestre"));
 				proyectos.put("titulo", rs.getString("tituloproyecto"));
 				proyectos.put("fecha-inicio", rs.getString("startproyecto"));
 				proyectos.put("fecha-fin", rs.getString("endproyecto"));
+				
+				planes.put("actividades", actividades);
+				planes.put("proyectos", proyectos);
+				
+				planlist.add(planes);
 			}
-			
-			planes.put("actividades", actividades);
-			planes.put("proyectos", proyectos);
 			
 		} catch(Exception e) {
 			throw new ExcepcionProductividad("Error del servidor: " + e);

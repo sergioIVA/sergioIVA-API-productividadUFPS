@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 
 import conexion.Conexion;
 import model.Proyecto;
@@ -131,11 +132,13 @@ public class ProyectoDao {
 		LinkedHashMap<String, Object> proyectos = new LinkedHashMap<String, Object>();
 		LinkedHashMap<String, Object> tipo = new LinkedHashMap<String, Object>();
 		LinkedHashMap<String, Object> linea = new LinkedHashMap<String, Object>();
+		
+		LinkedList<Object> proyectlist = new LinkedList<Object>();
 
 		try {
 			Connection reg = con.conectar("");
-			String sql = "select p.*, tp.nombre tipoproyecto, li.nombre linea, li.lider_linea liderlinea from proyecto p "
-					+ "inner join tipo_proyecto tp on p.id_tipo = tp.id "
+			String sql = "select p.*, tp.nombre tiponombre, li.nombre linea, li.lider_linea liderlinea from proyecto p "
+					+ "inner join tipoproyecto tp on p.id_tipo = tp.id "
 					+ "inner join linea_investigacion li on p.id_linea = li.id";
 			PreparedStatement stmt = reg.prepareStatement(sql);
 			ResultSet rs = stmt.executeQuery();
@@ -146,10 +149,9 @@ public class ProyectoDao {
 				proyectos.put("fecha-final", rs.getString("fecha_final"));
 				proyectos.put("costoTotal", rs.getInt("costoTotal"));
 				proyectos.put("porcentaje-cumplimiento", rs.getInt("porcentaje_cumplimiento"));
-				proyectos.put("valor-financiado", rs.getString("valor_financiado"));
 
 				tipo.put("id", rs.getInt("id_tipo"));
-				tipo.put("nombre", rs.getString("tipoproyecto"));
+				tipo.put("nombre", rs.getString("tiponombre"));
 
 				proyectos.put("tipo", tipo);
 
@@ -159,15 +161,13 @@ public class ProyectoDao {
 
 				proyectos.put("linea", linea);
 
-				proyectos.put("duracion", rs.getInt("duracion"));
-				proyectos.put("tiempo-total-ejecucion", rs.getInt("tiempo_total_ejecucion"));
 				proyectos.put("resultados-esperados", rs.getString("resultados_esperados"));
-				proyectos.put("id-facultad", rs.getInt("id_facultad"));
-				proyectos.put("representante-facultad", rs.getString("representante_facultad"));
-				proyectos.put("documento-proyecto", rs.getString("documneto_proyecto"));
+				proyectos.put("documento-proyecto", rs.getString("documento_proyecto"));
 				proyectos.put("tipo-participacion", rs.getInt("tipo_participacion_id"));
 				proyectos.put("estado", rs.getInt("estado"));
 				proyectos.put("n_contrato", rs.getString("n_contrato"));
+				
+				proyectlist.add(proyectos);
 			}
 		} catch (Exception e) {
 			throw new ExcepcionProductividad("Error del servidor: " + e);
@@ -175,7 +175,7 @@ public class ProyectoDao {
 			con.cerrarConexion();
 		}
 
-		return proyectos;
+		return proyectlist;
 	}
 
 	public Object getProyectosGrupo(int id_grupo) throws Exception {
@@ -183,12 +183,14 @@ public class ProyectoDao {
 		LinkedHashMap<String, Object> proyectos = new LinkedHashMap<String, Object>();
 		LinkedHashMap<String, Object> tipo = new LinkedHashMap<String, Object>();
 		LinkedHashMap<String, Object> linea = new LinkedHashMap<String, Object>();
+		
+		LinkedList<Object> proyectlist = new LinkedList<Object>();
 
 		try {
 			Connection reg = con.conectar("");
-			String sql = "select p.*, tp.nombre tipoproyecto, li.nombre linea, li.lider_linea liderlinea "
+			String sql = "select p.*, tp.nombre tiponombre, li.nombre linea, li.lider_linea liderlinea "
 					+ "from proyecto_grupo pg inner join proyecto p on pg.id_proyecto = p.id "
-					+ "inner join tipo_proyecto tp on p.id_tipo = tp.id "
+					+ "inner join tipoproyecto tp on p.id_tipo = tp.id "
 					+ "inner join linea_investigacion li on p.id_linea = li.id " + "where pg.id_grupo = ?";
 			PreparedStatement stmt = reg.prepareStatement(sql);
 			stmt.setInt(1, id_grupo);
@@ -200,10 +202,9 @@ public class ProyectoDao {
 				proyectos.put("fecha-final", rs.getString("fecha_final"));
 				proyectos.put("costoTotal", rs.getInt("costoTotal"));
 				proyectos.put("porcentaje-cumplimiento", rs.getInt("porcentaje_cumplimiento"));
-				proyectos.put("valor-financiado", rs.getString("valor_financiado"));
 
 				tipo.put("id", rs.getInt("id_tipo"));
-				tipo.put("nombre", rs.getString("tipoproyecto"));
+				tipo.put("nombre", rs.getString("tiponombre"));
 
 				proyectos.put("tipo", tipo);
 
@@ -213,15 +214,13 @@ public class ProyectoDao {
 
 				proyectos.put("linea", linea);
 
-				proyectos.put("duracion", rs.getInt("duracion"));
-				proyectos.put("tiempo-total-ejecucion", rs.getInt("tiempo_total_ejecucion"));
 				proyectos.put("resultados-esperados", rs.getString("resultados_esperados"));
-				proyectos.put("id-facultad", rs.getInt("id_facultad"));
-				proyectos.put("representante-facultad", rs.getString("representante_facultad"));
-				proyectos.put("documento-proyecto", rs.getString("documneto_proyecto"));
+				proyectos.put("documento-proyecto", rs.getString("documento_proyecto"));
 				proyectos.put("tipo-participacion", rs.getInt("tipo_participacion_id"));
 				proyectos.put("estado", rs.getInt("estado"));
 				proyectos.put("n_contrato", rs.getString("n_contrato"));
+				
+				proyectlist.add(proyectos);
 			}
 		} catch (Exception e) {
 			throw new ExcepcionProductividad("Error del servidor: " + e);
@@ -229,7 +228,7 @@ public class ProyectoDao {
 			con.cerrarConexion();
 		}
 
-		return proyectos;
+		return proyectlist;
 	}
 
 	public Object getSpecificProyecto(int id) throws Exception {
@@ -237,11 +236,13 @@ public class ProyectoDao {
 		LinkedHashMap<String, Object> proyectos = new LinkedHashMap<String, Object>();
 		LinkedHashMap<String, Object> tipo = new LinkedHashMap<String, Object>();
 		LinkedHashMap<String, Object> linea = new LinkedHashMap<String, Object>();
+		
+		LinkedList<Object> proyectlist = new LinkedList<Object>();
 
 		try {
 			Connection reg = con.conectar("");
-			String sql = "select p.*, tp.nombre tipoproyecto, li.nombre linea, li.lider_linea liderlinea from proyecto p "
-					+ "inner join tipo_proyecto tp on p.id_tipo = tp.id "
+			String sql = "select p.*, tp.nombre tiponombre, li.nombre linea, li.lider_linea liderlinea from proyecto p "
+					+ "inner join tipoproyecto tp on p.id_tipo = tp.id "
 					+ "inner join linea_investigacion li on p.id_linea = li.id " + "where p.id = ?";
 			PreparedStatement stmt = reg.prepareStatement(sql);
 			stmt.setInt(1, id);
@@ -253,10 +254,9 @@ public class ProyectoDao {
 				proyectos.put("fecha-final", rs.getString("fecha_final"));
 				proyectos.put("costoTotal", rs.getInt("costoTotal"));
 				proyectos.put("porcentaje-cumplimiento", rs.getInt("porcentaje_cumplimiento"));
-				proyectos.put("valor-financiado", rs.getString("valor_financiado"));
 
 				tipo.put("id", rs.getInt("id_tipo"));
-				tipo.put("nombre", rs.getString("tipoproyecto"));
+				tipo.put("nombre", rs.getString("tiponombre"));
 
 				proyectos.put("tipo", tipo);
 
@@ -266,15 +266,13 @@ public class ProyectoDao {
 
 				proyectos.put("linea", linea);
 
-				proyectos.put("duracion", rs.getInt("duracion"));
-				proyectos.put("tiempo-total-ejecucion", rs.getInt("tiempo_total_ejecucion"));
 				proyectos.put("resultados-esperados", rs.getString("resultados_esperados"));
-				proyectos.put("id-facultad", rs.getInt("id_facultad"));
-				proyectos.put("representante-facultad", rs.getString("representante_facultad"));
-				proyectos.put("documento-proyecto", rs.getString("documneto_proyecto"));
+				proyectos.put("documento-proyecto", rs.getString("documento_proyecto"));
 				proyectos.put("tipo-participacion", rs.getInt("tipo_participacion_id"));
 				proyectos.put("estado", rs.getInt("estado"));
 				proyectos.put("n_contrato", rs.getString("n_contrato"));
+				
+				proyectlist.add(proyectos);
 			}
 		} catch (Exception e) {
 			throw new ExcepcionProductividad("Error del servidor: " + e);
@@ -282,6 +280,6 @@ public class ProyectoDao {
 			con.cerrarConexion();
 		}
 
-		return proyectos;
+		return proyectlist;
 	}
 }

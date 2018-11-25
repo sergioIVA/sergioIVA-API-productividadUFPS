@@ -4,14 +4,14 @@ public class ActividadPlanAccionGrupo {
 
 	private int id_actividad;
 	private int year;
-	private int semestre;
+	private String semestre;
 	private int id_grupo;
 	
 	public ActividadPlanAccionGrupo() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ActividadPlanAccionGrupo(int id_actividad, int year, int semestre, int id_grupo) {
+	public ActividadPlanAccionGrupo(int id_actividad, int year, String semestre, int id_grupo) {
 		super();
 		this.id_actividad = id_actividad;
 		this.year = year;
@@ -35,11 +35,11 @@ public class ActividadPlanAccionGrupo {
 		this.year = year;
 	}
 
-	public int getSemestre() {
+	public String getSemestre() {
 		return semestre;
 	}
 
-	public void setSemestre(int semestre) {
+	public void setSemestre(String semestre) {
 		this.semestre = semestre;
 	}
 
