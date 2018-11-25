@@ -30,7 +30,10 @@ public class ProyectoService {
 	}
 	
 	public Object getProyectos() throws Exception{
-		return this.dao.getProyectos();
+		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
+		map.put("msg", "peticion nice");
+		map.put("proyectos", this.dao.getProyectos());
+		return map;
 	}
 	
 	public Object getProyectosGrupo(int id_grupo) throws Exception{

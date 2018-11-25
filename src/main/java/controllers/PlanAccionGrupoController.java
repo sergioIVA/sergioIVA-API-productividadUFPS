@@ -13,7 +13,7 @@ public class PlanAccionGrupoController {
 	public Object createPlan(Request req, Response res) {
 		res.type("application/json");
 		int year = Integer.parseInt(req.queryParams("year"));
-		int semestre = Integer.parseInt(req.queryParams("semestre"));
+		String semestre = req.queryParams("semestre");
 		int id_grupo = Integer.parseInt(req.queryParams("id_grupo"));
 		
 			System.out.println(req.body());
@@ -34,7 +34,7 @@ public class PlanAccionGrupoController {
 		res.type("application/json");
 		int id_actividad = Integer.parseInt(req.queryParams("id_actividad"));
 		int year = Integer.parseInt(req.queryParams("year"));
-		int semestre = Integer.parseInt(req.queryParams("semestre"));
+		String semestre = req.queryParams("semestre");
 		int id_grupo = Integer.parseInt(req.queryParams("id_grupo"));
 		
 		Object obj = null;
@@ -51,7 +51,7 @@ public class PlanAccionGrupoController {
 	public Object createProyectoPlan(Request req, Response res) {
 		res.type("application/json");
 		int year = Integer.parseInt(req.queryParams("year"));
-		int semestre = Integer.parseInt(req.queryParams("semestre"));
+		String semestre = req.queryParams("semestre");
 		int id_grupo = Integer.parseInt(req.queryParams("id_grupo"));
 		int id_proyecto = Integer.parseInt(req.queryParams("id_proyecto"));
 		

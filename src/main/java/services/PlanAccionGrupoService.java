@@ -11,7 +11,7 @@ public class PlanAccionGrupoService {
 		
 	}
 	
-	public Object createPlan(int year, int semestre, int id_grupo) throws Exception {
+	public Object createPlan(int year, String semestre, int id_grupo) throws Exception {
 		
 		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
 		map.put("msg", "exitoso");
@@ -19,7 +19,7 @@ public class PlanAccionGrupoService {
 		return map;
 	}
 	
-	public Object createActividadPlan(int id_actividad, int year, int semestre, int id_grupo) throws Exception {
+	public Object createActividadPlan(int id_actividad, int year, String semestre, int id_grupo) throws Exception {
 		
 		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
 		map.put("msg", "exitoso");
@@ -27,7 +27,7 @@ public class PlanAccionGrupoService {
 		return map;
 	}
 	
-	public Object createProyectoPlan(int year, int semestre, int id_grupo, int id_proyecto) throws Exception {
+	public Object createProyectoPlan(int year, String semestre, int id_grupo, int id_proyecto) throws Exception {
 		
 		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
 		map.put("msg", "exitoso");

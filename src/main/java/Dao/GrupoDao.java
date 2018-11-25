@@ -72,7 +72,7 @@ public class GrupoDao {
 
 	}
 
-	public Object getGrupos() throws Exception {
+	public List<Grupo> getGrupos() throws Exception {
 		
 		List<Grupo> resp = new LinkedList<Grupo>();
 

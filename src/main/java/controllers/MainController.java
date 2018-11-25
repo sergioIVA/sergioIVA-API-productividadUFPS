@@ -111,7 +111,7 @@ public class MainController {
 			get("/capacitacionNoTerminadoPlanAccionSemillero/:idSemillero",(req,res)->{ return this.procesoEspecificoController.getCapacitacionNoTerminadoPlanAccionSemillero(req, res);},new JsonTransformer());	
 			
 			//5.Grupo
-			get("/grupo",(req,res)->{return "acceso /grupo get";});
+			get("/grupo",(req,res)->{return this.grupoController.getGrupos(req, res);}, new JsonTransformer());
 			get("/grupo/:id",(req,res)->{return this.grupoController.getGrupo(req, res);},new JsonTransformer());
 			post("/grupo",(req,res)->{return grupoController.CreateGrupo(req, res);},new JsonTransformer());
 			put("/grupo/:id", (req, res) -> {return "acceso /grupo put con id "+req.queryParams(":id");});
@@ -128,7 +128,7 @@ public class MainController {
 			
 			//7.Docente
 			get("/docente",(req,res)->{return this.docenteController.getDocentes(req, res);},new JsonTransformer());
-			get("/docente/:id",(req,res)->{return "acceso /docente get con id "+req.queryParams(":id");});
+			get("/docente/:id",(req,res)->{return this.docenteController.getDocente(req, res);},new JsonTransformer());
 			post("/docente",(req,res)->{return "acceso /docente post ";});
 			put("/doente/:id", (req, res) -> {return "acceso /docente put con id "+req.queryParams(":id");});
 			delete("/docente/:id", (req, res) -> {return "acceso /docente delete con id "+req.queryParams(":id");});

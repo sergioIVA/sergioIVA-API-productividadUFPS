@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 
 import conexion.Conexion;
 import model.Producto;
@@ -123,6 +124,7 @@ public class ProductoDao {
 	public Object getProductosEmpresariales() throws Exception {
 		
 		LinkedHashMap<String, Object> producto = new LinkedHashMap<String, Object>();
+		LinkedList<Object> productos = new LinkedList<Object>();
 		try {
 			Connection reg = con.conectar("");
 			String sql = "select p.nombre, p.descripcion, pe.* from producto p inner join producto_empresarial pe on p.id = pe.id_producto";
@@ -144,6 +146,8 @@ public class ProductoDao {
 				producto.put("fecha", rs.getString("fecha"));
 				producto.put("titulo", rs.getString("titulo"));
 				producto.put("nombre-innovacion", rs.getString("nombre_innovacion"));
+				
+				productos.add(producto);
 			}
 		} catch(Exception e) {
 			throw new ExcepcionProductividad("Error del servidor: " + e);
@@ -151,12 +155,13 @@ public class ProductoDao {
 		finally {
 			con.cerrarConexion();
 		}
-		return producto;
+		return productos;
 	}
 	
 	public Object getProductoEmpresarial(int id_producto) throws Exception {
 		
 		LinkedHashMap<String, Object> producto = new LinkedHashMap<String, Object>();
+		LinkedList<Object> productos = new LinkedList<Object>();
 		try {
 			Connection reg = con.conectar("");
 			String sql = "select p.nombre, p.descripcion, pe.* from producto p inner join producto_empresarial pe on p.id = pe.id_producto where p.id = ?";
@@ -179,6 +184,8 @@ public class ProductoDao {
 				producto.put("fecha", rs.getString("fecha"));
 				producto.put("titulo", rs.getString("titulo"));
 				producto.put("nombre-innovacion", rs.getString("nombre_innovacion"));
+				
+				productos.add(producto);
 			}
 		} catch(Exception e) {
 			throw new ExcepcionProductividad("Error del servidor: " + e);
@@ -186,12 +193,13 @@ public class ProductoDao {
 		finally {
 			con.cerrarConexion();
 		}
-		return producto;
+		return productos;
 	}
 	
 	public Object getProductosTecnologicos() throws Exception {
 		
 		LinkedHashMap<String, Object> producto = new LinkedHashMap<String, Object>();
+		LinkedList<Object> productos = new LinkedList<Object>();
 		try {
 			Connection reg = con.conectar("");
 			String sql = "select p.nombre, p.descripcion, pt* from producto p inner join producto_tecnologico_patentado pt on p.id = pt.id_producto";
@@ -209,6 +217,8 @@ public class ProductoDao {
 				producto.put("contrato", rs.getInt("contrato_explotacion_licen_id"));
 				producto.put("id-solicitud", rs.getInt("id_solicitud"));
 				producto.put("estado-patente", rs.getInt("estado_patente"));
+				
+				productos.add(producto);
 			}
 		} catch(Exception e) {
 			throw new ExcepcionProductividad("Error del servidor: " + e);
@@ -216,12 +226,13 @@ public class ProductoDao {
 		finally {
 			con.cerrarConexion();
 		}
-		return producto;
+		return productos;
 	}
 	
 	public Object getProductoTecnologico(int id_producto) throws Exception {
 		
 		LinkedHashMap<String, Object> producto = new LinkedHashMap<String, Object>();
+		LinkedList<Object> productos = new LinkedList<Object>();
 		try {
 			Connection reg = con.conectar("");
 			String sql = "select p.nombre, p.descripcion, pt* from producto p inner join producto_tecnologico_patentado pt on p.id = pt.id_producto where p.id = ?";
@@ -240,6 +251,8 @@ public class ProductoDao {
 				producto.put("contrato", rs.getInt("contrato_explotacion_licen_id"));
 				producto.put("id-solicitud", rs.getInt("id_solicitud"));
 				producto.put("estado-patente", rs.getInt("estado_patente"));
+				
+				productos.add(producto);
 			}
 		} catch(Exception e) {
 			throw new ExcepcionProductividad("Error del servidor: " + e);
@@ -247,6 +260,6 @@ public class ProductoDao {
 		finally {
 			con.cerrarConexion();
 		}
-		return producto;
+		return productos;
 	}
 }

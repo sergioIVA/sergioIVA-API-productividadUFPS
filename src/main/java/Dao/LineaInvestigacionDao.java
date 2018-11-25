@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 
 import conexion.Conexion;
 import model.LineaInvestigacion;
@@ -53,9 +54,10 @@ public class LineaInvestigacionDao {
 	}
 	
 	public Object getLineasInvestigacion() throws Exception {
-		
 		LinkedHashMap<String, Object> lineas = new LinkedHashMap<String, Object>();
 		LinkedHashMap<String, Object> tipo_linea = new LinkedHashMap<String, Object>();
+		
+		LinkedList<Object> lineaslist = new LinkedList<Object>();
 		try {
 			Connection reg = con.conectar("");
 			String sql = "select l.*, tl.nombre tipolinea from linea_investigacion l inner join tipo_linea tl on l.id_tipo_linea = tl.id order by l.id";
@@ -72,6 +74,8 @@ public class LineaInvestigacionDao {
 				tipo_linea.put("nombre", rs.getString("tipolinea"));
 				
 				lineas.put("tipo-linea", tipo_linea);
+				
+				lineaslist.add(lineas);
 			}
 		} catch(Exception e) {
 			throw new ExcepcionProductividad("Error de servidor: " + e);
@@ -80,13 +84,15 @@ public class LineaInvestigacionDao {
 			con.cerrarConexion();
 		}
 		
-		return lineas;
+		return lineaslist;
 	}
 	
 	public Object getLineaInvestigacion(int id_linea) throws Exception {
 		
 		LinkedHashMap<String, Object> lineas = new LinkedHashMap<String, Object>();
 		LinkedHashMap<String, Object> tipo_linea = new LinkedHashMap<String, Object>();
+		
+		LinkedList<Object> lineaslist = new LinkedList<Object>();
 		try {
 			Connection reg = con.conectar("");
 			String sql = "select l.*, tl.nombre tipolinea from linea_investigacion l inner join tipo_linea tl on l.id_tipo_linea = tl.id order by l.id where l.id = ?";
@@ -104,6 +110,8 @@ public class LineaInvestigacionDao {
 				tipo_linea.put("nombre", rs.getString("tipolinea"));
 				
 				lineas.put("tipo-linea", tipo_linea);
+				
+				lineaslist.add(lineas);
 			}
 		} catch(Exception e) {
 			throw new ExcepcionProductividad("Error de servidor: " + e);
@@ -112,7 +120,7 @@ public class LineaInvestigacionDao {
 			con.cerrarConexion();
 		}
 		
-		return lineas;
+		return lineaslist;
 	}
 	
 	public LineaSemillero asociarLineaSemillero(int id_semillero, int id_linea) throws Exception {
@@ -160,6 +168,8 @@ public class LineaInvestigacionDao {
 	public Object getLineasGrupo(int id_grupo) throws Exception {
 		
 		LinkedHashMap<String, Object> lineas = new LinkedHashMap<String, Object>();
+		
+		LinkedList<Object> lineaslist = new LinkedList<Object>();
 		try {
 			Connection reg = con.conectar("");
 			String sql = "select lg.id_linea, li.nombre, li.descripcion, g.nombre nombregrupo, g.sigla siglagrupo, g.codigo_colciencias, p.id iddirector, p.nombre nombredirector "
@@ -178,6 +188,8 @@ public class LineaInvestigacionDao {
 				lineas.put("grupo-colciencias", rs.getString("codigo_colciencias"));
 				lineas.put("id-director", rs.getString("iddirector"));
 				lineas.put("director", rs.getString("nombredirector"));
+				
+				lineaslist.add(lineas);
 			}
 		} catch(Exception e) {
 			throw new ExcepcionProductividad("Error del servidor: " + e);
@@ -185,12 +197,13 @@ public class LineaInvestigacionDao {
 		finally {
 			con.cerrarConexion();
 		}
-		return lineas;
+		return lineaslist;
 	}
 	
 	public Object getLineasSemillero(int id_semillero) throws Exception {
 		
 		LinkedHashMap<String, Object> lineas = new LinkedHashMap<String, Object>();
+		LinkedList<Object> lineaslist = new LinkedList<Object>();
 		try {
 			Connection reg = con.conectar("");
 			String sql = "select li.id, li.nombre nombrelinea, ls.id_semillero, s.codigo, s.nombre, s.sigla, p.id iddirector, p.nombre nombredirector "
@@ -211,6 +224,8 @@ public class LineaInvestigacionDao {
 				lineas.put("sigla-semillero", rs.getString("sigla"));
 				lineas.put("id-director", rs.getString("iddirector"));
 				lineas.put("director", rs.getString("nombredirector"));
+				
+				lineaslist.add(lineas);
 			}
 		} catch(Exception e) {
 			throw new ExcepcionProductividad("Error del servidor: " + e);
@@ -218,6 +233,6 @@ public class LineaInvestigacionDao {
 		finally {
 			con.cerrarConexion();
 		}
-		return lineas;
+		return lineaslist;
 	}
 }
