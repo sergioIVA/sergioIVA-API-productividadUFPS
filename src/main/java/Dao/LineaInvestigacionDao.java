@@ -172,7 +172,7 @@ public class LineaInvestigacionDao {
 		LinkedList<Object> lineaslist = new LinkedList<Object>();
 		try {
 			Connection reg = con.conectar("");
-			String sql = "select lg.id_linea, li.nombre, li.descripcion, g.nombre nombregrupo, g.sigla siglagrupo, g.codigo_colciencias, p.id iddirector, p.nombre nombredirector "
+			String sql = "select lg.id, li.nombre, li.descripcion, g.nombre nombregrupo, g.sigla siglagrupo, g.codigo_colciencias, p.id iddirector, p.nombre nombredirector "
 					+ "from linea_grupo lg inner join linea_investigacion li on li.id = lg.id_linea inner join grupo_investigacion g on g.id = lg.id_grupo "
 					+ "inner join docente_ufps d on d.id_investigador = g.director_grupo inner join persona p on p.id = d.id_investigador where lg.id_grupo = ?";
 			PreparedStatement stmt = reg.prepareStatement(sql);
@@ -206,9 +206,9 @@ public class LineaInvestigacionDao {
 		LinkedList<Object> lineaslist = new LinkedList<Object>();
 		try {
 			Connection reg = con.conectar("");
-			String sql = "select li.id, li.nombre nombrelinea, ls.id_semillero, s.codigo, s.nombre, s.sigla, p.id iddirector, p.nombre nombredirector "
+			String sql = "select ls.id, li.nombre nombrelinea, ls.id_semillero, s.codigo, s.nombre, s.sigla, p.id iddirector, p.nombre nombredirector "
 					+ "from linea_semillero ls inner join semillero s on ls.id_semillero = s.id "
-					+ "inner join linea_investigacion li on li.id = lg.id_linea "
+					+ "inner join linea_investigacion li on li.id = ls.id "
 					+ "inner join docente_ufps d on d.id_investigador = s.id_director "
 					+ "inner join persona p on p.id = d.id_investigador where ls.id_semillero = ?";
 			PreparedStatement stmt = reg.prepareStatement(sql);
