@@ -97,6 +97,21 @@ public class ProcesoEspecificoService {
 	public Object getCapacitacionNoTerminadoPlanAccionSemillero(int idSemillero)throws Exception {
 		return this.procesoEspecificoDao.getCapacitacionNoTerminadoPlanAccionSemillero(idSemillero);
 	}
+	
+	public Object CreateEventoGrupoAsignarPlanAccion(String year,String semestre,int idGrupo,String nombre,
+			String caracterEvento,String responsables,String instituciones_promo,	String entidades,String
+			fecha_inicio,String fecha_final)throws Exception {
+		return this.procesoEspecificoDao.CreateEventoGrupoAsignarPlanAccion(year, semestre, idGrupo, nombre, 
+				caracterEvento, responsables, instituciones_promo, entidades, fecha_inicio, fecha_final);
+	}
+	
+	public Object createActividadGrupoSemilleroAsignarPlanAccion(String year, String semestre, int idGrupoSemillero,
+			int tipoSession, String nombre, String responsables, String producto, String fecha_inicio,
+			String fecha_final)throws Exception{
+		return this.procesoEspecificoDao.createActividadGrupoSemilleroAsignarPlanAccion(year,
+				semestre, idGrupoSemillero, tipoSession, nombre, responsables, producto, fecha_inicio, fecha_final);
+	}
+	
 }
 
 

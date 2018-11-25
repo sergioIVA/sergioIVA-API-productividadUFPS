@@ -6,15 +6,14 @@ import spark.Response;
 
 public class ProcesoEspecificoController {
 
-	final ProcesoEspecificoService procesoEspecificoService=new ProcesoEspecificoService();
-	
+	final ProcesoEspecificoService procesoEspecificoService = new ProcesoEspecificoService();
+
 	public ProcesoEspecificoController() {
 		// TODO Auto-generated constructor stub
 	}
-	
-	
+
 	public Object getPaginaPrincipal(Request req, Response res) {
-		
+
 		res.type("application/json");
 		String cad = req.params(":id");
 
@@ -43,14 +42,14 @@ public class ProcesoEspecificoController {
 		}
 
 	}
-	
+
 	public Object getGrupoCategoriaDirector(Request req, Response res) {
 		res.type("application/json");
 
 		try {
 			res.status(200);// 200 OK
 			return this.procesoEspecificoService.getGrupoCategoriaDirector();
-			
+
 		} catch (Exception e) {
 
 			res.status(500);// 500 INTERNAL SERVER ERROR
@@ -70,14 +69,14 @@ public class ProcesoEspecificoController {
 
 		}
 	}
-	
+
 	public Object getSemilleroDirector(Request req, Response res) {
 		res.type("application/json");
 
 		try {
 			res.status(200);// 200 OK
 			return this.procesoEspecificoService.getSemilleroDirector();
-			
+
 		} catch (Exception e) {
 
 			res.status(500);// 500 INTERNAL SERVER ERROR
@@ -109,20 +108,19 @@ public class ProcesoEspecificoController {
 		}
 
 	}
-	
+
 	public Object getProyectoResponsable(Request req, Response res) {
 		res.type("application/json");
 
 		try {
-			
-		int idGrupoSemillero = Integer.parseInt(req.params(":idGrupoSemillero"));
-		int tipoSession=Integer.parseInt(req.params(":tipoSession"));
-			
-			res.status(200);// 200 OK
-			
-			return this.procesoEspecificoService.getProyectoResponsable(idGrupoSemillero,tipoSession);
 
-			
+			int idGrupoSemillero = Integer.parseInt(req.params(":idGrupoSemillero"));
+			int tipoSession = Integer.parseInt(req.params(":tipoSession"));
+
+			res.status(200);// 200 OK
+
+			return this.procesoEspecificoService.getProyectoResponsable(idGrupoSemillero, tipoSession);
+
 		} catch (Exception e) {
 
 			res.status(500);// 500 INTERNAL SERVER ERROR
@@ -130,7 +128,7 @@ public class ProcesoEspecificoController {
 
 		}
 	}
-	
+
 	public Object getLineasGrupoTipoProyectoGrupo(Request req, Response res) {
 		res.type("application/json");
 		String cad = req.params(":idGrupoSemillero");
@@ -142,7 +140,7 @@ public class ProcesoEspecificoController {
 		int id = Integer.parseInt(cad);
 		int tipoSession = Integer.parseInt(req.params(":tipoSession"));
 		try {
-			Object obj = this.procesoEspecificoService.getLineasGrupoTipoProyectoGrupo(tipoSession,id);
+			Object obj = this.procesoEspecificoService.getLineasGrupoTipoProyectoGrupo(tipoSession, id);
 			if (obj == null) {
 				res.status(400);// 400 BAD REQUEST
 				return "No encontrado";
@@ -155,9 +153,9 @@ public class ProcesoEspecificoController {
 		}
 
 	}
-	
+
 	public Object getProyectoNuevosIntegrantes(Request req, Response res) {
-	
+
 		res.type("application/json");
 		String cad = req.params(":idGrupoSemillero");
 
@@ -168,7 +166,7 @@ public class ProcesoEspecificoController {
 		int idGrupoSemillero = Integer.parseInt(cad);
 		int tipoSession = Integer.parseInt(req.params(":tipoSession"));
 		try {
-		Object obj = this.procesoEspecificoService.getproyectosNuevosIntegrantes(idGrupoSemillero, tipoSession);
+			Object obj = this.procesoEspecificoService.getproyectosNuevosIntegrantes(idGrupoSemillero, tipoSession);
 			if (obj == null) {
 				res.status(400);// 400 BAD REQUEST
 				return "No encontrado";
@@ -181,18 +179,19 @@ public class ProcesoEspecificoController {
 		}
 
 	}
-	
+
 	public Object getcreatePlanGrupoSemillero(Request req, Response res) {
-		
+
 		res.type("application/json");
 		String cad = req.queryParams("idGrupoSemillero");
-		String  year=req.queryParams("year");
-		String  semestre=req.queryParams("semestre");
-		
+		String year = req.queryParams("year");
+		String semestre = req.queryParams("semestre");
+
 		int idGrupoSemillero = Integer.parseInt(cad);
 		int tipoSession = Integer.parseInt(req.queryParams("tipoSession"));
 		try {
-	Object obj = this.procesoEspecificoService.getcreatePlanGrupoSemillero(idGrupoSemillero, tipoSession, year, semestre);
+			Object obj = this.procesoEspecificoService.getcreatePlanGrupoSemillero(idGrupoSemillero, tipoSession, year,
+					semestre);
 			if (obj == null) {
 				res.status(400);// 400 BAD REQUEST
 				return "No encontrado";
@@ -205,15 +204,15 @@ public class ProcesoEspecificoController {
 		}
 
 	}
-	
+
 	public Object getProyectosActividadesNoterminadoPlanAccionGrupoSemillero(Request req, Response res) {
-		
+
 		res.type("application/json");
 		int idGrupoSemillero = Integer.parseInt(req.params(":idGrupoSemillero"));
 		int tipoSession = Integer.parseInt(req.params(":tipoSession"));
 		try {
-	  Object obj = this.procesoEspecificoService.getProyectosActividadesNoterminadoPlanAccionGrupoSemillero
-			  (idGrupoSemillero, tipoSession);
+			Object obj = this.procesoEspecificoService
+					.getProyectosActividadesNoterminadoPlanAccionGrupoSemillero(idGrupoSemillero, tipoSession);
 			if (obj == null) {
 				res.status(400);// 400 BAD REQUEST
 				return "No encontrado";
@@ -225,16 +224,15 @@ public class ProcesoEspecificoController {
 			return e.toString();
 		}
 
-		
 	}
-	
+
 	public Object eventoNoTerminadoPlanAccionGrupo(Request req, Response res) {
-		
+
 		res.type("application/json");
-		int idGrupo= Integer.parseInt(req.params(":idGrupo"));
-		
+		int idGrupo = Integer.parseInt(req.params(":idGrupo"));
+
 		try {
-	  Object obj = this.procesoEspecificoService.eventoNoTerminadoPlanAccionGrupo(idGrupo);
+			Object obj = this.procesoEspecificoService.eventoNoTerminadoPlanAccionGrupo(idGrupo);
 			if (obj == null) {
 				res.status(400);// 400 BAD REQUEST
 				return "No encontrado";
@@ -246,30 +244,100 @@ public class ProcesoEspecificoController {
 			return e.toString();
 		}
 
+	}
+
+	public Object getCapacitacionNoTerminadoPlanAccionSemillero(Request req, Response res) {
+
+		res.type("application/json");
+		int idSemillero = Integer.parseInt(req.params(":idSemillero"));
+
+		try {
+			Object obj = this.procesoEspecificoService.getCapacitacionNoTerminadoPlanAccionSemillero(idSemillero);
+			if (obj == null) {
+				res.status(400);// 400 BAD REQUEST
+				return "No encontrado";
+			}
+			res.status(200);// 200 OK
+			return obj;
+		} catch (Exception e) {
+			res.status(500);// 500 INTERNAL SERVER ERROR
+			return e.toString();
+		}
+
+	}
+
+	public Object CreateEventoGrupoAsignarPlanAccion(Request req, Response res) {
 		
+		res.type("application/json");
+
+		/// plan de accion
+		String year = req.queryParams("year");
+		String semestre = req.queryParams("semestre");
+		int idGrupo = Integer.parseInt(req.queryParams("idGrupo"));
+
+		/// evento
+		String nombre = req.queryParams("nombre");
+		String caracterEvento = req.queryParams("caracterEvento");
+		String responsables = req.queryParams("responsables");
+		String instituciones_promo = req.queryParams("instituciones_promo");
+		String entidades = req.queryParams("entidades");
+		String fecha_inicio = req.queryParams("fecha_inicio");
+		String fecha_final = req.queryParams("fecha_final");
+
+
+
+		try {
+			Object obj = this.procesoEspecificoService.CreateEventoGrupoAsignarPlanAccion(year,
+					semestre, idGrupo, nombre, caracterEvento, responsables, instituciones_promo, 
+					entidades, fecha_inicio, fecha_final);
+			if (obj == null) {
+				res.status(400);
+				return "no se ha encontrado";
+			}
+
+			res.status(200);
+			return obj;
+		} catch (Exception e) {
+			res.status(500);
+			return e.toString();
+		}
+	}
+
+public Object createActividadGrupoSemilleroAsignarPlanAccion(Request req, Response res) {
+		
+		res.type("application/json");
+
+		/// plan de accion
+		String year = req.queryParams("year");
+		String semestre = req.queryParams("semestre");
+		int idGrupoSemillero = Integer.parseInt(req.queryParams("idGrupoSemillero"));
+		int tipoSession=Integer.parseInt(req.queryParams("tipoSession"));
+
+		/// 
+		String nombre = req.queryParams("nombre");
+		String responsables = req.queryParams("responsables");
+		String producto = req.queryParams("producto");
+		String fecha_inicio = req.queryParams("fecha_inicio");
+		String fecha_final = req.queryParams("fecha_final");
+	
+
+
+		try {
+			Object obj = this.procesoEspecificoService.createActividadGrupoSemilleroAsignarPlanAccion(
+					year, semestre, idGrupoSemillero, tipoSession, nombre, responsables, producto, 
+					fecha_inicio, fecha_final);
+			if (obj == null) {
+				res.status(400);
+				return "no se ha encontrado";
+			}
+
+			res.status(200);
+			return obj;
+		} catch (Exception e) {
+			res.status(500);
+			return e.toString();
+		}
 	}
 	
-public Object getCapacitacionNoTerminadoPlanAccionSemillero(Request req, Response res) {
-		
-		res.type("application/json");
-		int idSemillero= Integer.parseInt(req.params(":idSemillero"));
-		
-		try {
-	  Object obj = this.procesoEspecificoService.getCapacitacionNoTerminadoPlanAccionSemillero(idSemillero);
-			if (obj == null) {
-				res.status(400);// 400 BAD REQUEST
-				return "No encontrado";
-			}
-			res.status(200);// 200 OK
-			return obj;
-		} catch (Exception e) {
-			res.status(500);// 500 INTERNAL SERVER ERROR
-			return e.toString();
-		}
-
-		
-	}
-		
-			
+	
 }
-

@@ -107,8 +107,16 @@ public class MainController {
 			post("/createPlanGrupoSemillero",(req,res)->{return this.procesoEspecificoController.getcreatePlanGrupoSemillero(req, res);},new JsonTransformer());
 			get("/ProyectosActividadesNoterminadoPlanAccionGrupoSemillero/:idGrupoSemillero/session/:tipoSession",(req,res)->
 			{return this.procesoEspecificoController.getProyectosActividadesNoterminadoPlanAccionGrupoSemillero(req, res);},new JsonTransformer());
+			/// rutas nuevas
 			get("/eventoNoTerminadoPlanAccionGrupo/:idGrupo",(req,res)->{return this.procesoEspecificoController.eventoNoTerminadoPlanAccionGrupo(req, res);},new JsonTransformer());
 			get("/capacitacionNoTerminadoPlanAccionSemillero/:idSemillero",(req,res)->{ return this.procesoEspecificoController.getCapacitacionNoTerminadoPlanAccionSemillero(req, res);},new JsonTransformer());	
+			post("/createEventoGrupoAsignarloPlanAccion",(req,res)->{return this.procesoEspecificoController.CreateEventoGrupoAsignarPlanAccion(req, res);},new JsonTransformer());
+			post("/createActividadGrupoSemilleroAsignarPlanAccion",(req,res)->{return this.procesoEspecificoController.createActividadGrupoSemilleroAsignarPlanAccion(req, res);},
+					new JsonTransformer());
+			///falta create capacitacion y asignar
+			/// falta proyectos asigandos a ese plan de accion 
+			// asignar al plan  de accion actividades,capacitaciones,eventos al nuevo plan de accion 
+			
 			
 			//5.Grupo
 			get("/grupo",(req,res)->{return this.grupoController.getGrupos(req, res);}, new JsonTransformer());

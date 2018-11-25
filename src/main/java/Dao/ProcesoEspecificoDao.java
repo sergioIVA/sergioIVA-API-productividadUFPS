@@ -9,11 +9,15 @@ import java.util.LinkedList;
 import java.util.List;
 
 import conexion.Conexion;
+import model.Actividad_plan_semillero;
 import model.Departamento;
+import model.Evento;
 import model.JovenInvestigador;
 import model.LineaInvestigacion;
+import model.Objetivo;
 import model.PlanAccionGrupo;
 import model.PlanAccionSemillero;
+import model.Plan_accion_grupo_actividad;
 import spark.Request;
 import spark.Response;
 import util.ExcepcionProductividad;
@@ -442,16 +446,16 @@ public class ProcesoEspecificoDao {
 
 			String sql = "";
 			if (tipoSession == 1) {
-				sql = "select DISTINCT proyecto.id,proyecto.titulo from proyecto_grupo " + 
-						"proyectoGrupo,proyecto proyecto,plan_accion_grupo_proyecto plan where " + 
-						"proyectoGrupo.id_proyecto=proyecto.id " + 
-						"and proyectoGrupo.id_grupo=? and proyectoGrupo.id_proyecto  "
+				sql = "select DISTINCT proyecto.id,proyecto.titulo from proyecto_grupo "
+						+ "proyectoGrupo,proyecto proyecto,plan_accion_grupo_proyecto plan where "
+						+ "proyectoGrupo.id_proyecto=proyecto.id "
+						+ "and proyectoGrupo.id_grupo=? and proyectoGrupo.id_proyecto  "
 						+ "NOT IN (select DISTINCT id_proyecto from plan_accion_grupo_proyecto)";
 			} else {
-				sql = "select DISTINCT proyecto.id,proyecto.titulo from proyecto_semillero " +
-						"proyectoSemillero,proyecto proyecto,proyecto_plan_semillero plan where" + 
-						" proyectoSemillero.id_proyecto=proyecto.id and proyectoSemillero.id_semillero=? and " + 
-						"proyectoSemillero.id_proyecto  NOT IN (select DISTINCT id_proyecto "
+				sql = "select DISTINCT proyecto.id,proyecto.titulo from proyecto_semillero "
+						+ "proyectoSemillero,proyecto proyecto,proyecto_plan_semillero plan where"
+						+ " proyectoSemillero.id_proyecto=proyecto.id and proyectoSemillero.id_semillero=? and "
+						+ "proyectoSemillero.id_proyecto  NOT IN (select DISTINCT id_proyecto "
 						+ "from proyecto_plan_semillero)";
 			}
 			PreparedStatement stmt = reg.prepareStatement(sql);
@@ -460,51 +464,51 @@ public class ProcesoEspecificoDao {
 
 			List<LinkedHashMap> arrays = new LinkedList<LinkedHashMap>();
 			LinkedHashMap<String, Object> datosEspecificos = new LinkedHashMap<String, Object>();
-			
-			boolean hayDatos=false;
+
+			boolean hayDatos = false;
 			while (rs.next()) {
-				
-				hayDatos=true; 
+
+				hayDatos = true;
 				datosEspecificos.put("id", rs.getInt("id"));
 				datosEspecificos.put("titulo", rs.getString("titulo"));
 				arrays.add(datosEspecificos);
 				datosEspecificos = new LinkedHashMap<String, Object>();
 			}
-			
-			
-			 if(!hayDatos) {
-				 
-				 if (tipoSession == 1) {
-						sql = "select proyecto.id,proyecto.titulo from proyecto_grupo " + 
-								"proyectoGrupo,proyecto proyecto where proyectoGrupo.id_proyecto"
-								+ "=proyecto.id and proyectoGrupo.id_grupo=?;";
-					} else {
-						sql = "select proyecto.id,proyecto.titulo from proyecto_semillero proyectoSemillero"
-								+ ",proyecto proyecto where " + 
-								"proyectoSemillero.id_proyecto=proyecto.id and proyectoSemillero.id_semillero=?";
-					}
-				 
-				    stmt = reg.prepareStatement(sql);
-					stmt.setInt(1, idGrupoSemillero);
-					rs = stmt.executeQuery();
-					
-					while (rs.next()) {
-						datosEspecificos.put("id", rs.getInt("id"));
-						datosEspecificos.put("titulo", rs.getString("titulo"));
-						arrays.add(datosEspecificos);
-						datosEspecificos = new LinkedHashMap<String, Object>();
-					}
-				 
-			 }
-			
+
+			if (!hayDatos) {
+
+				if (tipoSession == 1) {
+					sql = "select proyecto.id,proyecto.titulo from proyecto_grupo "
+							+ "proyectoGrupo,proyecto proyecto where proyectoGrupo.id_proyecto"
+							+ "=proyecto.id and proyectoGrupo.id_grupo=?;";
+				} else {
+					sql = "select proyecto.id,proyecto.titulo from proyecto_semillero proyectoSemillero"
+							+ ",proyecto proyecto where "
+							+ "proyectoSemillero.id_proyecto=proyecto.id and proyectoSemillero.id_semillero=?";
+				}
+
+				stmt = reg.prepareStatement(sql);
+				stmt.setInt(1, idGrupoSemillero);
+				rs = stmt.executeQuery();
+
+				while (rs.next()) {
+					datosEspecificos.put("id", rs.getInt("id"));
+					datosEspecificos.put("titulo", rs.getString("titulo"));
+					arrays.add(datosEspecificos);
+					datosEspecificos = new LinkedHashMap<String, Object>();
+				}
+
+			}
 
 			general.put("proyectoNuevo", arrays);
 
 			if (tipoSession == 1) {
-				sql = "select DISTINCT persona.id,persona.nombre from participante_grupo participanteGrupo," + "persona persona where "
-						+ "participanteGrupo.id_grupo=? and " + "participanteGrupo.id_participante=persona.id";
+				sql = "select DISTINCT persona.id,persona.nombre from participante_grupo participanteGrupo,"
+						+ "persona persona where " + "participanteGrupo.id_grupo=? and "
+						+ "participanteGrupo.id_participante=persona.id";
 			} else {
-				sql = "select DISTINCT persona.id,persona.nombre from participante_semillero participanteSe," + "persona persona where "
+				sql = "select DISTINCT persona.id,persona.nombre from participante_semillero participanteSe,"
+						+ "persona persona where "
 						+ "participanteSe.id_semillero=? and participanteSe.id_participante=persona.id;";
 			}
 
@@ -538,7 +542,6 @@ public class ProcesoEspecificoDao {
 		try {
 			Connection reg = con.conectar("");
 
-
 			String sql = "";
 			if (tipoSession == 1) {
 				sql = "insert into plan_accion_grupo(year,semestre,id_grupo) values (?,?,?)";
@@ -550,20 +553,18 @@ public class ProcesoEspecificoDao {
 			stmt.setString(2, semestre);
 			stmt.setInt(3, idGrupoSemillero);
 
-		
 			List<LinkedHashMap> arrays = new LinkedList<LinkedHashMap>();
 			LinkedHashMap<String, Object> datosEspecificos = new LinkedHashMap<String, Object>();
-			
-			if(stmt.executeUpdate() > 0) {
-				
+
+			if (stmt.executeUpdate() > 0) {
+
 				if (tipoSession == 1) {
-	             return new PlanAccionGrupo(year,semestre,idGrupoSemillero);     
+					return new PlanAccionGrupo(year, semestre, idGrupoSemillero);
 				} else {
-					return new PlanAccionSemillero(year,semestre,idGrupoSemillero);   
-				}	
+					return new PlanAccionSemillero(year, semestre, idGrupoSemillero);
+				}
 			}
-			
-			
+
 			return null;
 		} catch (Exception e) {
 			throw new ExcepcionProductividad("error del servidor" + e);
@@ -574,28 +575,28 @@ public class ProcesoEspecificoDao {
 		}
 
 	}
-	
-	public Object getProyectosActividadesNoterminadoPlanAccionGrupoSemillero(int idGrupoSemillero,int tipoSession)throws Exception {
-		
+
+	public Object getProyectosActividadesNoterminadoPlanAccionGrupoSemillero(int idGrupoSemillero, int tipoSession)
+			throws Exception {
 
 		try {
 			Connection reg = con.conectar("");
 
-			// 1.consultar proyectos que no este terminado en los planes de accion de grupos y semilleros
+			// 1.consultar proyectos que no este terminado en los planes de accion de grupos
+			// y semilleros
 			LinkedHashMap<String, Object> general = new LinkedHashMap<String, Object>();
 
 			String sql = "";
 			if (tipoSession == 1) {
-				sql = "SELECT DISTINCT proyecto.id,proyecto.titulo,proyecto.estado FROM "+ 
-						"plan_accion_grupo_proyecto plan,proyecto proyecto where "
+				sql = "SELECT DISTINCT proyecto.id,proyecto.titulo,proyecto.estado FROM "
+						+ "plan_accion_grupo_proyecto plan,proyecto proyecto where "
 						+ "plan.id_proyecto=proyecto.id and proyecto.estado=0 and plan.id_grupo=?";
 			} else {
-				sql = "SELECT distinct proyecto.id,proyecto.titulo,proyecto.estado FROM " + 
-						"proyecto_plan_semillero plan,proyecto proyecto " + 
-						"where plan.id_proyecto=proyecto.id and " + 
-						"plan.id_semillero=? and proyecto.estado=0";
+				sql = "SELECT distinct proyecto.id,proyecto.titulo,proyecto.estado FROM "
+						+ "proyecto_plan_semillero plan,proyecto proyecto " + "where plan.id_proyecto=proyecto.id and "
+						+ "plan.id_semillero=? and proyecto.estado=0";
 			}
-			
+
 			PreparedStatement stmt = reg.prepareStatement(sql);
 			stmt.setInt(1, idGrupoSemillero);
 			ResultSet rs = stmt.executeQuery();
@@ -613,13 +614,13 @@ public class ProcesoEspecificoDao {
 			general.put("proyectosNoTerminado", arrays);
 
 			if (tipoSession == 1) {
-				sql = "SELECT distinct plan.id_actividad id,actividad.nombre,actividad.estado " + 
-						"FROM plan_accion_grupo_actividad plan,actividad_investigacion_grupo" + 
-						" actividad where plan.id_actividad=actividad.id and actividad.estado=0"
+				sql = "SELECT distinct plan.id_actividad id,actividad.nombre,actividad.estado "
+						+ "FROM plan_accion_grupo_actividad plan,actividad_investigacion_grupo"
+						+ " actividad where plan.id_actividad=actividad.id and actividad.estado=0"
 						+ " and plan.id_grupo=?";
 			} else {
-				sql = "SELECT  distinct actividad.id,actividad.nombre,actividad.estado from " + 
-						"actividad_plan_semillero plan,actividad_investigacion_semillero "
+				sql = "SELECT  distinct actividad.id,actividad.nombre,actividad.estado from "
+						+ "actividad_plan_semillero plan,actividad_investigacion_semillero "
 						+ "actividad where plan.id_actividad=actividad.id and plan.id_semillero=?"
 						+ " and actividad.estado=0";
 			}
@@ -631,9 +632,9 @@ public class ProcesoEspecificoDao {
 			List<LinkedHashMap> arrays2 = new LinkedList<LinkedHashMap>();
 			LinkedHashMap<String, Object> datosEspecificos2 = new LinkedHashMap<String, Object>();
 			while (rs.next()) {
-				datosEspecificos2.put("id",rs.getInt("id"));
+				datosEspecificos2.put("id", rs.getInt("id"));
 				datosEspecificos2.put("nombre", rs.getString("nombre"));
-				datosEspecificos2.put("estado",rs.getInt("estado"));
+				datosEspecificos2.put("estado", rs.getInt("estado"));
 				arrays2.add(datosEspecificos2);
 				datosEspecificos2 = new LinkedHashMap<String, Object>();
 			}
@@ -649,22 +650,22 @@ public class ProcesoEspecificoDao {
 			con.cerrarConexion();
 		}
 	}
-	
-	public Object eventoNoTerminadoPlanAccionGrupo(int idGrupo)throws Exception {
-		
+
+	public Object eventoNoTerminadoPlanAccionGrupo(int idGrupo) throws Exception {
 
 		try {
 			Connection reg = con.conectar("");
 
-			// 1.consultar proyectos que no este terminado en los planes de accion de grupos y semilleros
+			// 1.consultar proyectos que no este terminado en los planes de accion de grupos
+			// y semilleros
 			LinkedHashMap<String, Object> general = new LinkedHashMap<String, Object>();
 
 			String sql = "";
-			
-				sql = "SELECT DISTINCT evento.id,evento.nombre,evento.estado FROM " + 
-						"evento_plan_accion_grupo plan,evento evento where " + 
-						"plan.id_evento=evento.id and evento.estado=0 and plan.id_grupo=?";
-			
+
+			sql = "SELECT DISTINCT evento.id,evento.nombre,evento.estado FROM "
+					+ "evento_plan_accion_grupo plan,evento evento where "
+					+ "plan.id_evento=evento.id and evento.estado=0 and plan.id_grupo=?";
+
 			PreparedStatement stmt = reg.prepareStatement(sql);
 			stmt.setInt(1, idGrupo);
 			ResultSet rs = stmt.executeQuery();
@@ -689,24 +690,22 @@ public class ProcesoEspecificoDao {
 		finally {
 			con.cerrarConexion();
 		}
-		
-	} 
-	
-	
-	public Object getCapacitacionNoTerminadoPlanAccionSemillero(int idSemillero)throws Exception {
+
+	}
+
+	public Object getCapacitacionNoTerminadoPlanAccionSemillero(int idSemillero) throws Exception {
 
 		try {
 			Connection reg = con.conectar("");
 
-	
 			LinkedHashMap<String, Object> general = new LinkedHashMap<String, Object>();
 
 			String sql = "";
-			
-				sql = "SELECT DISTINCT  capacita.id,capacita.nombre,capacita.estado FROM " + 
-						"plan_accion_capacitacion plan,capacitacion capacita where " + 
-						"plan.id_capacitacion=capacita.id and capacita.estado=0 and plan.id_semillero=?;";
-			
+
+			sql = "SELECT DISTINCT  capacita.id,capacita.nombre,capacita.estado FROM "
+					+ "plan_accion_capacitacion plan,capacitacion capacita where "
+					+ "plan.id_capacitacion=capacita.id and capacita.estado=0 and plan.id_semillero=?;";
+
 			PreparedStatement stmt = reg.prepareStatement(sql);
 			stmt.setInt(1, idSemillero);
 			ResultSet rs = stmt.executeQuery();
@@ -731,7 +730,139 @@ public class ProcesoEspecificoDao {
 		finally {
 			con.cerrarConexion();
 		}
-		
+
+	}
+
+	public Object CreateEventoGrupoAsignarPlanAccion(String year, String semestre, int idGrupo, String nombre,
+			String caracterEvento, String responsables, String instituciones_promo, String entidades,
+			String fecha_inicio, String fecha_final) throws Exception {
+
+		Connection reg = null;
+		int id = -1;
+		try {
+
+			reg = con.conectar("");
+
+			String sql = "INSERT INTO evento(id,nombre,caracter_evento,responsables,instituiones_promo,"
+					+ "entidades_participantes,fecha_inicio,fecha_final,estado) values (?,?,?,?,?,?,?,?,?)";
+			PreparedStatement pst;
+			String generatedColumns[] = { "id" };
+			pst = reg.prepareStatement(sql, generatedColumns);
+			pst.setInt(1, 0);
+			pst.setString(2, nombre);
+			pst.setString(3, caracterEvento);
+			pst.setString(4, responsables);
+			pst.setString(5, instituciones_promo);
+			pst.setString(6, entidades);
+			pst.setString(7, fecha_inicio);
+			pst.setString(8, fecha_final);
+			pst.setInt(9, 0);
+
+			pst.executeUpdate();
+
+			ResultSet generatedKeys = pst.getGeneratedKeys();
+			if (generatedKeys.next()) {
+				id = generatedKeys.getInt(1);
+			}
+
+			sql = "INSERT INTO evento_plan_accion_grupo(id_evento,year,semestre,id_grupo) values (?,?,?,?)";
+
+			pst = reg.prepareStatement(sql);
+			pst.setInt(1, id);
+			pst.setString(2, year);
+			pst.setString(3, semestre);
+			pst.setInt(4, idGrupo);
+
+			pst.executeUpdate();
+
+			return new Evento(id, year, semestre, idGrupo);
+
+		} catch (java.sql.SQLIntegrityConstraintViolationException e) {
+			throw new ExcepcionProductividad("ya hay grupo con ese nombre  asociado");
+		} catch (Exception e) {
+			throw new ExcepcionProductividad("error del servidor" + e);// mientras colocamos e por desarrollo para
+			// mirar las consultas
+		}
+
+		finally {
+			con.cerrarConexion();
+		}
+
+	}
+
+	public Object createActividadGrupoSemilleroAsignarPlanAccion(String year, String semestre, int idGrupoSemillero,
+			int tipoSession, String nombre, String responsables, String producto, String fecha_inicio,
+			String fecha_final)throws Exception {
+
+		Connection reg = null;
+		int id = -1;
+		try {
+
+			reg = con.conectar("");
+			String sql = "";
+
+			if (tipoSession == 1) {
+				sql = "INSERT INTO actividad_investigacion_grupo(id,nombre,responsables,producto,fecha_inicio,"
+						+ "fecha_fin,estado) values (?,?,?,?,?,?,?)";
+			} else {
+				sql = "INSERT INTO actividad_investigacion_semillero(id,nombre,responsable,producto,fecha_inicio,"
+						+ "fecha_final,estado) values (?,?,?,?,?,?,?)";
+			}
+
+			PreparedStatement pst;
+			String generatedColumns[] = { "id" };
+			pst = reg.prepareStatement(sql, generatedColumns);
+			pst.setInt(1, 0);
+			pst.setString(2, nombre);
+			pst.setString(3, responsables);
+			pst.setString(4, producto);
+			pst.setString(5, fecha_inicio);
+			pst.setString(6, fecha_final);
+			pst.setInt(7, 0);
+
+			pst.executeUpdate();
+
+			ResultSet generatedKeys = pst.getGeneratedKeys();
+			if (generatedKeys.next()) {
+				id = generatedKeys.getInt(1);
+			}
+
+			if (tipoSession == 1) {
+				sql = "INSERT INTO plan_accion_grupo_actividad(id_actividad,year,semestre,id_grupo) "
+						+ "values (?,?,?,?)";
+			} else {
+				sql = "INSERT INTO actividad_plan_semillero(id_actividad,year,semestre,id_semillero)" + 
+				 "values (?,?,?,?)";
+			}
+
+
+			pst = reg.prepareStatement(sql);
+			pst.setInt(1, id);
+			pst.setString(2, year);
+			pst.setString(3, semestre);
+			pst.setInt(4, idGrupoSemillero);
+
+			pst.executeUpdate();
+
+			
+			    if(tipoSession==1) {
+			return new Plan_accion_grupo_actividad(id,year,semestre,idGrupoSemillero);    	
+			    }else {
+			return new Actividad_plan_semillero(id,year,semestre,idGrupoSemillero);    	
+			    }
+			
+			
+		} catch (java.sql.SQLIntegrityConstraintViolationException e) {
+			throw new ExcepcionProductividad("ya hay grupo con ese nombre  asociado");
+		} catch (Exception e) {
+			throw new ExcepcionProductividad("error del servidor" + e);// mientras colocamos e por desarrollo para
+			// mirar las consultas
+		}
+
+		finally {
+			con.cerrarConexion();
+		}
+
 	}
 
 }
