@@ -133,6 +133,12 @@ public class ProcesoEspecificoService {
 				semestre, idGrupoSemillero, tipoSession, id_actividad);
 	}
 	
+	public Object asignarCapacitacionPlanAccionSemillero(String year,String semestre,int idSemillero,int id_capacitacion
+			)throws Exception {
+		return this.procesoEspecificoDao.asignarCapacitacionPlanAccionSemillero(year,
+				semestre, idSemillero, id_capacitacion);
+	}
+	
 }
 
 

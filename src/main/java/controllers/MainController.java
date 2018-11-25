@@ -120,6 +120,9 @@ public class MainController {
 					new JsonTransformer());
 			post("/asignarActividadesPlanAccionGrupoSemillero",(req,res)->{return this.procesoEspecificoController.getAsignarActividadesPlanAccionGrupoSemillero(req, res);},
 					new JsonTransformer());
+			post("/asignarCapacitacionPlanAccionSemillero",(req,res)->{return this.procesoEspecificoController.asignarCapacitacionPlanAccionSemillero(req, res);},
+					new JsonTransformer());
+			
 			///falta create capacitacion y asignar
 			/// falta proyectos asigandos a ese plan de accion 
 			// asignar al plan  de accion actividades,capacitaciones,eventos al nuevo plan de accion 

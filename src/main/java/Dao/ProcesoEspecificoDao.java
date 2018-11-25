@@ -983,7 +983,7 @@ public class ProcesoEspecificoDao {
 	public Object getAsignarActividadesPlanAccionGrupoSemillero(String year,String
 			semestre,int idGrupoSemillero,int tipoSession,int id_actividad)throws Exception {
 		
-		int id = -1;
+		
 		try {
 			Connection reg = con.conectar("");
 
@@ -1024,7 +1024,39 @@ public class ProcesoEspecificoDao {
 		finally {
 			con.cerrarConexion();
 		}
+		
+	}	
+		public Object asignarCapacitacionPlanAccionSemillero(String year,String semestre,int idSemillero,int id_capacitacion
+				)throws Exception {
 
+			try {
+				Connection reg = con.conectar("");
+
+				
+				LinkedHashMap<String, Object> general = new LinkedHashMap<String, Object>();
+
+				String sql = "INSERT INTO plan_accion_capacitacion(id_capacitacion,year,semestre,id_semillero) values (?,?,?,?)";
+				
+
+				PreparedStatement pst;
+				pst = reg.prepareStatement(sql);
+				pst.setInt(1,id_capacitacion);
+				pst.setString(2,year);
+				pst.setString(3,semestre);
+				pst.setInt(4,idSemillero);
+		
+
+				pst.executeUpdate();
+				
+			  return new Plan_accion_capacitacion(id_capacitacion,year,semestre,idSemillero);
+
+			} catch (Exception e) {
+				throw new ExcepcionProductividad("error del servidor" + e);
+			}
+
+			finally {
+				con.cerrarConexion();
+			}
 		
 	}
 	
