@@ -401,4 +401,34 @@ public class ProcesoEspecificoController {
 		
 	}
 	
+	public Object getAsignarActividadesPlanAccionGrupoSemillero(Request req, Response res) {
+		
+		res.type("application/json");
+
+		/// plan de accion
+		String year = req.queryParams("year");
+		String semestre = req.queryParams("semestre");
+		int idGrupoSemillero = Integer.parseInt(req.queryParams("idGrupoSemillero"));
+		int tipoSession=Integer.parseInt(req.queryParams("tipoSession"));
+		int id_actividad=Integer.parseInt(req.queryParams("id_actividad"));
+	
+
+	
+		try {
+			Object obj = this.procesoEspecificoService.getAsignarActividadesPlanAccionGrupoSemillero(
+					year, semestre, idGrupoSemillero, tipoSession, id_actividad);
+			if (obj == null) {
+				res.status(400);
+				return "no se ha encontrado";
+			}
+
+			res.status(200);
+			return obj;
+		} catch (Exception e) {
+			res.status(500);
+			return e.toString();
+		}
+	}
+	
+	
 }

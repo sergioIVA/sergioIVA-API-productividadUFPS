@@ -980,5 +980,53 @@ public class ProcesoEspecificoDao {
 		
 	}
 	
+	public Object getAsignarActividadesPlanAccionGrupoSemillero(String year,String
+			semestre,int idGrupoSemillero,int tipoSession,int id_actividad)throws Exception {
+		
+		int id = -1;
+		try {
+			Connection reg = con.conectar("");
+
+			// 1.consultar proyectos que no este terminado en los planes de accion de grupos
+			// y semilleros
+			LinkedHashMap<String, Object> general = new LinkedHashMap<String, Object>();
+
+			String sql = "";
+			if (tipoSession == 1) {
+				sql = "INSERT INTO plan_accion_grupo_actividad(id_actividad,year,semestre,id_grupo) values (?,?,?,?)";
+			} else {
+				sql ="INSERT INTO actividad_plan_semillero(id_actividad,year,semestre,id_semillero)"
+						+ " values (?,?,?,?)";
+			}
+
+			PreparedStatement pst;
+			pst = reg.prepareStatement(sql);
+			pst.setInt(1,id_actividad);
+			pst.setString(2,year);
+			pst.setString(3,semestre);
+			pst.setInt(4,idGrupoSemillero);
+	
+
+			pst.executeUpdate();
+			
+
+		    if(tipoSession==1) {
+		return new Plan_accion_grupo_actividad(id_actividad,year,semestre,idGrupoSemillero);    	
+		    }else {
+		return new Actividad_plan_semillero(id_actividad,year,semestre,idGrupoSemillero);    	
+		    }
+		
+
+		} catch (Exception e) {
+			throw new ExcepcionProductividad("error del servidor" + e);
+		}
+
+		finally {
+			con.cerrarConexion();
+		}
+
+		
+	}
+	
 
 }

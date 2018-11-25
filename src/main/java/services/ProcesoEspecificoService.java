@@ -125,6 +125,14 @@ public class ProcesoEspecificoService {
 				idGrupoSemillero, tipoSession, id_proyecto);
 	}
 	
+	
+	public Object getAsignarActividadesPlanAccionGrupoSemillero(String year,String
+			semestre,int idGrupoSemillero,int tipoSession,int id_actividad)throws Exception {
+		
+		return this.procesoEspecificoDao.getAsignarActividadesPlanAccionGrupoSemillero(year,
+				semestre, idGrupoSemillero, tipoSession, id_actividad);
+	}
+	
 }
 
 
