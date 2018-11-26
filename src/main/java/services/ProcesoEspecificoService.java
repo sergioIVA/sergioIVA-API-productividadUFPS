@@ -159,6 +159,10 @@ public class ProcesoEspecificoService {
 		return this.procesoEspecificoDao.getcategoriaProductos(id_tipologia3);
 	}
 	
+	public Object planesAccionGrupoSemillero(int idGrupoSemillero, int tipoSession)throws Exception{
+		return this.procesoEspecificoDao.planesAccionGrupoSemillero(idGrupoSemillero, tipoSession);
+	}
+	
 }
 
 

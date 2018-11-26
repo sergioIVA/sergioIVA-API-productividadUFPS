@@ -574,4 +574,29 @@ public class ProcesoEspecificoController {
 		}
 	}
 	
+	public Object planesAccionGrupoSemillero(Request req, Response res) {
+		res.type("application/json");
+
+		
+		
+		int idGrupoSemillero = Integer.parseInt(req.params(":idGrupoSemillero"));
+		int tipoSession = Integer.parseInt(req.params(":tipoSession"));
+	
+		try {
+			Object obj = this.procesoEspecificoService.planesAccionGrupoSemillero(idGrupoSemillero, tipoSession);
+			
+				
+			if (obj == null) {
+				res.status(400);
+				return "no se ha encontrado";
+			}
+
+			res.status(200);
+			return obj;
+		} catch (Exception e) {
+			res.status(500);
+			return e.toString();
+		}
+	}
+	
 }

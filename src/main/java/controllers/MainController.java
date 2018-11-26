@@ -129,7 +129,8 @@ public class MainController {
 			post("/asignarEventoPlanAccionGrupo",(req,res)->{return this.procesoEspecificoController.asignarEventoPlanAccionGrupo(req, res);},
 					new JsonTransformer());
 			
-			///tipologia de produtos
+			///tipologia de productos
+			
 			get("/tipologiaProductos1",(req,res)->{return this.procesoEspecificoController.getTipologiaProductos1(req, res);},
 					new JsonTransformer());
 			get("/tipologiaProductos2/:idTipologia1",(req,res)->{return this.procesoEspecificoController.getTipologiaProductos2(req, res);},
@@ -138,6 +139,8 @@ public class MainController {
 					new JsonTransformer());
 			get("/categoriaProducto3/:idTipologia3",(req,res)->{return this.procesoEspecificoController.getcategoriaProducto3(req, res);},
 					new JsonTransformer());
+			get("/planesAccionGrupoSemillero/:idGrupoSemillero/session/:tipoSession",(req,res)->{return this.procesoEspecificoController.planesAccionGrupoSemillero(req, res);},
+			new JsonTransformer());
 	
 			
 			
