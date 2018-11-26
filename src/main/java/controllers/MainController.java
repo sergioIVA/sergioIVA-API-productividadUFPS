@@ -339,6 +339,7 @@ public class MainController {
 			
 			//30. Objetivo
 			post("/objetivoEspecifico",(req,res)->{return this.objetivoController.createObjetivoEspecifico(req, res);}, new JsonTransformer());
+			get("/objetivoProyecto/:id",(req,res)->{return this.proyectoController.getObjetivosProyecto(req, res);}, new JsonTransformer());
 			
 			//Lineas de Investigacion
 			get("/lineas_investigacion",(req,res)->{return lineaInvestigacionController.getLineasInvestigacion(req, res);}, new JsonTransformer());
