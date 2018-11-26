@@ -94,8 +94,8 @@ public class ArticuloDao {
 	
 	public LinkedList<Object> getArticulos() throws Exception {
 		
-		LinkedHashMap<String, Object> articulo = new LinkedHashMap<String, Object>();
-		LinkedHashMap<String, Object> producto = new LinkedHashMap<String, Object>();
+		LinkedHashMap<String, Object> articulo = null;
+		LinkedHashMap<String, Object> producto = null;
 		
 		LinkedList<Object> articulos = new LinkedList<Object>();
 		try {
@@ -105,9 +105,11 @@ public class ArticuloDao {
 			
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
+				producto = new LinkedHashMap<String, Object>();
 				producto.put("id-producto", rs.getInt("id_producto"));
 				producto.put("nombre", rs.getString("nombre"));
 				
+				articulo = new LinkedHashMap<String, Object>();
 				articulo.put("producto", producto);
 				articulo.put("tipo-referencia", rs.getInt("tipo_referencia"));
 				articulo.put("nombre-revista", rs.getString("nombre_revista"));
