@@ -599,4 +599,68 @@ public class ProcesoEspecificoController {
 		}
 	}
 	
+	public Object tipoReferencia(Request req, Response res) {
+		res.type("application/json");
+
+		
+		try {
+			Object obj = this.procesoEspecificoService.tipoReferencia();
+			
+				
+			if (obj == null) {
+				res.status(400);
+				return "no se ha encontrado";
+			}
+
+			res.status(200);
+			return obj;
+		} catch (Exception e) {
+			res.status(500);
+			return e.toString();
+		}
+	}
+	
+	
+	public Object Createlibro(Request req, Response res) {
+		
+		res.type("application/json");
+
+		String nombre=req.queryParams("nombre");
+		String descripcion=req.queryParams("descripcion");
+	    int  id_proyecto=Integer.parseInt(req.queryParams("id_proyecto"));
+	    int id_tipo_producto=Integer.parseInt(req.queryParams("id_tipo_producto"));
+		 
+	    String titulo=req.queryParams("titulo");
+	    String ISBN=req.queryParams("ISBN");
+		String fecha_publica=req.queryParams("fecha_publica");
+		String autores=req.queryParams("autores");
+		String editorial=req.queryParams("editorial");
+		String lugar_publica=req.queryParams("lugar_publica");
+		String certificacion_entidad=req.queryParams("certificacion_entidad");
+	    String curriculo=req.queryParams("curriculo");
+	    int tipo_desarrollo=Integer.parseInt(req.queryParams("tipo_desarrollo"));
+		
+		
+		try {
+			Object obj = this.procesoEspecificoService.createLibro(nombre,
+					descripcion, id_proyecto, id_tipo_producto, titulo, ISBN,
+					fecha_publica, autores, editorial, lugar_publica,
+					certificacion_entidad, curriculo, tipo_desarrollo);
+			
+				
+			if (obj == null) {
+				res.status(400);
+				return "no se ha encontrado";
+			}
+
+			res.status(200);
+			return obj;
+		} catch (Exception e) {
+			res.status(500);
+			return e.toString();
+		}
+		
+	}
+	
+
 }

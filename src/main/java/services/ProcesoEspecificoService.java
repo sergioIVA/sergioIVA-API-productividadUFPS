@@ -162,6 +162,18 @@ public class ProcesoEspecificoService {
 	public Object planesAccionGrupoSemillero(int idGrupoSemillero, int tipoSession)throws Exception{
 		return this.procesoEspecificoDao.planesAccionGrupoSemillero(idGrupoSemillero, tipoSession);
 	}
+	public Object tipoReferencia()throws Exception {
+		return this.procesoEspecificoDao.tipoReferencia();
+	}
+	
+	public Object createLibro(String nombre,String descripcion,int id_proyecto,int id_tipo_producto,
+			String titulo,String ISBN,String fecha_publica,String autores,String editorial,String lugar_publica,
+			String certificacion_entidad,String curriculo,int tipo_desarrollo ) throws Exception {
+		
+		return this.procesoEspecificoDao.createLibro(nombre, descripcion,
+				id_proyecto, id_tipo_producto, titulo, ISBN, fecha_publica, autores,
+				editorial, lugar_publica, certificacion_entidad, curriculo, tipo_desarrollo);
+	}
 	
 }
 

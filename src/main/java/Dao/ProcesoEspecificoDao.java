@@ -10,9 +10,11 @@ import java.util.List;
 
 import conexion.Conexion;
 import model.Actividad_plan_semillero;
+import model.Articulo;
 import model.Departamento;
 import model.Evento;
 import model.JovenInvestigador;
+import model.Libro;
 import model.LineaInvestigacion;
 import model.Objetivo;
 import model.PlanAccionGrupo;
@@ -1202,9 +1204,8 @@ public class ProcesoEspecificoDao {
 
 	}
 
-	public Object planesAccionGrupoSemillero(int idGrupoSemillero, int tipoSession)throws Exception {
-		
-		
+	public Object planesAccionGrupoSemillero(int idGrupoSemillero, int tipoSession) throws Exception {
+
 		LinkedHashMap general = new LinkedHashMap<>();
 		List<LinkedHashMap> array = new LinkedList<LinkedHashMap>();
 
@@ -1231,19 +1232,17 @@ public class ProcesoEspecificoDao {
 					datosEspecificos.put("semestre", rs.getString("semestre"));
 					datosEspecificos.put("id_grupo", rs.getString("id_grupo"));
 					array.add(datosEspecificos);
-				}
-				else {
+				} else {
 					datosEspecificos = new LinkedHashMap<String, Object>();
 					datosEspecificos.put("year", rs.getString("year"));
 					datosEspecificos.put("semestre", rs.getString("semestre"));
 					datosEspecificos.put("id_semillero", rs.getString("id_semillero"));
 					array.add(datosEspecificos);
-					
-				}
 
+				}
+             
 			}
-			
-			
+
 			return array;
 		} catch (Exception e) {
 			throw new ExcepcionProductividad("error del servidor" + e);
@@ -1254,5 +1253,92 @@ public class ProcesoEspecificoDao {
 		}
 
 	}
+
+	public Object tipoReferencia() throws Exception {
+
+		LinkedHashMap general = new LinkedHashMap<>();
+		List<LinkedHashMap> array = new LinkedList<LinkedHashMap>();
+
+		try {
+			Connection reg = con.conectar("");
+			String sql = "select * from tipo_referencia ;";
+
+			PreparedStatement stmt = reg.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+
+			LinkedHashMap<String, Object> datosEspecificos = null;
+			while (rs.next()) {
+				datosEspecificos = new LinkedHashMap<String, Object>();
+				datosEspecificos.put("id", rs.getInt("id"));
+				datosEspecificos.put("nombre", rs.getString("nombre"));
+				array.add(datosEspecificos);
+			}
+
+			return array;
+		} catch (Exception e) {
+			throw new ExcepcionProductividad("error del servidor" + e);
+		}
+
+		finally {
+			con.cerrarConexion();
+		}
+
+	}
+	
+
+	public Object createLibro(String nombre,String descripcion,int id_proyecto,int id_tipo_producto,
+			String titulo,String ISBN,String fecha_publica,String autores,String editorial,String lugar_publica,
+			String certificacion_entidad,String curriculo,int tipo_desarrollo ) throws Exception {
+		
+	
+		int id=-1;
+		try {
+			Connection reg = con.conectar("");
+			
+			
+			String sql = "insert into producto (id, nombre, id_proyecto, descripcion, id_tipo_producto) "
+					+ "values (?,?,?,?,?)";
+			String[] generatedKeys = { "id" };
+			PreparedStatement stmt = reg.prepareStatement(sql, generatedKeys);
+			stmt.setInt(1, 0);
+			stmt.setString(2, nombre);
+			stmt.setInt(3, id_proyecto);
+			stmt.setString(4, descripcion);
+			stmt.setInt(5, id_tipo_producto);
+			
+			if(stmt.executeUpdate() > 0) {
+				ResultSet gks = stmt.getGeneratedKeys();
+				if(gks.next())
+					id = gks.getInt(1);
+			}
+			
+			
+			sql = "insert into libro(id_producto,titulo,ISBN,fecha_publica,autores,editorial,lugar_publica,"
+					+ "certificacion_entidad,curriculo,tipo_desarrollo_id) values(?,?,?,?,?,?,?,?,?,?)";
+			stmt = reg.prepareStatement(sql);
+			stmt.setInt(1,id);
+			stmt.setString(2,titulo);
+			stmt.setString(3,ISBN);
+			stmt.setString(4,fecha_publica);
+			stmt.setString(5, autores);
+			stmt.setString(6,editorial);
+			stmt.setString(7,lugar_publica);
+			stmt.setString(8,certificacion_entidad);
+			stmt.setString(9,curriculo);
+			stmt.setInt(10,tipo_desarrollo);
+
+			if(stmt.executeUpdate() > 0)
+				return new Libro(id,titulo,ISBN,fecha_publica,autores,editorial,lugar_publica,
+						certificacion_entidad,curriculo,tipo_desarrollo);
+		} catch(Exception e) {
+			throw new ExcepcionProductividad("error del servidor: " + e);
+		} finally {
+			con.cerrarConexion();
+		}
+		return null;
+	}
+	
+	
+	
 
 }
