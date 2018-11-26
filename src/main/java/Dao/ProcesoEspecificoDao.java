@@ -796,7 +796,7 @@ public class ProcesoEspecificoDao {
 
 	public Object createActividadGrupoSemilleroAsignarPlanAccion(String year, String semestre, int idGrupoSemillero,
 			int tipoSession, String nombre, String responsables, String producto, String fecha_inicio,
-			String fecha_final)throws Exception {
+			String fecha_final) throws Exception {
 
 		Connection reg = null;
 		int id = -1;
@@ -835,10 +835,9 @@ public class ProcesoEspecificoDao {
 				sql = "INSERT INTO plan_accion_grupo_actividad(id_actividad,year,semestre,id_grupo) "
 						+ "values (?,?,?,?)";
 			} else {
-				sql = "INSERT INTO actividad_plan_semillero(id_actividad,year,semestre,id_semillero)" + 
-				 "values (?,?,?,?)";
+				sql = "INSERT INTO actividad_plan_semillero(id_actividad,year,semestre,id_semillero)"
+						+ "values (?,?,?,?)";
 			}
-
 
 			pst = reg.prepareStatement(sql);
 			pst.setInt(1, id);
@@ -848,14 +847,12 @@ public class ProcesoEspecificoDao {
 
 			pst.executeUpdate();
 
-			
-			    if(tipoSession==1) {
-			return new Plan_accion_grupo_actividad(id,year,semestre,idGrupoSemillero);    	
-			    }else {
-			return new Actividad_plan_semillero(id,year,semestre,idGrupoSemillero);    	
-			    }
-			
-			
+			if (tipoSession == 1) {
+				return new Plan_accion_grupo_actividad(id, year, semestre, idGrupoSemillero);
+			} else {
+				return new Actividad_plan_semillero(id, year, semestre, idGrupoSemillero);
+			}
+
 		} catch (java.sql.SQLIntegrityConstraintViolationException e) {
 			throw new ExcepcionProductividad("ya hay grupo con ese nombre  asociado");
 		} catch (Exception e) {
@@ -868,11 +865,11 @@ public class ProcesoEspecificoDao {
 		}
 
 	}
-	
-	public Object capacitacionCrearSemilleroAsignarPlanAccion(String year,String semestre,int idSemillero,
-			String nombre,String objetivo,String responsables,int n_asistentes,String fecha_ini,String fecha_fin)
-					throws Exception{
-		
+
+	public Object capacitacionCrearSemilleroAsignarPlanAccion(String year, String semestre, int idSemillero,
+			String nombre, String objetivo, String responsables, int n_asistentes, String fecha_ini, String fecha_fin)
+			throws Exception {
+
 		Connection reg = null;
 		int id = -1;
 		try {
@@ -880,22 +877,20 @@ public class ProcesoEspecificoDao {
 			reg = con.conectar("");
 			String sql = "";
 
-			
-				sql = "INSERT INTO capacitacion(id,nombre,objetivo,responsables,n_asistentes,"
-						+ "fecha_ini,fecha_fin,estado) values (?,?,?,?,?,?,?,?)";
-		
-			
+			sql = "INSERT INTO capacitacion(id,nombre,objetivo,responsables,n_asistentes,"
+					+ "fecha_ini,fecha_fin,estado) values (?,?,?,?,?,?,?,?)";
+
 			PreparedStatement pst;
 			String generatedColumns[] = { "id" };
 			pst = reg.prepareStatement(sql, generatedColumns);
 			pst.setInt(1, 0);
 			pst.setString(2, nombre);
 			pst.setString(3, objetivo);
-			pst.setString(4,responsables);
+			pst.setString(4, responsables);
 			pst.setInt(5, n_asistentes);
 			pst.setString(6, fecha_ini);
 			pst.setString(7, fecha_fin);
-			pst.setInt(8,0);
+			pst.setInt(8, 0);
 
 			pst.executeUpdate();
 
@@ -904,23 +899,19 @@ public class ProcesoEspecificoDao {
 				id = generatedKeys.getInt(1);
 			}
 
-			
-		   sql = "INSERT INTO plan_accion_capacitacion(id_capacitacion,year,semestre,id_semillero)" + 
-				 "values (?,?,?,?)";
-			
-
+			sql = "INSERT INTO plan_accion_capacitacion(id_capacitacion,year,semestre,id_semillero)"
+					+ "values (?,?,?,?)";
 
 			pst = reg.prepareStatement(sql);
 			pst.setInt(1, id);
 			pst.setString(2, year);
 			pst.setString(3, semestre);
-			pst.setInt(4,idSemillero);
+			pst.setInt(4, idSemillero);
 
 			pst.executeUpdate();
 
-			return new Plan_accion_capacitacion(id,year,semestre,idSemillero);
-			
-			
+			return new Plan_accion_capacitacion(id, year, semestre, idSemillero);
+
 		} catch (java.sql.SQLIntegrityConstraintViolationException e) {
 			throw new ExcepcionProductividad("ya hay grupo con ese nombre  asociado");
 		} catch (Exception e) {
@@ -931,12 +922,12 @@ public class ProcesoEspecificoDao {
 		finally {
 			con.cerrarConexion();
 		}
-		
+
 	}
-	
-	public Object asignarProyectoPlanAccion(String year,String semestre,int idGrupoSemillero, int tipoSession,
-			int id_proyecto)throws Exception {
-		
+
+	public Object asignarProyectoPlanAccion(String year, String semestre, int idGrupoSemillero, int tipoSession,
+			int id_proyecto) throws Exception {
+
 		int id = -1;
 		try {
 			Connection reg = con.conectar("");
@@ -949,25 +940,24 @@ public class ProcesoEspecificoDao {
 			if (tipoSession == 1) {
 				sql = "INSERT INTO plan_accion_grupo_proyecto(id_proyecto,year,semestre,id_grupo) values (?,?,?,?)";
 			} else {
-				sql ="INSERT INTO proyecto_plan_semillero(id_proyecto,year,semestre,id_semillero)"
+				sql = "INSERT INTO proyecto_plan_semillero(id_proyecto,year,semestre,id_semillero)"
 						+ " values (?,?,?,?)";
 			}
 
 			PreparedStatement pst;
 			pst = reg.prepareStatement(sql);
-			pst.setInt(1,id_proyecto);
-			pst.setString(2,year);
-			pst.setString(3,semestre);
-			pst.setInt(4,idGrupoSemillero);
-	
+			pst.setInt(1, id_proyecto);
+			pst.setString(2, year);
+			pst.setString(3, semestre);
+			pst.setInt(4, idGrupoSemillero);
 
 			pst.executeUpdate();
-			
+
 			if (tipoSession == 1) {
-				return new Plan_accion_grupo_proyecto(id_proyecto,year,semestre,idGrupoSemillero);
+				return new Plan_accion_grupo_proyecto(id_proyecto, year, semestre, idGrupoSemillero);
 			} else {
-				return new Proyecto_plan_semillero(id_proyecto,year,semestre,idGrupoSemillero);
-			}   
+				return new Proyecto_plan_semillero(id_proyecto, year, semestre, idGrupoSemillero);
+			}
 
 		} catch (Exception e) {
 			throw new ExcepcionProductividad("error del servidor" + e);
@@ -977,13 +967,11 @@ public class ProcesoEspecificoDao {
 			con.cerrarConexion();
 		}
 
-		
 	}
-	
-	public Object getAsignarActividadesPlanAccionGrupoSemillero(String year,String
-			semestre,int idGrupoSemillero,int tipoSession,int id_actividad)throws Exception {
-		
-		
+
+	public Object getAsignarActividadesPlanAccionGrupoSemillero(String year, String semestre, int idGrupoSemillero,
+			int tipoSession, int id_actividad) throws Exception {
+
 		try {
 			Connection reg = con.conectar("");
 
@@ -995,27 +983,24 @@ public class ProcesoEspecificoDao {
 			if (tipoSession == 1) {
 				sql = "INSERT INTO plan_accion_grupo_actividad(id_actividad,year,semestre,id_grupo) values (?,?,?,?)";
 			} else {
-				sql ="INSERT INTO actividad_plan_semillero(id_actividad,year,semestre,id_semillero)"
+				sql = "INSERT INTO actividad_plan_semillero(id_actividad,year,semestre,id_semillero)"
 						+ " values (?,?,?,?)";
 			}
 
 			PreparedStatement pst;
 			pst = reg.prepareStatement(sql);
-			pst.setInt(1,id_actividad);
-			pst.setString(2,year);
-			pst.setString(3,semestre);
-			pst.setInt(4,idGrupoSemillero);
-	
+			pst.setInt(1, id_actividad);
+			pst.setString(2, year);
+			pst.setString(3, semestre);
+			pst.setInt(4, idGrupoSemillero);
 
 			pst.executeUpdate();
-			
 
-		    if(tipoSession==1) {
-		return new Plan_accion_grupo_actividad(id_actividad,year,semestre,idGrupoSemillero);    	
-		    }else {
-		return new Actividad_plan_semillero(id_actividad,year,semestre,idGrupoSemillero);    	
-		    }
-		
+			if (tipoSession == 1) {
+				return new Plan_accion_grupo_actividad(id_actividad, year, semestre, idGrupoSemillero);
+			} else {
+				return new Actividad_plan_semillero(id_actividad, year, semestre, idGrupoSemillero);
+			}
 
 		} catch (Exception e) {
 			throw new ExcepcionProductividad("error del servidor" + e);
@@ -1024,68 +1009,61 @@ public class ProcesoEspecificoDao {
 		finally {
 			con.cerrarConexion();
 		}
-		
-	}	
-		public Object asignarCapacitacionPlanAccionSemillero(String year,String semestre,int idSemillero,int id_capacitacion
-				)throws Exception {
 
-			try {
-				Connection reg = con.conectar("");
-
-				
-				LinkedHashMap<String, Object> general = new LinkedHashMap<String, Object>();
-
-				String sql = "INSERT INTO plan_accion_capacitacion(id_capacitacion,year,semestre,id_semillero) values (?,?,?,?)";
-				
-
-				PreparedStatement pst;
-				pst = reg.prepareStatement(sql);
-				pst.setInt(1,id_capacitacion);
-				pst.setString(2,year);
-				pst.setString(3,semestre);
-				pst.setInt(4,idSemillero);
-		
-
-				pst.executeUpdate();
-				
-			  return new Plan_accion_capacitacion(id_capacitacion,year,semestre,idSemillero);
-
-			} catch (Exception e) {
-				throw new ExcepcionProductividad("error del servidor" + e);
-			}
-
-			finally {
-				con.cerrarConexion();
-			}
-		
 	}
-		
-		
-	public Object asignarEventoPlanAccionGrupo(String year,String semestre,int idGrupo,int id_evento
-			)throws Exception {
-		
+
+	public Object asignarCapacitacionPlanAccionSemillero(String year, String semestre, int idSemillero,
+			int id_capacitacion) throws Exception {
 
 		try {
 			Connection reg = con.conectar("");
 
-			
+			LinkedHashMap<String, Object> general = new LinkedHashMap<String, Object>();
+
+			String sql = "INSERT INTO plan_accion_capacitacion(id_capacitacion,year,semestre,id_semillero) values (?,?,?,?)";
+
+			PreparedStatement pst;
+			pst = reg.prepareStatement(sql);
+			pst.setInt(1, id_capacitacion);
+			pst.setString(2, year);
+			pst.setString(3, semestre);
+			pst.setInt(4, idSemillero);
+
+			pst.executeUpdate();
+
+			return new Plan_accion_capacitacion(id_capacitacion, year, semestre, idSemillero);
+
+		} catch (Exception e) {
+			throw new ExcepcionProductividad("error del servidor" + e);
+		}
+
+		finally {
+			con.cerrarConexion();
+		}
+
+	}
+
+	public Object asignarEventoPlanAccionGrupo(String year, String semestre, int idGrupo, int id_evento)
+			throws Exception {
+
+		try {
+			Connection reg = con.conectar("");
+
 			LinkedHashMap<String, Object> general = new LinkedHashMap<String, Object>();
 
 			String sql = sql = "INSERT INTO evento_plan_accion_grupo(id_evento,year,semestre,id_grupo)"
 					+ "values (?,?,?,?)";
-			
 
 			PreparedStatement pst;
 			pst = reg.prepareStatement(sql);
-			pst.setInt(1,id_evento);
-			pst.setString(2,year);
-			pst.setString(3,semestre);
-			pst.setInt(4,idGrupo);
-	
+			pst.setInt(1, id_evento);
+			pst.setString(2, year);
+			pst.setString(3, semestre);
+			pst.setInt(4, idGrupo);
 
 			pst.executeUpdate();
-			
-		  return new Evento(id_evento, year, semestre, idGrupo);
+
+			return new Evento(id_evento, year, semestre, idGrupo);
 
 		} catch (Exception e) {
 			throw new ExcepcionProductividad("error del servidor" + e);
@@ -1096,4 +1074,133 @@ public class ProcesoEspecificoDao {
 		}
 	}
 
+	public Object getTipologiaProductos1() throws Exception {
+
+		List<LinkedHashMap> array = new LinkedList<LinkedHashMap>();
+
+		try {
+			Connection reg = con.conectar("");
+			String sql = "SELECT * from tipologia_producto;";
+
+			PreparedStatement stmt = reg.prepareStatement(sql);
+
+			ResultSet rs = stmt.executeQuery();
+
+			LinkedHashMap<String, Object> datosEspecificos = null;
+			while (rs.next()) {
+
+				datosEspecificos = new LinkedHashMap<String, Object>();
+				datosEspecificos.put("id", rs.getInt("id"));
+				datosEspecificos.put("nombre", rs.getString("nombre"));
+				array.add(datosEspecificos);
+			}
+
+			return array;
+		} catch (Exception e) {
+			throw new ExcepcionProductividad("error del servidor" + e);
+		}
+
+		finally {
+			con.cerrarConexion();
+		}
+
+	}
+
+	public Object getTipologiaProductos2(int id_tipologia1) throws Exception {
+
+		List<LinkedHashMap> array = new LinkedList<LinkedHashMap>();
+
+		try {
+			Connection reg = con.conectar("");
+			String sql = "SELECT T2.id,T2.nombre from subtipo_tipologia T2 where T2.tipologia_producto_id=?";
+
+			PreparedStatement stmt = reg.prepareStatement(sql);
+			stmt.setInt(1, id_tipologia1);
+			ResultSet rs = stmt.executeQuery();
+
+			LinkedHashMap<String, Object> datosEspecificos = null;
+			while (rs.next()) {
+
+				datosEspecificos = new LinkedHashMap<String, Object>();
+				datosEspecificos.put("id", rs.getInt("id"));
+				datosEspecificos.put("nombre", rs.getString("nombre"));
+				array.add(datosEspecificos);
+			}
+
+			return array;
+		} catch (Exception e) {
+			throw new ExcepcionProductividad("error del servidor" + e);
+		}
+
+		finally {
+			con.cerrarConexion();
+		}
+
+	}
+
+	public Object getTipologiaProductos3(int id_tipologia2) throws Exception {
+
+		List<LinkedHashMap> array = new LinkedList<LinkedHashMap>();
+
+		try {
+			Connection reg = con.conectar("");
+			String sql = "SELECT T3.id,T3.nombre from tipo_producto T3 where T3.subtipo_tipologia_id=?";
+
+			PreparedStatement stmt = reg.prepareStatement(sql);
+			stmt.setInt(1, id_tipologia2);
+			ResultSet rs = stmt.executeQuery();
+
+			LinkedHashMap<String, Object> datosEspecificos = null;
+			while (rs.next()) {
+
+				datosEspecificos = new LinkedHashMap<String, Object>();
+				datosEspecificos.put("id", rs.getInt("id"));
+				datosEspecificos.put("nombre", rs.getString("nombre"));
+				array.add(datosEspecificos);
+			}
+
+			return array;
+		} catch (Exception e) {
+			throw new ExcepcionProductividad("error del servidor" + e);
+		}
+
+		finally {
+			con.cerrarConexion();
+		}
+
+	}
+
+	
+	public Object getcategoriaProductos(int id_tipologia3) throws Exception {
+
+		List<LinkedHashMap> array = new LinkedList<LinkedHashMap>();
+
+		try {
+			Connection reg = con.conectar("");
+			String sql = "SELECT ca.id,ca.nombre FROM categoria ca where ca.id_tipo_producto=?";
+
+			PreparedStatement stmt = reg.prepareStatement(sql);
+			stmt.setInt(1,id_tipologia3);
+			ResultSet rs = stmt.executeQuery();
+
+			LinkedHashMap<String, Object> datosEspecificos = null;
+			while (rs.next()) {
+
+				datosEspecificos = new LinkedHashMap<String, Object>();
+				datosEspecificos.put("id", rs.getInt("id"));
+				datosEspecificos.put("nombre", rs.getString("nombre"));
+				array.add(datosEspecificos);
+			}
+
+			return array;
+		} catch (Exception e) {
+			throw new ExcepcionProductividad("error del servidor" + e);
+		}
+
+		finally {
+			con.cerrarConexion();
+		}
+
+	}
+	
 }

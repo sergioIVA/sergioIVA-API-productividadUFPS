@@ -107,6 +107,8 @@ public class MainController {
 			post("/semillero",(req,res)->{return this.semilleroController.createSemillero(req, res);},new JsonTransformer());
 			get("/semillero/:idSemillero",(req,res)->{return this.semilleroController.getSemillero(req, res);},new JsonTransformer());
 			
+
+			
 			post("/createPlanGrupoSemillero",(req,res)->{return this.procesoEspecificoController.getcreatePlanGrupoSemillero(req, res);},new JsonTransformer());
 			get("/ProyectosActividadesNoterminadoPlanAccionGrupoSemillero/:idGrupoSemillero/session/:tipoSession",(req,res)->
 			{return this.procesoEspecificoController.getProyectosActividadesNoterminadoPlanAccionGrupoSemillero(req, res);},new JsonTransformer());
@@ -126,6 +128,18 @@ public class MainController {
 					new JsonTransformer());
 			post("/asignarEventoPlanAccionGrupo",(req,res)->{return this.procesoEspecificoController.asignarEventoPlanAccionGrupo(req, res);},
 					new JsonTransformer());
+			
+			///tipologia de produtos
+			get("/tipologiaProductos1",(req,res)->{return this.procesoEspecificoController.getTipologiaProductos1(req, res);},
+					new JsonTransformer());
+			get("/tipologiaProductos2/:idTipologia1",(req,res)->{return this.procesoEspecificoController.getTipologiaProductos2(req, res);},
+					new JsonTransformer());
+			get("/tipologiaProductos3/:idTipologia2",(req,res)->{return this.procesoEspecificoController.getTipologiaProductos3(req, res);},
+					new JsonTransformer());
+			get("/categoriaProducto3/:idTipologia3",(req,res)->{return this.procesoEspecificoController.getcategoriaProducto3(req, res);},
+					new JsonTransformer());
+	
+			
 			
 			///falta create capacitacion y asignar
 			/// falta proyectos asigandos a ese plan de accion 

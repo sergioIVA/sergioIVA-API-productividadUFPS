@@ -15,7 +15,14 @@ public class ArticuloController {
 	public Object createArticulo(Request req, Response res) {
 		res.type("application/json");
 		
-		int id_producto = Integer.parseInt(req.queryParams("id_producto"));
+		// campos del producto generico
+		String nombre = req.queryParams("nombre");
+		String descripcion = req.queryParams("descripcion");
+		int id_proyecto = Integer.parseInt(req.queryParams("id_proyecto"));
+		int id_tipo_producto = Integer.parseInt(req.queryParams("id_tipo_producto"));
+		
+		
+		
 		int tipo_referencia = Integer.parseInt(req.queryParams("tipo_referencia"));
 		String nombre_revista = req.queryParams("nombre_revista");
 		String titulo_articulo = req.queryParams("titulo_articulo");
@@ -32,9 +39,9 @@ public class ArticuloController {
 		
 		Object obj = null;
 		try {
-			obj = this.service.createArticulo(id_producto, tipo_referencia, nombre_revista,
-					titulo_articulo, autores, anio, mes, volumen, numero, paginas_ini, paginas_final,
-					ISSN, paginaWeb, DOI);
+			obj = this.service.createArticulo(nombre,descripcion,id_proyecto,id_tipo_producto, 
+					tipo_referencia, nombre_revista,titulo_articulo,autores,
+					anio,mes,volumen,numero, paginas_ini,paginas_final,ISSN,paginaWeb,DOI);
 			res.status(201);
 		} catch(Exception e) {
 			res.status(500);

@@ -144,6 +144,21 @@ public class ProcesoEspecificoService {
 		return this.procesoEspecificoDao.asignarEventoPlanAccionGrupo(year, semestre, idGrupo, id_evento);
 	}
 	
+	public Object getTipologiaProductos1()throws Exception{
+		return this.procesoEspecificoDao.getTipologiaProductos1();
+	}
+	public Object getTipologiaProductos2(int id_tipologia1)throws Exception{
+		return this.procesoEspecificoDao.getTipologiaProductos2(id_tipologia1);
+	}
+	
+	public Object getTipologiaProductos3(int id_tipologia2)throws Exception{
+		return this.procesoEspecificoDao.getTipologiaProductos3(id_tipologia2);
+	}
+	
+	public Object getCategoria(int id_tipologia3)throws Exception{
+		return this.procesoEspecificoDao.getcategoriaProductos(id_tipologia3);
+	}
+	
 }
 
 

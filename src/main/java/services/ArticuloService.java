@@ -12,13 +12,16 @@ public class ArticuloService {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public LinkedHashMap<String, Object> createArticulo(int id_producto, int tipo_referencia, String nombre_revista, String titulo_articulo, String autores,
+	public LinkedHashMap<String, Object> createArticulo(String nombre,String descripcion,int id_proyecto,int id_tipo_producto, 
+			int tipo_referencia, String nombre_revista, String titulo_articulo, String autores,
 			String anio, String mes, String volumen, String numero, String paginas_ini, String paginas_final,
 			String iSSN, String paginaWeb, String dOI) throws Exception {
 		
 		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
-		map.put("msg", "peticion exitosa");
-		map.put("articulo", this.dao.createArticulo(id_producto, tipo_referencia, nombre_revista, titulo_articulo, autores, anio, mes, volumen, numero, paginas_ini, paginas_final, iSSN, paginaWeb, dOI));
+		map.put("articulo", this.dao.createArticulo(nombre, descripcion,
+				id_proyecto, id_tipo_producto, tipo_referencia, nombre_revista,
+				titulo_articulo, autores, anio, mes, volumen, numero, paginas_ini,paginas_final,
+				iSSN, paginaWeb, dOI));
 		return map;
 		
 	}

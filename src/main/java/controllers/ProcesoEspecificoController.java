@@ -486,5 +486,92 @@ public class ProcesoEspecificoController {
 		}
 	}
 	
+	public Object getTipologiaProductos1(Request req, Response res) {
+		res.type("application/json");
+
+
+	
+		try {
+			Object obj = this.procesoEspecificoService.getTipologiaProductos1();
+			
+				
+			if (obj == null) {
+				res.status(400);
+				return "no se ha encontrado";
+			}
+
+			res.status(200);
+			return obj;
+		} catch (Exception e) {
+			res.status(500);
+			return e.toString();
+		}
+	}
+	
+	public Object getTipologiaProductos2(Request req, Response res) {
+		res.type("application/json");
+
+		int id_tipologia1 = Integer.parseInt(req.params(":idTipologia1"));
+	
+		try {
+			Object obj = this.procesoEspecificoService.getTipologiaProductos2(id_tipologia1);
+			
+				
+			if (obj == null) {
+				res.status(400);
+				return "no se ha encontrado";
+			}
+
+			res.status(200);
+			return obj;
+		} catch (Exception e) {
+			res.status(500);
+			return e.toString();
+		}
+	}
+	
+	public Object getTipologiaProductos3(Request req, Response res) {
+		res.type("application/json");
+
+		int id_tipologia2 = Integer.parseInt(req.params(":idTipologia2"));
+	
+		try {
+			Object obj = this.procesoEspecificoService.getTipologiaProductos3(id_tipologia2);
+			
+				
+			if (obj == null) {
+				res.status(400);
+				return "no se ha encontrado";
+			}
+
+			res.status(200);
+			return obj;
+		} catch (Exception e) {
+			res.status(500);
+			return e.toString();
+		}
+	}
+	
+	public Object getcategoriaProducto3(Request req, Response res) {
+		res.type("application/json");
+
+		int id_tipologia3 = Integer.parseInt(req.params(":idTipologia3"));
+	
+		try {
+			Object obj = this.procesoEspecificoService.getCategoria(id_tipologia3);
+			
+				
+			if (obj == null) {
+				res.status(400);
+				return "no se ha encontrado";
+			}
+
+			res.status(200);
+			return obj;
+		} catch (Exception e) {
+			res.status(500);
+			return e.toString();
+		}
+	}
 	
 }

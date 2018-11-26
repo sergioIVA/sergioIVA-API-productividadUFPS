@@ -15,16 +15,40 @@ public class ArticuloDao {
 
 	final Conexion con = new Conexion();
 	
-	public Articulo createArticulo(int id_producto, int tipo_referencia, String nombre_revista, String titulo_articulo, String autores,
+	public Articulo createArticulo(String nombre,String descripcion,int id_proyecto,int id_tipo_producto, 
+			int tipo_referencia, String nombre_revista, String titulo_articulo, String autores,
 			String anio, String mes, String volumen, String numero, String paginas_ini, String paginas_final,
 			String iSSN, String paginaWeb, String dOI) throws Exception {
 		
+	
+		int id=-1;
 		try {
 			Connection reg = con.conectar("");
-			String SQL = "insert into articulo(id_producto, tipo_referencia, nombre_revista, titulo_articulo, autores, "
+			
+			
+			String sql = "insert into producto (id, nombre, id_proyecto, descripcion, id_tipo_producto) "
+					+ "values (?,?,?,?,?)";
+			String[] generatedKeys = { "id" };
+			PreparedStatement stmt = reg.prepareStatement(sql, generatedKeys);
+			stmt.setInt(1, 0);
+			stmt.setString(2, nombre);
+			stmt.setInt(3, id_proyecto);
+			stmt.setString(4, descripcion);
+			stmt.setInt(5, id_tipo_producto);
+			
+			if(stmt.executeUpdate() > 0) {
+				ResultSet gks = stmt.getGeneratedKeys();
+				if(gks.next())
+					id = gks.getInt(1);
+			}
+			
+			
+			
+			
+			sql = "insert into articulo(id_producto, tipo_referencia, nombre_revista, titulo_articulo, autores, "
 					+ "anio, mes, volumen, numero, paginas_ini, paginas_final, ISSN, paginaWeb, DOI) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-			PreparedStatement stmt = reg.prepareStatement(SQL);
-			stmt.setInt(1, id_producto);
+			stmt = reg.prepareStatement(sql);
+			stmt.setInt(1,id);
 			stmt.setInt(2, tipo_referencia);
 			stmt.setString(3, nombre_revista);
 			stmt.setString(4, titulo_articulo);
@@ -40,7 +64,8 @@ public class ArticuloDao {
 			stmt.setString(14, dOI);
 			
 			if(stmt.executeUpdate() > 0)
-				return new Articulo(id_producto, tipo_referencia, nombre_revista, titulo_articulo, autores, anio, mes, volumen, numero, paginas_ini, paginas_final, iSSN, paginaWeb, dOI);
+				return new Articulo(id, tipo_referencia, nombre_revista, titulo_articulo, autores,
+						anio, mes, volumen, numero, paginas_ini, paginas_final, iSSN, paginaWeb, dOI);
 		} catch(Exception e) {
 			throw new ExcepcionProductividad("error del servidor: " + e);
 		} finally {
