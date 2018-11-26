@@ -457,5 +457,34 @@ public class ProcesoEspecificoController {
 		}
 	}
 	
+	public Object asignarEventoPlanAccionGrupo(Request req, Response res) {
+		res.type("application/json");
+
+		/// plan de accion
+		String year = req.queryParams("year");
+		String semestre = req.queryParams("semestre");
+		int idGrupo = Integer.parseInt(req.queryParams("idGrupo"));
+		int id_evento=Integer.parseInt(req.queryParams("id_evento"));
+	
+
+	
+		try {
+			Object obj = this.procesoEspecificoService.asignarEventoPlanAccionGrupo(year, 
+					semestre, idGrupo, id_evento);
+			
+				
+			if (obj == null) {
+				res.status(400);
+				return "no se ha encontrado";
+			}
+
+			res.status(200);
+			return obj;
+		} catch (Exception e) {
+			res.status(500);
+			return e.toString();
+		}
+	}
+	
 	
 }

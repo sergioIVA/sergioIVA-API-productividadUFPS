@@ -1059,6 +1059,41 @@ public class ProcesoEspecificoDao {
 			}
 		
 	}
+		
+		
+	public Object asignarEventoPlanAccionGrupo(String year,String semestre,int idGrupo,int id_evento
+			)throws Exception {
+		
+
+		try {
+			Connection reg = con.conectar("");
+
+			
+			LinkedHashMap<String, Object> general = new LinkedHashMap<String, Object>();
+
+			String sql = sql = "INSERT INTO evento_plan_accion_grupo(id_evento,year,semestre,id_grupo)"
+					+ "values (?,?,?,?)";
+			
+
+			PreparedStatement pst;
+			pst = reg.prepareStatement(sql);
+			pst.setInt(1,id_evento);
+			pst.setString(2,year);
+			pst.setString(3,semestre);
+			pst.setInt(4,idGrupo);
 	
+
+			pst.executeUpdate();
+			
+		  return new Evento(id_evento, year, semestre, idGrupo);
+
+		} catch (Exception e) {
+			throw new ExcepcionProductividad("error del servidor" + e);
+		}
+
+		finally {
+			con.cerrarConexion();
+		}
+	}
 
 }

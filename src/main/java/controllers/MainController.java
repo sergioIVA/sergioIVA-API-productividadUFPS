@@ -122,6 +122,8 @@ public class MainController {
 					new JsonTransformer());
 			post("/asignarCapacitacionPlanAccionSemillero",(req,res)->{return this.procesoEspecificoController.asignarCapacitacionPlanAccionSemillero(req, res);},
 					new JsonTransformer());
+			post("/asignarEventoPlanAccionGrupo",(req,res)->{return this.procesoEspecificoController.asignarEventoPlanAccionGrupo(req, res);},
+					new JsonTransformer());
 			
 			///falta create capacitacion y asignar
 			/// falta proyectos asigandos a ese plan de accion 
