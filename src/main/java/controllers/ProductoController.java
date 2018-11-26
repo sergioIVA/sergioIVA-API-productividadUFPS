@@ -78,7 +78,6 @@ public class ProductoController {
 		int id_proyecto = Integer.parseInt(req.queryParams("id_proyecto"));
 		int id_tipo_producto = Integer.parseInt(req.queryParams("id_tipo_producto"));
 		String numero_registro = req.queryParams("numero_registro");
-		String titulo = req.queryParams("titulo");
 		String nombre_titular = req.queryParams("nombre_titular");
 		String anio_obtencion = req.queryParams("anio_obtencion");
 		String pais_obtencion = req.queryParams("pais_obtencion");
@@ -96,7 +95,7 @@ public class ProductoController {
 		
 		Object obj = null;
 		try {
-			obj = service.createProductoTecnologicoCertificado(nombre, descripcion, id_proyecto, id_tipo_producto, numero_registro, titulo, nombre_titular, anio_obtencion, pais_obtencion, gaceta_publicacion, descripcion_analisis, descripcion_diseno, descripcion_implementacion, descripcion_validacion, lugar_elaboracion, institucion_financiadora, copia_contratos, mes, fecha_elaboracion, tecnologicos_certificadoscol);
+			obj = this.service.createProductoTecnologicoCertificado(nombre, descripcion, id_proyecto, id_tipo_producto, numero_registro, nombre, nombre_titular, anio_obtencion, pais_obtencion, gaceta_publicacion, descripcion_analisis, descripcion_diseno, descripcion_implementacion, descripcion_validacion, lugar_elaboracion, institucion_financiadora, copia_contratos, mes, fecha_elaboracion, tecnologicos_certificadoscol);
 			res.status(201);
 		} catch(Exception e) {
 			res.status(500);

@@ -30,7 +30,7 @@ public class ProductoService {
 			String lugar_elaboracion, String institucion_financiadora, String copia_contratos, String mes, String fecha_elaboracion, String tecnologicos_certificadoscol) throws Exception {
 		
 		LinkedHashMap<String, Object> map = new LinkedHashMap<String, Object>();
-		map.put("producto", this.dao.createProductoTecnologicoCertificado(nombre, descripcion, id_proyecto, id_tipo_producto, numero_registro, titulo, nombre_titular, anio_obtencion, pais_obtencion, gaceta_publicacion, descripcion_analisis, descripcion_diseno, descripcion_implementacion, descripcion_validacion, lugar_elaboracion, institucion_financiadora, copia_contratos, mes, fecha_elaboracion, tecnologicos_certificadoscol));
+		map.put("producto", this.dao.createProductoTecnologicoCertificado(nombre, descripcion, id_proyecto, id_tipo_producto, numero_registro, nombre, nombre_titular, anio_obtencion, pais_obtencion, gaceta_publicacion, descripcion_analisis, descripcion_diseno, descripcion_implementacion, descripcion_validacion, lugar_elaboracion, institucion_financiadora, copia_contratos, mes, fecha_elaboracion, tecnologicos_certificadoscol));
 		return map;
 	}
 	
