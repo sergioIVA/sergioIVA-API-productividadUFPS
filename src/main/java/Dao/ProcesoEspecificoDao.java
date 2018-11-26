@@ -1170,7 +1170,6 @@ public class ProcesoEspecificoDao {
 
 	}
 
-	
 	public Object getcategoriaProductos(int id_tipologia3) throws Exception {
 
 		List<LinkedHashMap> array = new LinkedList<LinkedHashMap>();
@@ -1180,7 +1179,7 @@ public class ProcesoEspecificoDao {
 			String sql = "SELECT ca.id,ca.nombre FROM categoria ca where ca.id_tipo_producto=?";
 
 			PreparedStatement stmt = reg.prepareStatement(sql);
-			stmt.setInt(1,id_tipologia3);
+			stmt.setInt(1, id_tipologia3);
 			ResultSet rs = stmt.executeQuery();
 
 			LinkedHashMap<String, Object> datosEspecificos = null;
@@ -1202,5 +1201,58 @@ public class ProcesoEspecificoDao {
 		}
 
 	}
-	
+
+	public Object planesAccionGrupoSemillero(int idGrupoSemillero, int tipoSession)throws Exception {
+		
+		
+		LinkedHashMap general = new LinkedHashMap<>();
+		List<LinkedHashMap> array = new LinkedList<LinkedHashMap>();
+
+		try {
+			Connection reg = con.conectar("");
+			String sql = "";
+
+			if (tipoSession == 1) {
+				sql = "select * from plan_accion_grupo plan where  plan.id_grupo=?";
+			} else {
+				sql = "select * from plan_semillero plan where  plan.id_semillero=?";
+			}
+
+			PreparedStatement stmt = reg.prepareStatement(sql);
+			stmt.setInt(1, idGrupoSemillero);
+			ResultSet rs = stmt.executeQuery();
+
+			LinkedHashMap<String, Object> datosEspecificos = null;
+			while (rs.next()) {
+
+				if (tipoSession == 1) {
+					datosEspecificos = new LinkedHashMap<String, Object>();
+					datosEspecificos.put("year", rs.getString("year"));
+					datosEspecificos.put("semestre", rs.getString("semestre"));
+					datosEspecificos.put("id_grupo", rs.getString("id_grupo"));
+					array.add(datosEspecificos);
+				}
+				else {
+					datosEspecificos = new LinkedHashMap<String, Object>();
+					datosEspecificos.put("year", rs.getString("year"));
+					datosEspecificos.put("semestre", rs.getString("semestre"));
+					datosEspecificos.put("id_semillero", rs.getString("id_semillero"));
+					array.add(datosEspecificos);
+					
+				}
+
+			}
+			
+			
+			return array;
+		} catch (Exception e) {
+			throw new ExcepcionProductividad("error del servidor" + e);
+		}
+
+		finally {
+			con.cerrarConexion();
+		}
+
+	}
+
 }
