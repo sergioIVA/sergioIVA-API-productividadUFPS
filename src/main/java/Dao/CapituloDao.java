@@ -19,7 +19,7 @@ public class CapituloDao {
 	
 	public Capitulo createCapitulo(int tipo_desarrollo_id, String titulo_libro, String titulo_capitulo,
 			String iSBN_librol, String fecha_publica, String autores, String editorial, String lugar_publica,
-			String certificacion_entidad, String curriculo_capitulo, String nombre, String descripcion, int id_proyecto) throws Exception {
+			String certificacion_entidad, String curriculo_capitulo, String nombre, String descripcion, int id_proyecto, int id_tipo_producto) throws Exception {
 		
 		Capitulo cap = null;
 		int id = -1;
@@ -32,7 +32,7 @@ public class CapituloDao {
 			stmt.setString(2, nombre);
 			stmt.setInt(3, id_proyecto);
 			stmt.setString(4, descripcion);
-			stmt.setInt(5, 3);
+			stmt.setInt(5, id_tipo_producto);
 			
 			if(stmt.executeUpdate() > 0) {
 				ResultSet keys = stmt.getGeneratedKeys();

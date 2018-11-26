@@ -217,4 +217,42 @@ public class ProductoController {
 			return e.toString();
 		}
 	}
+	
+	public Object getAllProductos(Request req, Response res) {
+		res.type("application/json");
+		
+		try {
+			res.status(201);
+			return this.service.getAllProductos();
+		} catch(Exception e) {
+			res.status(500);
+			return e.toString();
+		}
+	}
+	
+	public Object getProductosProyecto(Request req, Response res) {
+		res.type("application/json");
+		String cad = req.params(":id");
+		
+		if(cad == null) {
+			res.status(400);
+			return "parametro faltante";
+		}
+		
+		int id = Integer.parseInt(cad);
+		
+		try {
+			Object obj = this.service.getProductosProyecto(id);
+			if(obj == null) {
+				res.status(400);
+				return "El proyecto no tiene Productos";
+			}
+			
+			res.status(200);
+			return obj;
+		} catch(Exception e) {
+			res.status(500);
+			return e.toString();
+		}
+	}
 }

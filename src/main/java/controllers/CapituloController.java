@@ -15,6 +15,7 @@ public class CapituloController {
 		String nombre = req.queryParams("nombre");
 		int id_proyecto = Integer.parseInt(req.queryParams("id_proyecto"));
 		String descripcion = req.queryParams("descripcion");
+		int id_tipo_producto = Integer.parseInt(req.queryParams("id_tipo_producto"));
 		
 		String titulo_libro = req.queryParams("titulo_libro");
 		String titulo_capitulo = req.queryParams("titulo_capitulo");
@@ -29,7 +30,7 @@ public class CapituloController {
 		
 		Object obj = null;
 		try {
-			obj = this.service.createCapitulo(tipo_desarrollo_id, titulo_libro, titulo_capitulo, ISBN_librol, fecha_publica, autores, editorial, lugar_publica, certificacion_entidad, curriculo_capitulo, nombre, descripcion, id_proyecto);
+			obj = this.service.createCapitulo(tipo_desarrollo_id, titulo_libro, titulo_capitulo, ISBN_librol, fecha_publica, autores, editorial, lugar_publica, certificacion_entidad, curriculo_capitulo, nombre, descripcion, id_proyecto, id_tipo_producto);
 			res.status(201);
 		}catch(Exception e) {
 			res.status(500);

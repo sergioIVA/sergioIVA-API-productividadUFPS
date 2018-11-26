@@ -251,6 +251,8 @@ public class MainController {
 			
 			
 			//17.Productos
+			get("/producto",(req,res)->{return this.productoController.getAllProductos(req, res);}, new JsonTransformer());
+			get("/productoProy/:id",(req,res)->{return this.productoController.getProductosProyecto(req, res);}, new JsonTransformer());
 			get("/productoEmp",(req,res)->{return this.productoController.getProductosEmp(req, res);}, new JsonTransformer());
 			get("/productoEmp/:id",(req,res)->{return this.productoController.getProductoEmp(req, res);}, new JsonTransformer());
 			get("/productoTec",(req,res)->{return this.productoController.getProductosTec(req, res);}, new JsonTransformer());
