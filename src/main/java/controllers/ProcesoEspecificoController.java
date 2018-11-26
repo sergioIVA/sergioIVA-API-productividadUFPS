@@ -663,5 +663,31 @@ public class ProcesoEspecificoController {
 		}
 
 	}
+	
+	public Object login(Request req, Response res) {
+		res.type("application/json");
+
+		String nombre = req.queryParams("usuario");
+		String descripcion = req.queryParams("clave");
+
+		try {
+			
+			Object obj=null;
+			/**
+			Object obj = this.procesoEspecificoService.tesis(nombre, descripcion,
+					id_proyecto, id_tipo_producto, titulo, institucion, anio, reconocimiento);
+              **/
+			if (obj == null) {
+				res.status(400);
+				return "no se ha encontrado";
+			}
+
+			res.status(200);
+			return obj;
+		} catch (Exception e) {
+			res.status(500);
+			return e.toString();
+		}
+	}
 
 }

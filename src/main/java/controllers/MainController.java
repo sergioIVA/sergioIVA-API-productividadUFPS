@@ -109,6 +109,8 @@ public class MainController {
 			post("/semillero",(req,res)->{return this.semilleroController.createSemillero(req, res);},new JsonTransformer());
 			get("/semillero/:idSemillero",(req,res)->{return this.semilleroController.getSemillero(req, res);},new JsonTransformer());
 			get("/semillero",(req,res)->{return this.semilleroController.getSemilleors(req, res);}, new JsonTransformer());
+			delete("/semillero/:id", (req, res) -> {return this.departamentoController.deleteDepartamento(req, res);},new JsonTransformer());
+			
 			
 			post("/createPlanGrupoSemillero",(req,res)->{return this.procesoEspecificoController.getcreatePlanGrupoSemillero(req, res);},new JsonTransformer());
 			get("/ProyectosActividadesNoterminadoPlanAccionGrupoSemillero/:idGrupoSemillero/session/:tipoSession",(req,res)->

@@ -181,6 +181,12 @@ public class ProcesoEspecificoService {
 	    		  id_tipo_producto, titulo, institucion, anio, reconocimiento);	
 	}
 	
+	/**
+	public Object login(String usuario,String clave) {
+		return 
+	}
+	**/
+	
 }
 
 

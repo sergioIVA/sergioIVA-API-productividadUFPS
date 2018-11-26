@@ -1385,5 +1385,44 @@ public class ProcesoEspecificoDao {
 		
 	} 
 	
+	public Object login(String usuario,String clave)throws Exception {
+		
+
+		LinkedHashMap general = new LinkedHashMap<>();
+		List<LinkedHashMap> array = new LinkedList<LinkedHashMap>();
+
+		try {
+			Connection reg = con.conectar("");
+			String sql = "SELECT rolSistema.usuario,rolSistema.persona_id,tipoRol.nombre "
+					+ "FROM roles_sistema rolSistema,tipo_rol tipoRol where  "
+					+ "rolSistema.tipo_rol_id=tipoRol.id and " + 
+					"rolSistema.usuario=? and rolSistema.clave=?;";
+
+			PreparedStatement stmt = reg.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+
+			LinkedHashMap<String, Object> datosEspecificos = null;
+			if (rs.next()) {
+				general.put("exito", 1);
+				datosEspecificos = new LinkedHashMap<String, Object>();
+				datosEspecificos.put("id", rs.getInt("id"));
+				datosEspecificos.put("nombre", rs.getString("nombre"));
+				datosEspecificos.put("Rol",rs.getString("persona_id"));
+				array.add(datosEspecificos);
+			}else {
+				general.put("exito", 0);
+			}
+
+			return array;
+		} catch (Exception e) {
+			throw new ExcepcionProductividad("error del servidor" + e);
+		}
+
+		finally {
+			con.cerrarConexion();
+		}
+
+		
+	}
 
 }
