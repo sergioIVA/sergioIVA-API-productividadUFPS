@@ -46,6 +46,7 @@ public class MainController {
 	final LineaInvestigacionController lineaInvestigacionController = new LineaInvestigacionController();
 	final ProductoController productoController = new ProductoController();
 	final ArticuloController articuloController = new ArticuloController();
+	final CapituloController capituloController = new CapituloController();
 	
 	public MainController() {
 
@@ -103,11 +104,11 @@ public class MainController {
 			get("/proyectoResponsable/:idGrupoSemillero/session/:tipoSession",(req,res)->{return this.procesoEspecificoController.getProyectoResponsable(req, res);},new JsonTransformer());
 			get("/lineasGrupoTipoProyectoGrupo/:idGrupoSemillero/session/:tipoSession",(req,res)->{return this.procesoEspecificoController.getLineasGrupoTipoProyectoGrupo(req, res);},new JsonTransformer());
 			get("/proyectosNuevosIntegrantes/:idGrupoSemillero/session/:tipoSession",(req,res)->{return this.procesoEspecificoController.getProyectoNuevosIntegrantes(req, res);},new JsonTransformer());
+			
 			//semillero
 			post("/semillero",(req,res)->{return this.semilleroController.createSemillero(req, res);},new JsonTransformer());
 			get("/semillero/:idSemillero",(req,res)->{return this.semilleroController.getSemillero(req, res);},new JsonTransformer());
-			
-
+			get("/semillero",(req,res)->{return this.semilleroController.getSemilleors(req, res);}, new JsonTransformer());
 			
 			post("/createPlanGrupoSemillero",(req,res)->{return this.procesoEspecificoController.getcreatePlanGrupoSemillero(req, res);},new JsonTransformer());
 			get("/ProyectosActividadesNoterminadoPlanAccionGrupoSemillero/:idGrupoSemillero/session/:tipoSession",(req,res)->
@@ -345,6 +346,11 @@ public class MainController {
 			post("/lineas_investigacion",(req,res)->{return lineaInvestigacionController.createLinea(req, res);}, new JsonTransformer());
 			post("/lineas_grupo",(req,res)->{return lineaInvestigacionController.asociarLineaGrupo(req, res);}, new JsonTransformer());
 			post("/lineas_semillero",(req,res)->{return lineaInvestigacionController.asociarLineaSemillero(req, res);}, new JsonTransformer());
+			
+			//Capitulos
+			get("/capitulo",(req,res)->{return this.capituloController.getCapitulos(req, res);}, new JsonTransformer());
+			get("/capitulo/:id",(req,res)->{return this.capituloController.getCapitulo(req, res);}, new JsonTransformer());
+			post("/capitulo",(req,res)->{return this.capituloController.createCapitulo(req, res);}, new JsonTransformer());
 			
 			//lo de aca son ejemplos no mas!
 			

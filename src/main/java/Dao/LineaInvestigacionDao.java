@@ -54,8 +54,8 @@ public class LineaInvestigacionDao {
 	}
 	
 	public Object getLineasInvestigacion() throws Exception {
-		LinkedHashMap<String, Object> lineas = new LinkedHashMap<String, Object>();
-		LinkedHashMap<String, Object> tipo_linea = new LinkedHashMap<String, Object>();
+		LinkedHashMap<String, Object> lineas = null;
+		LinkedHashMap<String, Object> tipo_linea = null;
 		
 		LinkedList<Object> lineaslist = new LinkedList<Object>();
 		try {
@@ -65,11 +65,13 @@ public class LineaInvestigacionDao {
 			
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
+				lineas = new LinkedHashMap<String, Object>();
 				lineas.put("id", rs.getInt("id"));
 				lineas.put("nombre", rs.getString("nombre"));
 				lineas.put("descripcion", rs.getString("descripcion"));
 				lineas.put("lider-linea", rs.getString("lider_linea"));
 				
+				tipo_linea = new LinkedHashMap<String, Object>();
 				tipo_linea.put("id", rs.getInt("id_tipo_linea"));
 				tipo_linea.put("nombre", rs.getString("tipolinea"));
 				
@@ -167,12 +169,12 @@ public class LineaInvestigacionDao {
 	
 	public Object getLineasGrupo(int id_grupo) throws Exception {
 		
-		LinkedHashMap<String, Object> lineas = new LinkedHashMap<String, Object>();
+		LinkedHashMap<String, Object> lineas = null;
 		
 		LinkedList<Object> lineaslist = new LinkedList<Object>();
 		try {
 			Connection reg = con.conectar("");
-			String sql = "select lg.id, li.nombre, li.descripcion, g.nombre nombregrupo, g.sigla siglagrupo, g.codigo_colciencias, p.id iddirector, p.nombre nombredirector "
+			String sql = "select lg.id_linea, li.nombre, li.descripcion, g.nombre nombregrupo, g.sigla siglagrupo, g.codigo_colciencias, p.id iddirector, p.nombre nombredirector "
 					+ "from linea_grupo lg inner join linea_investigacion li on li.id = lg.id_linea inner join grupo_investigacion g on g.id = lg.id_grupo "
 					+ "inner join docente_ufps d on d.id_investigador = g.director_grupo inner join persona p on p.id = d.id_investigador where lg.id_grupo = ?";
 			PreparedStatement stmt = reg.prepareStatement(sql);
@@ -180,6 +182,7 @@ public class LineaInvestigacionDao {
 			
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
+				lineas = new LinkedHashMap<String, Object>();
 				lineas.put("id", rs.getInt("id_linea"));
 				lineas.put("nombre", rs.getString("nombre"));
 				lineas.put("descripcion", rs.getString("descripcion"));
@@ -202,7 +205,7 @@ public class LineaInvestigacionDao {
 	
 	public Object getLineasSemillero(int id_semillero) throws Exception {
 		
-		LinkedHashMap<String, Object> lineas = new LinkedHashMap<String, Object>();
+		LinkedHashMap<String, Object> lineas = null;
 		LinkedList<Object> lineaslist = new LinkedList<Object>();
 		try {
 			Connection reg = con.conectar("");
@@ -216,6 +219,7 @@ public class LineaInvestigacionDao {
 			
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
+				lineas = new LinkedHashMap<String, Object>();
 				lineas.put("id", rs.getInt("id"));
 				lineas.put("nombre", rs.getString("nombrelinea"));
 				lineas.put("id-semillero", rs.getInt("id_semillero"));

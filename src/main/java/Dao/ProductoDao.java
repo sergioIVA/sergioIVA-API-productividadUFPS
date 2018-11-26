@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
+import java.util.List;
 
 import conexion.Conexion;
 import model.Producto;
@@ -199,14 +200,15 @@ public class ProductoDao {
 	
 	public Object getProductosEmpresariales() throws Exception {
 		
-		LinkedHashMap<String, Object> producto = new LinkedHashMap<String, Object>();
-		LinkedList<Object> productos = new LinkedList<Object>();
+		LinkedHashMap<String, Object> producto = null;
+		List<LinkedHashMap> productos = new LinkedList<LinkedHashMap>();
 		try {
 			Connection reg = con.conectar("");
 			String sql = "select p.nombre, p.descripcion, pe.* from producto p inner join producto_empresarial pe on p.id = pe.id_producto";
 			PreparedStatement stmt = reg.prepareStatement(sql);
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
+				producto = new LinkedHashMap<String, Object>();
 				producto.put("id", rs.getInt("id_producto"));
 				producto.put("nombre-producto", rs.getString("nombre"));
 				producto.put("valor-contrato", rs.getString("valor_contrato"));
@@ -274,14 +276,15 @@ public class ProductoDao {
 	
 	public Object getProductosTecnologicos() throws Exception {
 		
-		LinkedHashMap<String, Object> producto = new LinkedHashMap<String, Object>();
-		LinkedList<Object> productos = new LinkedList<Object>();
+		LinkedHashMap<String, Object> producto = null;
+		List<LinkedHashMap> productos = new LinkedList<LinkedHashMap>();
 		try {
 			Connection reg = con.conectar("");
 			String sql = "select p.nombre, p.descripcion, pt.* from producto p inner join producto_tecnologico_patentado pt on p.id = pt.id_producto";
 			PreparedStatement stmt = reg.prepareStatement(sql);
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
+				producto = new LinkedHashMap<String, Object>();
 				producto.put("id", rs.getInt("id_producto"));
 				producto.put("nombre-producto", rs.getString("nombre"));
 				producto.put("numero", rs.getString("numero"));
@@ -341,14 +344,16 @@ public class ProductoDao {
 	
 	public Object getProductosTecnologicosCertificados() throws Exception {
 		
-		LinkedHashMap<String, Object> producto = new LinkedHashMap<String, Object>();
-		LinkedList<Object> productos = new LinkedList<Object>();
+		LinkedHashMap<String, Object> producto = null;
+		List<LinkedHashMap> productos = new LinkedList<LinkedHashMap>();
+		
 		try {
 			Connection reg = con.conectar("");
 			String sql = "select p.nombre  nombreproducto, p.descripcion, tc.* from producto p inner join tecnologicos_certificados tc on p.id = tc.id_producto";
 			PreparedStatement stmt = reg.prepareStatement(sql);
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
+				producto = new LinkedHashMap<String, Object>();
 				producto.put("id", rs.getInt("id_producto"));
 				producto.put("nombre-producto", rs.getString("nombreproducto"));
 				producto.put("descripcion", rs.getString("descripcion"));
@@ -362,6 +367,7 @@ public class ProductoDao {
 				
 				productos.add(producto);
 			}
+			
 		} catch(Exception e) {
 			throw new ExcepcionProductividad("Error del servidor: " + e);
 		}

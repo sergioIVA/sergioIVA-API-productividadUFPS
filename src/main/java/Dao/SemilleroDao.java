@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.LinkedHashMap;
-
+import java.util.LinkedList;
 
 import conexion.Conexion;
 import model.Semillero;
@@ -63,10 +63,12 @@ public class SemilleroDao {
 	
 	public Object getSemilleros() throws Exception {
 		
-		LinkedHashMap<String, Object> semilleros = new LinkedHashMap<String, Object>();
-		LinkedHashMap<String, Object> director = new LinkedHashMap<String, Object>();
-		LinkedHashMap<String, Object> linea_investigacion = new LinkedHashMap<String, Object>();
-		LinkedHashMap<String, Object> grupo = new LinkedHashMap<String, Object>();
+		LinkedHashMap<String, Object> semilleros = null;
+		LinkedHashMap<String, Object> director = null;
+		LinkedHashMap<String, Object> linea_investigacion = null;
+		LinkedHashMap<String, Object> grupo = null;
+		
+		LinkedList<Object> listasemilleros = new LinkedList<Object>();
 		
 		try {
 			Connection reg = con.conectar("");
@@ -80,6 +82,7 @@ public class SemilleroDao {
 			PreparedStatement stmt = reg.prepareStatement(sql);
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
+				semilleros = new LinkedHashMap<String, Object>();
 				semilleros.put("id", rs.getInt("id"));
 				semilleros.put("codigo", rs.getString("codigo"));
 				semilleros.put("nombre", rs.getString("nombre"));
@@ -88,18 +91,23 @@ public class SemilleroDao {
 				semilleros.put("fecha-creacion", rs.getString("fecha_creacion"));
 				semilleros.put("correo", rs.getString("correo"));
 				
+				director = new LinkedHashMap<String, Object>();
 				director.put("id", rs.getInt("id_director"));
 				director.put("nombre", rs.getString("director"));
 				
+				linea_investigacion = new LinkedHashMap<String, Object>();
 				linea_investigacion.put("id", rs.getInt("id_linea_grupo"));
 				linea_investigacion.put("nombre", rs.getString("linea_investigacion"));
 				
+				grupo = new LinkedHashMap<String, Object>();
 				grupo.put("id", rs.getInt("id_grupo"));
 				grupo.put("nombre", rs.getString("grupo"));
 				
 				semilleros.put("director", director);
 				semilleros.put("linea-investigacion", linea_investigacion);
 				semilleros.put("grupo-investigacion", grupo);
+				
+				listasemilleros.add(semilleros);
 			}
 		} catch(Exception e) {
 			throw new ExcepcionProductividad("Error del servidor: " + e); 
@@ -108,7 +116,7 @@ public class SemilleroDao {
 			con.cerrarConexion();
 		}
 		
-		return semilleros;
+		return listasemilleros;
 	}
 	
 	public Object getSemillero(int id) throws Exception {
@@ -117,6 +125,8 @@ public class SemilleroDao {
 		LinkedHashMap<String, Object> director = new LinkedHashMap<String, Object>();
 		LinkedHashMap<String, Object> linea_investigacion = new LinkedHashMap<String, Object>();
 		LinkedHashMap<String, Object> grupo = new LinkedHashMap<String, Object>();
+		
+		LinkedList<Object> sem = new LinkedList<Object>();
 		
 		try {
 			Connection reg = con.conectar("");
@@ -152,6 +162,8 @@ public class SemilleroDao {
 				semillero.put("director", director);
 				semillero.put("linea-investigacion", linea_investigacion);
 				semillero.put("grupo-investigacion", grupo);
+				
+				sem.add(semillero);
 			}
 		} catch(Exception e) {
 			throw new ExcepcionProductividad("Error del servidor: " + e); 
@@ -160,7 +172,7 @@ public class SemilleroDao {
 			con.cerrarConexion();
 		}
 		
-		return semillero;
+		return sem;
 	}
 	
 	public boolean deleteSemillero(int id) throws Exception {

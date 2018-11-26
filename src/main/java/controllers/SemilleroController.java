@@ -40,6 +40,19 @@ public class SemilleroController {
 		return obj;
 	}
 	
+	public Object getSemilleors(Request req, Response res) {
+		res.type("application/json");
+		Object obj = null;
+		try {
+			obj = semilleroService.getSemilleros();
+			res.status(201);
+		}catch(Exception e) {
+			res.status(500);
+			return e.toString();
+		}
+		return obj;
+	}
+	
 	public Object getSemillero(Request req, Response res) {
 		
 		res.type("application/json");

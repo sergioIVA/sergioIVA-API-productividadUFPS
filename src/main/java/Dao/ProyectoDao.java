@@ -129,9 +129,9 @@ public class ProyectoDao {
 
 	public Object getProyectos() throws Exception {
 
-		LinkedHashMap<String, Object> proyectos = new LinkedHashMap<String, Object>();
-		LinkedHashMap<String, Object> tipo = new LinkedHashMap<String, Object>();
-		LinkedHashMap<String, Object> linea = new LinkedHashMap<String, Object>();
+		LinkedHashMap<String, Object> proyectos = null;
+		LinkedHashMap<String, Object> tipo = null;
+		LinkedHashMap<String, Object> linea = null;
 		
 		LinkedList<Object> proyectlist = new LinkedList<Object>();
 
@@ -143,6 +143,7 @@ public class ProyectoDao {
 			PreparedStatement stmt = reg.prepareStatement(sql);
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
+				proyectos = new LinkedHashMap<String, Object>();
 				proyectos.put("id", rs.getInt("id"));
 				proyectos.put("titulo", rs.getString("titulo"));
 				proyectos.put("fecha-inicio", rs.getString("fecha_inicio"));
@@ -150,11 +151,13 @@ public class ProyectoDao {
 				proyectos.put("costoTotal", rs.getInt("costoTotal"));
 				proyectos.put("porcentaje-cumplimiento", rs.getInt("porcentaje_cumplimiento"));
 
+				tipo = new LinkedHashMap<String, Object>();
 				tipo.put("id", rs.getInt("id_tipo"));
 				tipo.put("nombre", rs.getString("tiponombre"));
 
 				proyectos.put("tipo", tipo);
 
+				linea = new LinkedHashMap<String, Object>();
 				linea.put("id", rs.getInt("id_linea"));
 				linea.put("nombre", rs.getString("linea"));
 				linea.put("lider", rs.getString("liderlinea"));
@@ -180,9 +183,9 @@ public class ProyectoDao {
 
 	public Object getProyectosGrupo(int id_grupo) throws Exception {
 
-		LinkedHashMap<String, Object> proyectos = new LinkedHashMap<String, Object>();
-		LinkedHashMap<String, Object> tipo = new LinkedHashMap<String, Object>();
-		LinkedHashMap<String, Object> linea = new LinkedHashMap<String, Object>();
+		LinkedHashMap<String, Object> proyectos = null;
+		LinkedHashMap<String, Object> tipo = null;
+		LinkedHashMap<String, Object> linea = null;
 		
 		LinkedList<Object> proyectlist = new LinkedList<Object>();
 
@@ -196,6 +199,7 @@ public class ProyectoDao {
 			stmt.setInt(1, id_grupo);
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
+				proyectos = new LinkedHashMap<String, Object>();
 				proyectos.put("id", rs.getInt("id"));
 				proyectos.put("titulo", rs.getString("titulo"));
 				proyectos.put("fecha-inicio", rs.getString("fecha_inicio"));
@@ -203,11 +207,13 @@ public class ProyectoDao {
 				proyectos.put("costoTotal", rs.getInt("costoTotal"));
 				proyectos.put("porcentaje-cumplimiento", rs.getInt("porcentaje_cumplimiento"));
 
+				tipo = new LinkedHashMap<String, Object>();
 				tipo.put("id", rs.getInt("id_tipo"));
 				tipo.put("nombre", rs.getString("tiponombre"));
 
 				proyectos.put("tipo", tipo);
 
+				linea = new LinkedHashMap<String, Object>();
 				linea.put("id", rs.getInt("id_linea"));
 				linea.put("nombre", rs.getString("linea"));
 				linea.put("lider", rs.getString("liderlinea"));
