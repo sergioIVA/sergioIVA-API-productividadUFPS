@@ -46,6 +46,7 @@ public class MainController {
 	final LineaInvestigacionController lineaInvestigacionController = new LineaInvestigacionController();
 	final ProductoController productoController = new ProductoController();
 	final ArticuloController articuloController = new ArticuloController();
+	final CapituloController capituloController = new CapituloController();
 	
 	public MainController() {
 
@@ -341,6 +342,11 @@ public class MainController {
 			post("/lineas_investigacion",(req,res)->{return lineaInvestigacionController.createLinea(req, res);}, new JsonTransformer());
 			post("/lineas_grupo",(req,res)->{return lineaInvestigacionController.asociarLineaGrupo(req, res);}, new JsonTransformer());
 			post("/lineas_semillero",(req,res)->{return lineaInvestigacionController.asociarLineaSemillero(req, res);}, new JsonTransformer());
+			
+			//Capitulos
+			get("/capitulo",(req,res)->{return this.capituloController.getCapitulos(req, res);}, new JsonTransformer());
+			get("/capitulo/:id",(req,res)->{return this.capituloController.getCapitulo(req, res);}, new JsonTransformer());
+			post("/capitulo",(req,res)->{return this.capituloController.createCapitulo(req, res);}, new JsonTransformer());
 			
 			//lo de aca son ejemplos no mas!
 			
