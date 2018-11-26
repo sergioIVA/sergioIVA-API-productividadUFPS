@@ -24,11 +24,13 @@ public class SemilleroService {
 		return this.dao.getSemilleros();
 	}
 	
-	public Object getSemillero(String codigo) throws Exception{
-		return this.dao.getSemillero(codigo);
+	public Object getSemillero(int id) throws Exception{
+		return this.dao.getSemillero(id);
 	}
 	
 	public boolean deleteSemillero(int id) throws Exception{
 		return this.dao.deleteSemillero(id);
 	}
+	
+	
 }

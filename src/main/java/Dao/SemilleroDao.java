@@ -111,7 +111,7 @@ public class SemilleroDao {
 		return semilleros;
 	}
 	
-	public Object getSemillero(String codigo) throws Exception {
+	public Object getSemillero(int id) throws Exception {
 		
 		LinkedHashMap<String, Object> semillero = new LinkedHashMap<String, Object>();
 		LinkedHashMap<String, Object> director = new LinkedHashMap<String, Object>();
@@ -125,10 +125,10 @@ public class SemilleroDao {
 					+ "from semillero s inner join grupo_investigacion g on s.id_grupo = g.id "
 					+ "inner join linea_grupo lg on s.id_linea_grupo = lg.id_linea "
 					+ "inner join linea_investigacion li on li.id = lg.id_linea "
-					+ "inner join persona p on p.id = s.id_director where s.codigo = ?";
+					+ "inner join persona p on p.id = s.id_director where s.id = ?";
 			
 			PreparedStatement stmt = reg.prepareStatement(sql);
-			stmt.setString(1, codigo);
+			stmt.setInt(1,id);
 			
 			ResultSet rs = stmt.executeQuery();
 			if(rs.next()) {

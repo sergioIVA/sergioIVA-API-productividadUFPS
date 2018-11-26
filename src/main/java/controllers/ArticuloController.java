@@ -32,7 +32,9 @@ public class ArticuloController {
 		
 		Object obj = null;
 		try {
-			obj = this.service.createArticulo(id_producto, tipo_referencia, nombre_revista, titulo_articulo, autores, anio, mes, volumen, numero, paginas_ini, paginas_final, ISSN, paginaWeb, DOI);
+			obj = this.service.createArticulo(id_producto, tipo_referencia, nombre_revista,
+					titulo_articulo, autores, anio, mes, volumen, numero, paginas_ini, paginas_final,
+					ISSN, paginaWeb, DOI);
 			res.status(201);
 		} catch(Exception e) {
 			res.status(500);

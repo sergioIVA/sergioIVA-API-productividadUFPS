@@ -39,4 +39,26 @@ public class SemilleroController {
 		}
 		return obj;
 	}
+	
+	public Object getSemillero(Request req, Response res) {
+		
+		res.type("application/json");
+		int idSemillero =Integer.parseInt( req.params("idSemillero"));
+		
+
+		Object obj = null;
+		try {
+			obj = semilleroService.getSemillero(idSemillero);
+			res.status(201);// 201 CREATED
+		} 
+		
+		catch (Exception e) {
+			// res.header("error", e.toString());
+			res.status(500);// 500 INTERNAL SERVER ERROR
+			return e.toString();
+		}
+		return obj;
+	}
+	
+
 }
