@@ -141,7 +141,11 @@ public class MainController {
 					new JsonTransformer());
 			get("/planesAccionGrupoSemillero/:idGrupoSemillero/session/:tipoSession",(req,res)->{return this.procesoEspecificoController.planesAccionGrupoSemillero(req, res);},
 			new JsonTransformer());
-	
+			
+	        get("/tipoReferencia",(req,res)->{return this.procesoEspecificoController.tipoReferencia(req, res);},
+	    			new JsonTransformer());
+	        post("/libro",(req,res)->{return this.procesoEspecificoController.Createlibro(req, res);},
+	    			new JsonTransformer());
 			
 			
 			///falta create capacitacion y asignar
