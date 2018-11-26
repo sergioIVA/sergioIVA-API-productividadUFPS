@@ -57,4 +57,12 @@ public class ProductoService {
 	public Object getProductoTecnologicoCertificado(int id) throws Exception {
 		return this.dao.getProductoTecnologicoCertificado(id);
 	}
+	
+	public Object getAllProductos() throws Exception {
+		return this.dao.getAllProductos();
+	}
+	
+	public Object getProductosProyecto(int id) throws Exception {
+		return this.dao.getProductosProyecto(id);
+	}
 }

@@ -409,4 +409,83 @@ public class ProductoDao {
 		}
 		return productos;
 	}
+	
+	public Object getAllProductos() throws Exception {
+		
+		LinkedHashMap<String, Object> producto = null;
+		LinkedHashMap<String, Object> tipo = null;
+		LinkedHashMap<String, Object> proyecto = null;
+		
+		LinkedList<Object> productos = new LinkedList<Object>();
+		try {
+			Connection reg = con.conectar("");
+			String sql = "select p.*, tp.nombre nombretipo, pro.titulo from producto p inner join tipo_producto tp on p.id_tipo_producto = tp.id inner join proyecto pro on p.id_proyecto = pro.id";
+			PreparedStatement stmt = reg.prepareStatement(sql);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				producto = new LinkedHashMap<String, Object>();
+				producto.put("id", rs.getInt("id"));
+				producto.put("nombre-producto", rs.getString("nombre"));
+				
+				proyecto = new LinkedHashMap<String, Object>();
+				proyecto.put("id", rs.getInt("id_proyecto"));
+				proyecto.put("titulo", rs.getString("titulo"));
+				
+				producto.put("proyecto", proyecto);
+				
+				tipo = new LinkedHashMap<String, Object>();
+				tipo.put("id-tipo", rs.getInt("id_tipo_producto"));
+				tipo.put("tipo", rs.getString("nombretipo"));
+				
+				producto.put("tipo-producto", tipo);
+				
+				productos.add(producto);
+			}
+		} catch(Exception e) {
+			throw new ExcepcionProductividad("Error del servidor: " + e);
+		} finally {
+			con.cerrarConexion();
+		}
+		return productos;
+	}
+	
+	public Object getProductosProyecto(int id_proyecto) throws Exception {
+		
+		LinkedHashMap<String, Object> producto = null;
+		LinkedHashMap<String, Object> tipo = null;
+		LinkedHashMap<String, Object> proyecto = null;
+		
+		LinkedList<Object> productos = new LinkedList<Object>();
+		try {
+			Connection reg = con.conectar("");
+			String sql = "select p.*, tp.nombre nombretipo, pro.titulo from producto p inner join tipo_producto tp on p.id_tipo_producto = tp.id inner join proyecto pro on p.id_proyecto = pro.id where pro.id = ?";
+			PreparedStatement stmt = reg.prepareStatement(sql);
+			stmt.setInt(1, id_proyecto);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				producto = new LinkedHashMap<String, Object>();
+				producto.put("id", rs.getInt("id"));
+				producto.put("nombre-producto", rs.getString("nombre"));
+				
+				proyecto = new LinkedHashMap<String, Object>();
+				proyecto.put("id", rs.getInt("id_proyecto"));
+				proyecto.put("titulo", rs.getString("titulo"));
+				
+				producto.put("proyecto", proyecto);
+				
+				tipo = new LinkedHashMap<String, Object>();
+				tipo.put("id-tipo", rs.getInt("id_tipo_producto"));
+				tipo.put("tipo", rs.getString("nombretipo"));
+				
+				producto.put("tipo-producto", tipo);
+				
+				productos.add(producto);
+			}
+		} catch(Exception e) {
+			throw new ExcepcionProductividad("Error del servidor: " + e);
+		} finally {
+			con.cerrarConexion();
+		}
+		return productos;
+	}
 }
