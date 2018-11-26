@@ -23,6 +23,7 @@ import model.Plan_accion_capacitacion;
 import model.Plan_accion_grupo_actividad;
 import model.Plan_accion_grupo_proyecto;
 import model.Proyecto_plan_semillero;
+import model.Tesis;
 import spark.Request;
 import spark.Response;
 import util.ExcepcionProductividad;
@@ -1338,7 +1339,51 @@ public class ProcesoEspecificoDao {
 		return null;
 	}
 	
-	
+	public Object tesis(String nombre,String descripcion,int id_proyecto,
+			int id_tipo_producto,String titulo,String institucion,String anio,String reconocimiento) throws Exception  {
+		
+		int id=-1;
+		try {
+			Connection reg = con.conectar("");
+			
+			
+			String sql = "insert into producto (id, nombre, id_proyecto, descripcion, id_tipo_producto) "
+					+ "values (?,?,?,?,?)";
+			String[] generatedKeys = { "id" };
+			PreparedStatement stmt = reg.prepareStatement(sql, generatedKeys);
+			stmt.setInt(1, 0);
+			stmt.setString(2, nombre);
+			stmt.setInt(3, id_proyecto);
+			stmt.setString(4, descripcion);
+			stmt.setInt(5, id_tipo_producto);
+			
+			if(stmt.executeUpdate() > 0) {
+				ResultSet gks = stmt.getGeneratedKeys();
+				if(gks.next())
+					id = gks.getInt(1);
+			}
+			
+			
+			sql = "insert into trabajos_tesis(id_producto,titulo,institucion,anio,reconocimientos)"
+					+ " values(?,?,?,?,?)";
+			stmt = reg.prepareStatement(sql);
+			stmt.setInt(1,id);
+			stmt.setString(2,titulo);
+			stmt.setString(3,institucion);
+			stmt.setString(4,anio);
+			stmt.setString(5,reconocimiento);
+		
+
+			if(stmt.executeUpdate() > 0)
+				return new Tesis(id,titulo,institucion,anio,reconocimiento);
+		} catch(Exception e) {
+			throw new ExcepcionProductividad("error del servidor: " + e);
+		} finally {
+			con.cerrarConexion();
+		}
+		return null;
+		
+	} 
 	
 
 }

@@ -147,6 +147,8 @@ public class MainController {
 	    			new JsonTransformer());
 	        post("/libro",(req,res)->{return this.procesoEspecificoController.Createlibro(req, res);},
 	    			new JsonTransformer());
+	        post("/tesis",(req,res)->{return this.procesoEspecificoController.tesis(req, res);},
+	    			new JsonTransformer());
 			
 			
 			///falta create capacitacion y asignar

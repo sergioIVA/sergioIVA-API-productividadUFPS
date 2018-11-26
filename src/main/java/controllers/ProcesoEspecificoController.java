@@ -341,21 +341,18 @@ public class ProcesoEspecificoController {
 		String year = req.queryParams("year");
 		String semestre = req.queryParams("semestre");
 		int idSemillero = Integer.parseInt(req.queryParams("idSemillero"));
-	
 
-		///capacitacion
+		/// capacitacion
 		String nombre = req.queryParams("nombre");
 		String responsables = req.queryParams("responsables");
 		String objetivo = req.queryParams("objetivo");
 		int n_asistentes = Integer.parseInt(req.queryParams("n_asistentes"));
 		String fecha_ini = req.queryParams("fecha_ini");
 		String fecha_fin = req.queryParams("fecha_fin");
-		
-		
 
 		try {
-			Object obj = this.procesoEspecificoService.getCapacitacionCrearSemilleroAsignarPlanAccion(year, 
-					semestre, idSemillero, nombre, objetivo, responsables, n_asistentes, fecha_ini, fecha_fin);
+			Object obj = this.procesoEspecificoService.getCapacitacionCrearSemilleroAsignarPlanAccion(year, semestre,
+					idSemillero, nombre, objetivo, responsables, n_asistentes, fecha_ini, fecha_fin);
 			if (obj == null) {
 				res.status(400);
 				return "no se ha encontrado";
@@ -369,24 +366,20 @@ public class ProcesoEspecificoController {
 		}
 	}
 
-	
 	public Object getAsignarProyectoPlanAccionGrupoSemillero(Request req, Response res) {
-		
-		
+
 		res.type("application/json");
 
 		/// plan de accion
 		String year = req.queryParams("year");
 		String semestre = req.queryParams("semestre");
 		int idGrupoSemillero = Integer.parseInt(req.queryParams("idGrupoSemillero"));
-		int tipoSession=Integer.parseInt(req.queryParams("tipoSession"));
-		int id_proyecto=Integer.parseInt(req.queryParams("id_proyecto"));
-	
+		int tipoSession = Integer.parseInt(req.queryParams("tipoSession"));
+		int id_proyecto = Integer.parseInt(req.queryParams("id_proyecto"));
 
-	
 		try {
-			Object obj = this.procesoEspecificoService.asignarProyectoPlanAccion(
-					year, semestre, idGrupoSemillero, tipoSession, id_proyecto);
+			Object obj = this.procesoEspecificoService.asignarProyectoPlanAccion(year, semestre, idGrupoSemillero,
+					tipoSession, id_proyecto);
 			if (obj == null) {
 				res.status(400);
 				return "no se ha encontrado";
@@ -398,25 +391,23 @@ public class ProcesoEspecificoController {
 			res.status(500);
 			return e.toString();
 		}
-		
+
 	}
-	
+
 	public Object getAsignarActividadesPlanAccionGrupoSemillero(Request req, Response res) {
-		
+
 		res.type("application/json");
 
 		/// plan de accion
 		String year = req.queryParams("year");
 		String semestre = req.queryParams("semestre");
 		int idGrupoSemillero = Integer.parseInt(req.queryParams("idGrupoSemillero"));
-		int tipoSession=Integer.parseInt(req.queryParams("tipoSession"));
-		int id_actividad=Integer.parseInt(req.queryParams("id_actividad"));
-	
+		int tipoSession = Integer.parseInt(req.queryParams("tipoSession"));
+		int id_actividad = Integer.parseInt(req.queryParams("id_actividad"));
 
-	
 		try {
-			Object obj = this.procesoEspecificoService.getAsignarActividadesPlanAccionGrupoSemillero(
-					year, semestre, idGrupoSemillero, tipoSession, id_actividad);
+			Object obj = this.procesoEspecificoService.getAsignarActividadesPlanAccionGrupoSemillero(year, semestre,
+					idGrupoSemillero, tipoSession, id_actividad);
 			if (obj == null) {
 				res.status(400);
 				return "no se ha encontrado";
@@ -429,7 +420,7 @@ public class ProcesoEspecificoController {
 			return e.toString();
 		}
 	}
-	
+
 	public Object asignarCapacitacionPlanAccionSemillero(Request req, Response res) {
 		res.type("application/json");
 
@@ -437,10 +428,8 @@ public class ProcesoEspecificoController {
 		String year = req.queryParams("year");
 		String semestre = req.queryParams("semestre");
 		int idSemillero = Integer.parseInt(req.queryParams("idSemillero"));
-		int id_capacitacion=Integer.parseInt(req.queryParams("id_capacitacion"));
-	
+		int id_capacitacion = Integer.parseInt(req.queryParams("id_capacitacion"));
 
-	
 		try {
 			Object obj = this.procesoEspecificoService.asignarCapacitacionPlanAccionSemillero(year, semestre,
 					idSemillero, id_capacitacion);
@@ -456,7 +445,7 @@ public class ProcesoEspecificoController {
 			return e.toString();
 		}
 	}
-	
+
 	public Object asignarEventoPlanAccionGrupo(Request req, Response res) {
 		res.type("application/json");
 
@@ -464,15 +453,11 @@ public class ProcesoEspecificoController {
 		String year = req.queryParams("year");
 		String semestre = req.queryParams("semestre");
 		int idGrupo = Integer.parseInt(req.queryParams("idGrupo"));
-		int id_evento=Integer.parseInt(req.queryParams("id_evento"));
-	
+		int id_evento = Integer.parseInt(req.queryParams("id_evento"));
 
-	
 		try {
-			Object obj = this.procesoEspecificoService.asignarEventoPlanAccionGrupo(year, 
-					semestre, idGrupo, id_evento);
-			
-				
+			Object obj = this.procesoEspecificoService.asignarEventoPlanAccionGrupo(year, semestre, idGrupo, id_evento);
+
 			if (obj == null) {
 				res.status(400);
 				return "no se ha encontrado";
@@ -485,16 +470,13 @@ public class ProcesoEspecificoController {
 			return e.toString();
 		}
 	}
-	
+
 	public Object getTipologiaProductos1(Request req, Response res) {
 		res.type("application/json");
 
-
-	
 		try {
 			Object obj = this.procesoEspecificoService.getTipologiaProductos1();
-			
-				
+
 			if (obj == null) {
 				res.status(400);
 				return "no se ha encontrado";
@@ -507,16 +489,15 @@ public class ProcesoEspecificoController {
 			return e.toString();
 		}
 	}
-	
+
 	public Object getTipologiaProductos2(Request req, Response res) {
 		res.type("application/json");
 
 		int id_tipologia1 = Integer.parseInt(req.params(":idTipologia1"));
-	
+
 		try {
 			Object obj = this.procesoEspecificoService.getTipologiaProductos2(id_tipologia1);
-			
-				
+
 			if (obj == null) {
 				res.status(400);
 				return "no se ha encontrado";
@@ -529,16 +510,15 @@ public class ProcesoEspecificoController {
 			return e.toString();
 		}
 	}
-	
+
 	public Object getTipologiaProductos3(Request req, Response res) {
 		res.type("application/json");
 
 		int id_tipologia2 = Integer.parseInt(req.params(":idTipologia2"));
-	
+
 		try {
 			Object obj = this.procesoEspecificoService.getTipologiaProductos3(id_tipologia2);
-			
-				
+
 			if (obj == null) {
 				res.status(400);
 				return "no se ha encontrado";
@@ -551,16 +531,15 @@ public class ProcesoEspecificoController {
 			return e.toString();
 		}
 	}
-	
+
 	public Object getcategoriaProducto3(Request req, Response res) {
 		res.type("application/json");
 
 		int id_tipologia3 = Integer.parseInt(req.params(":idTipologia3"));
-	
+
 		try {
 			Object obj = this.procesoEspecificoService.getCategoria(id_tipologia3);
-			
-				
+
 			if (obj == null) {
 				res.status(400);
 				return "no se ha encontrado";
@@ -573,19 +552,16 @@ public class ProcesoEspecificoController {
 			return e.toString();
 		}
 	}
-	
+
 	public Object planesAccionGrupoSemillero(Request req, Response res) {
 		res.type("application/json");
 
-		
-		
 		int idGrupoSemillero = Integer.parseInt(req.params(":idGrupoSemillero"));
 		int tipoSession = Integer.parseInt(req.params(":tipoSession"));
-	
+
 		try {
 			Object obj = this.procesoEspecificoService.planesAccionGrupoSemillero(idGrupoSemillero, tipoSession);
-			
-				
+
 			if (obj == null) {
 				res.status(400);
 				return "no se ha encontrado";
@@ -598,15 +574,13 @@ public class ProcesoEspecificoController {
 			return e.toString();
 		}
 	}
-	
+
 	public Object tipoReferencia(Request req, Response res) {
 		res.type("application/json");
 
-		
 		try {
 			Object obj = this.procesoEspecificoService.tipoReferencia();
-			
-				
+
 			if (obj == null) {
 				res.status(400);
 				return "no se ha encontrado";
@@ -619,35 +593,31 @@ public class ProcesoEspecificoController {
 			return e.toString();
 		}
 	}
-	
-	
+
 	public Object Createlibro(Request req, Response res) {
-		
+
 		res.type("application/json");
 
-		String nombre=req.queryParams("nombre");
-		String descripcion=req.queryParams("descripcion");
-	    int  id_proyecto=Integer.parseInt(req.queryParams("id_proyecto"));
-	    int id_tipo_producto=Integer.parseInt(req.queryParams("id_tipo_producto"));
-		 
-	    String titulo=req.queryParams("titulo");
-	    String ISBN=req.queryParams("ISBN");
-		String fecha_publica=req.queryParams("fecha_publica");
-		String autores=req.queryParams("autores");
-		String editorial=req.queryParams("editorial");
-		String lugar_publica=req.queryParams("lugar_publica");
-		String certificacion_entidad=req.queryParams("certificacion_entidad");
-	    String curriculo=req.queryParams("curriculo");
-	    int tipo_desarrollo=Integer.parseInt(req.queryParams("tipo_desarrollo"));
-		
-		
+		String nombre = req.queryParams("nombre");
+		String descripcion = req.queryParams("descripcion");
+		int id_proyecto = Integer.parseInt(req.queryParams("id_proyecto"));
+		int id_tipo_producto = Integer.parseInt(req.queryParams("id_tipo_producto"));
+
+		String titulo = req.queryParams("titulo");
+		String ISBN = req.queryParams("ISBN");
+		String fecha_publica = req.queryParams("fecha_publica");
+		String autores = req.queryParams("autores");
+		String editorial = req.queryParams("editorial");
+		String lugar_publica = req.queryParams("lugar_publica");
+		String certificacion_entidad = req.queryParams("certificacion_entidad");
+		String curriculo = req.queryParams("curriculo");
+		int tipo_desarrollo = Integer.parseInt(req.queryParams("tipo_desarrollo"));
+
 		try {
-			Object obj = this.procesoEspecificoService.createLibro(nombre,
-					descripcion, id_proyecto, id_tipo_producto, titulo, ISBN,
-					fecha_publica, autores, editorial, lugar_publica,
-					certificacion_entidad, curriculo, tipo_desarrollo);
-			
-				
+			Object obj = this.procesoEspecificoService.createLibro(nombre, descripcion, id_proyecto, id_tipo_producto,
+					titulo, ISBN, fecha_publica, autores, editorial, lugar_publica, certificacion_entidad, curriculo,
+					tipo_desarrollo);
+
 			if (obj == null) {
 				res.status(400);
 				return "no se ha encontrado";
@@ -659,8 +629,39 @@ public class ProcesoEspecificoController {
 			res.status(500);
 			return e.toString();
 		}
-		
+
 	}
-	
+
+	public Object tesis(Request req, Response res) {
+
+		res.type("application/json");
+
+		String nombre = req.queryParams("nombre");
+		String descripcion = req.queryParams("descripcion");
+		int id_proyecto = Integer.parseInt(req.queryParams("id_proyecto"));
+		int id_tipo_producto = Integer.parseInt(req.queryParams("id_tipo_producto"));
+
+		String titulo=req.queryParams("titulo");
+		String institucion=req.queryParams("institucion");
+		String anio=req.queryParams("anio");
+		String reconocimiento=req.queryParams("reconocimiento");
+
+		try {
+			Object obj = this.procesoEspecificoService.tesis(nombre, descripcion,
+					id_proyecto, id_tipo_producto, titulo, institucion, anio, reconocimiento);
+
+			if (obj == null) {
+				res.status(400);
+				return "no se ha encontrado";
+			}
+
+			res.status(200);
+			return obj;
+		} catch (Exception e) {
+			res.status(500);
+			return e.toString();
+		}
+
+	}
 
 }

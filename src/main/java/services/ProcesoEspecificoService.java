@@ -175,6 +175,12 @@ public class ProcesoEspecificoService {
 				editorial, lugar_publica, certificacion_entidad, curriculo, tipo_desarrollo);
 	}
 	
+	public Object tesis(String nombre,String descripcion,int id_proyecto,
+			int id_tipo_producto,String titulo,String institucion,String anio,String reconocimiento) throws Exception  {
+	      return this.procesoEspecificoDao.tesis(nombre, descripcion, id_proyecto,
+	    		  id_tipo_producto, titulo, institucion, anio, reconocimiento);	
+	}
+	
 }
 
 
