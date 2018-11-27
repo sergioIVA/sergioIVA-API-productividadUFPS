@@ -164,12 +164,15 @@ public class ProyectoDao {
 
 				proyectos.put("linea", linea);
 
+				proyectos.put("justificacion", rs.getString("justificacion"));
 				proyectos.put("resultados-esperados", rs.getString("resultados_esperados"));
 				proyectos.put("documento-proyecto", rs.getString("documento_proyecto"));
 				proyectos.put("tipo-participacion", rs.getInt("tipo_participacion_id"));
 				proyectos.put("estado", rs.getInt("estado"));
 				proyectos.put("n_contrato", rs.getString("n_contrato"));
 				
+				proyectos.put("objetivo-general", rs.getString("objetivo_general"));
+
 				proyectlist.add(proyectos);
 			}
 		} catch (Exception e) {
@@ -220,6 +223,7 @@ public class ProyectoDao {
 
 				proyectos.put("linea", linea);
 
+				proyectos.put("justificacion", rs.getString("justificacion"));
 				proyectos.put("resultados-esperados", rs.getString("resultados_esperados"));
 				proyectos.put("documento-proyecto", rs.getString("documento_proyecto"));
 				proyectos.put("tipo-participacion", rs.getInt("tipo_participacion_id"));
@@ -287,5 +291,38 @@ public class ProyectoDao {
 		}
 
 		return proyectlist;
+	}
+	
+	public Object getObjetivosProyecto(int id_proyecto) throws Exception {
+		
+		LinkedHashMap<String, Object> proyecto = null;
+		LinkedHashMap<String, Object> objetivo = null;
+		
+		LinkedList<Object> objetivos = new LinkedList<Object>();
+		try {
+			Connection reg = con.conectar("");
+			String sql = "select o.id, o.nombre, p.id idproyecto, p.titulo, p.objetivo_general from objetivo o inner join proyecto p on p.id = o.id_proyecto where p.id = ?";
+			PreparedStatement stmt = reg.prepareStatement(sql);
+			stmt.setInt(1, id_proyecto);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {				
+				proyecto = new LinkedHashMap<String, Object>();
+				proyecto.put("id-proyecto", rs.getInt("idproyecto"));
+				proyecto.put("titulo", rs.getString("titulo"));
+				
+				objetivo = new LinkedHashMap<String, Object>();
+				objetivo.put("id", rs.getInt("id"));
+				objetivo.put("objetivo", rs.getString("nombre"));
+				
+				proyecto.put("objetivo", objetivo);
+				
+				objetivos.add(proyecto);
+			}
+		} catch(Exception e) {
+			throw new ExcepcionProductividad("Error del servidor: " + e);
+		} finally {
+			con.cerrarConexion();
+		}
+		return objetivos;
 	}
 }

@@ -40,4 +40,8 @@ public class ProyectoService {
 	public Object getSpecificProyecto(int id) throws Exception{
 		return this.dao.getSpecificProyecto(id);
 	}
+	
+	public Object getObjetivosProyecto(int id) throws Exception{
+		return this.dao.getObjetivosProyecto(id);
+	}
 }
