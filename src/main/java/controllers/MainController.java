@@ -63,7 +63,7 @@ public class MainController {
 		path("/api/v1", () -> {
 
 			//1.login
-			//o post("/login",(req,res)->{return "acceso a ruta /login";});
+			post("/login",(req,res)->{return this.procesoEspecificoController.login(req, res);},new JsonTransformer());
 			
 			// registro de actores
 			post("/actores",(req,res)->{return "acceso a ruta /login";});
@@ -383,6 +383,7 @@ public class MainController {
 			**/
 			
 			// ruta para el logeo
+			/**
 			post("/login", (req, res) -> {
 
 				String nombre = req.queryParams("nombre");
@@ -433,8 +434,9 @@ public class MainController {
 			}
 
 			);
-
+       **/
 			// Método para tratar los gets de /users
+			/**
 			get("/users", (request, response) -> {
 
 				response.type("application/json");
@@ -477,9 +479,10 @@ public class MainController {
 
 				return new Gson().toJson(userService.createUser(name, email));
 			});
-
+         **/
 			// Método para tratar los put de /users/:idUser (Modificación de datos de
 			// usuarios)
+			/*
 			put("/users/:idUser", (req, res) -> {
 				res.type("application/json");
 				String idUser = req.params(":idUser");
@@ -513,10 +516,11 @@ public class MainController {
 				return "No user with id '" + idUser + "' found";
 			}, new JsonTransformer());
 
-		
+		**/
 
 		});
-
+         
 	}
+
 
 }

@@ -44,4 +44,6 @@ public class PlanAccionGrupoService {
 		
 		return this.dao.getPlanesGrupo(id_grupo);
 	}
+	
+	
 }

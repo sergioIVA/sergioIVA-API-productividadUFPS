@@ -1393,27 +1393,36 @@ public class ProcesoEspecificoDao {
 
 		try {
 			Connection reg = con.conectar("");
-			String sql = "SELECT rolSistema.usuario,rolSistema.persona_id,tipoRol.nombre "
-					+ "FROM roles_sistema rolSistema,tipo_rol tipoRol where  "
+			String sql ="SELECT rolSistema.usuario,rolSistema.persona_id,tipoRol.nombre,p.nombre nombre_completo," + 
+					"p.correo_electronico correo " + 
+					"FROM roles_sistema rolSistema,tipo_rol tipoRol,persona p where "
 					+ "rolSistema.tipo_rol_id=tipoRol.id and " + 
-					"rolSistema.usuario=? and rolSistema.clave=?;";
+					"rolSistema.usuario=? and rolSistema.clave=? " + 
+					"and p.id=rolSistema.persona_id";
 
 			PreparedStatement stmt = reg.prepareStatement(sql);
+			stmt.setString(1,usuario);
+			stmt.setString(2,clave);
+		
 			ResultSet rs = stmt.executeQuery();
 
 			LinkedHashMap<String, Object> datosEspecificos = null;
 			if (rs.next()) {
-				general.put("exito", 1);
+				general.put("exito","1");
 				datosEspecificos = new LinkedHashMap<String, Object>();
-				datosEspecificos.put("id", rs.getInt("id"));
-				datosEspecificos.put("nombre", rs.getString("nombre"));
-				datosEspecificos.put("Rol",rs.getString("persona_id"));
+				datosEspecificos.put("id", rs.getInt("persona_id"));
+				datosEspecificos.put("nombre_usuario", rs.getString("usuario"));
+				datosEspecificos.put("Rol",rs.getString("nombre"));
+				datosEspecificos.put("nombre",rs.getString("nombre_completo"));
+				datosEspecificos.put("correo",rs.getString("correo"));
 				array.add(datosEspecificos);
+				general.put("usuario",datosEspecificos);
 			}else {
-				general.put("exito", 0);
+				general.put("exito","0");
+				general.put("usuario",datosEspecificos);
 			}
 
-			return array;
+			return general;
 		} catch (Exception e) {
 			throw new ExcepcionProductividad("error del servidor" + e);
 		}

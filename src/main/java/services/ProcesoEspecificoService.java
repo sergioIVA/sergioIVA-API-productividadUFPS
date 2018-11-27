@@ -181,11 +181,11 @@ public class ProcesoEspecificoService {
 	    		  id_tipo_producto, titulo, institucion, anio, reconocimiento);	
 	}
 	
-	/**
-	public Object login(String usuario,String clave) {
-		return 
+	
+	public Object login(String usuario,String clave) throws Exception {
+		return this.procesoEspecificoDao.login(usuario, clave);
 	}
-	**/
+	
 	
 }
 

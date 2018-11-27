@@ -667,16 +667,13 @@ public class ProcesoEspecificoController {
 	public Object login(Request req, Response res) {
 		res.type("application/json");
 
-		String nombre = req.queryParams("usuario");
-		String descripcion = req.queryParams("clave");
+		String usuario = req.queryParams("usuario");
+		String clave = req.queryParams("clave");
 
 		try {
 			
-			Object obj=null;
-			/**
-			Object obj = this.procesoEspecificoService.tesis(nombre, descripcion,
-					id_proyecto, id_tipo_producto, titulo, institucion, anio, reconocimiento);
-              **/
+			Object obj = this.procesoEspecificoService.login(usuario, clave);
+           
 			if (obj == null) {
 				res.status(400);
 				return "no se ha encontrado";
