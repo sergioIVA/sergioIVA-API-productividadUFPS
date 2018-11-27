@@ -162,8 +162,8 @@ public class MainController {
 			get("/grupo",(req,res)->{return this.grupoController.getGrupos(req, res);}, new JsonTransformer());
 			get("/grupo/:id",(req,res)->{return this.grupoController.getGrupo(req, res);},new JsonTransformer());
 			post("/grupo",(req,res)->{return grupoController.CreateGrupo(req, res);},new JsonTransformer());
-			put("/grupo/:id", (req, res) -> {return "acceso /grupo put con id "+req.queryParams(":id");});
-			delete("/grupo/:id", (req, res) -> {return "acceso /grupo delete con id "+req.queryParams(":id");});
+			put("/grupo/:id", (req, res) -> {return this.grupoController.updateGrupo(req, res);}, new JsonTransformer());
+			delete("/grupo/:id", (req, res) -> {return this.grupoController.deleteGrupo(req, res);}, new JsonTransformer());
 			
 			
 			// 6.apoyo del programa

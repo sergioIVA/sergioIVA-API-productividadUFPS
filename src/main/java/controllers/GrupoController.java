@@ -93,7 +93,7 @@ public class GrupoController {
 
 	}
 
-	public Object updateFacultad(Request req, Response res) {
+	public Object updateGrupo(Request req, Response res) {
      
 		
 		res.type("application/json");
@@ -143,7 +143,7 @@ public class GrupoController {
        
 	}
 	
-	public Object deleteFacultad(Request req, Response res) {
+	public Object deleteGrupo(Request req, Response res) {
 		
 		
 		res.type("application/json");

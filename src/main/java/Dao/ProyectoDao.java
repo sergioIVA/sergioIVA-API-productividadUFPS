@@ -294,7 +294,6 @@ public class ProyectoDao {
 	}
 	
 	public Object getObjetivosProyecto(int id_proyecto) throws Exception {
-		
 		LinkedHashMap<String, Object> proyecto = null;
 		LinkedHashMap<String, Object> objetivo = null;
 		
