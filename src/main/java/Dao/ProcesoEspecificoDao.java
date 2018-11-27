@@ -117,7 +117,7 @@ public class ProcesoEspecificoDao {
 
 	}
 
-	public Object getGrupoCategoriaDirector() throws Exception {
+	public Object getGrupoCategoriaDirector(int idDirector) throws Exception {
 
 		LinkedHashMap<String, Object> grupo = new LinkedHashMap<String, Object>();
 		List<LinkedHashMap> array = new LinkedList<LinkedHashMap>();
@@ -126,9 +126,11 @@ public class ProcesoEspecificoDao {
 			Connection reg = con.conectar("");
 			String sql = "select grupo.id,grupo.nombre,grupo.fecha_creacion,grupo.codigo_colciencias,persona.nombre "
 					+ "nombreDirector,categoria.nombre nombre_categoria from grupo_investigacion grupo,categoria_grupo"
-					+ " categoria,persona persona where grupo.id_categoria=categoria.id_categoria and persona.id=grupo.director_grupo";
+					+ " categoria,persona persona where grupo.id_categoria=categoria.id_categoria and persona.id=grupo.director_grupo"
+					+ " and grupo.director_grupo=?";
 
 			PreparedStatement stmt = reg.prepareStatement(sql);
+			stmt.setInt(1, idDirector);
 
 			ResultSet rs = stmt.executeQuery();
 			// utilizar un linkedHashMap para preservar el orden de los datos ingresados

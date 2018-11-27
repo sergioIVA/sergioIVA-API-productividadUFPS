@@ -46,9 +46,12 @@ public class ProcesoEspecificoController {
 	public Object getGrupoCategoriaDirector(Request req, Response res) {
 		res.type("application/json");
 
+		
+	   int	idDirector = Integer.parseInt(req.params(":idDirector"));
+		
 		try {
 			res.status(200);// 200 OK
-			return this.procesoEspecificoService.getGrupoCategoriaDirector();
+			return this.procesoEspecificoService.getGrupoCategoriaDirector(idDirector);
 
 		} catch (Exception e) {
 

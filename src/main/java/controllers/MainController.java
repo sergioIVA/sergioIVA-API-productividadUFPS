@@ -97,7 +97,7 @@ public class MainController {
 			// rutas especificas para las vistas
 			//panelPrincipal
 			get("/paginaPrincipal/:id",(req,res)->{return this.procesoEspecificoController.getPaginaPrincipal(req, res);},new JsonTransformer());
-			get("/grupoCategoriaDirector",(req,res)->{return this.procesoEspecificoController.getGrupoCategoriaDirector(req, res);},new JsonTransformer());
+			get("/grupoCategoriaDirector/:idDirector",(req,res)->{return this.procesoEspecificoController.getGrupoCategoriaDirector(req, res);},new JsonTransformer());
 			get("/datosCrearGrupo",(req,res)->{return this.procesoEspecificoController.getDatosCrearGrupo(req, res);},new JsonTransformer());
 			get("/datosSemilleroDirector",(req,res)->{return this.procesoEspecificoController.getSemilleroDirector(req, res);},new JsonTransformer());
 			get("/lineaGrupoDocenteGrupo/:idGrupo",(req,res)->{return this.procesoEspecificoController.getLineaGrupoDocenteGrupo(req, res);},new JsonTransformer());
